@@ -5,13 +5,15 @@ import Login from "./pages/Login"
 import RootLayout from "./layout/RootLayout"
 import AppLayout from "./layout/AppLayout"
 import { useSelector } from "react-redux"
+import SignUp from "./pages/SignUp"
+import ForgotPassword from "./pages/ForgotPassword"
 
 const ProtectedRoute = ({ children }) => {
     const auth = useSelector((state) => state.auth);
 
     if (auth.token) return children;
 
-    return <Navigate to="/login" />
+    return <Navigate to="/" />
 }
 
 const App = () => {
@@ -20,8 +22,9 @@ const App = () => {
         <>
             <Routes>
                 <Route path="/" element={<RootLayout />}>
-                    <Route path="" element={<Home />} />
-                    <Route path="login" element={<Login />} />
+                    <Route path="" element={<Login />} />
+                    <Route path="signup" element={<SignUp />} />
+                    <Route path="forgotpassword" element={<ForgotPassword />} />
                 </Route>
                 <Route path="/app" element={
                     <ProtectedRoute>
