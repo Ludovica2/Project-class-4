@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
 
-import AppFeed from "./pages/app/Feed"
+import Feed from "./pages/app/Feed"
 import Profile from "./pages/app/Profile"
 import Groups from "./pages/app/Groups"
 import Calendar from "./pages/app/Calendar"
@@ -36,7 +36,7 @@ const App = () => {
                         <AppLayout />
                     </ProtectedRoute>
                 }>
-                    <Route path="/app/feed" element={<AppFeed />} />
+                    <Route path="/app/feed" element={<Feed />} />
                     <Route path="/app/profile" element={<Profile />} />
                     <Route path="/app/groups" element={<Groups />} />
                     <Route path="/app/calendar" element={<Calendar />} />
