@@ -22,7 +22,7 @@ const Sidebar = ({ children, navbar }) => {
                             <div className="flex flex-col mt-4">
                                 <h2>Featured</h2>
                                 <div className="">
-                                    <p>Chat</p>
+                                    <p><Link to={"/app/chat"}>Chat</Link></p>
                                     <p><Link to={"/app/calendar"}>Calendar</Link></p>
                                     <p><Link to={"/app/favorites"}>Favorites</Link></p>
                                 </div>

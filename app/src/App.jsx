@@ -6,6 +6,7 @@ import Profile from "./pages/app/Profile"
 import Groups from "./pages/app/Groups"
 import Calendar from "./pages/app/Calendar"
 import Favorites from "./pages/app/Favorites"
+import Chat from "./pages/app/Chat"
 
 import Login from "./pages/Login"
 import RootLayout from "./layout/RootLayout"
@@ -41,6 +42,10 @@ const App = () => {
                     <Route path="/app/calendar" element={<Calendar />} />
                     <Route path="/app/favorites" element={<Favorites />} />
                 </Route>
+                <Route path="/app/chat" element={
+                    <ProtectedRoute>
+                        <Chat />
+                    </ProtectedRoute>} />
             </Routes>
         </>
     )
