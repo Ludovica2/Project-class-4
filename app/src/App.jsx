@@ -1,12 +1,20 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
-import AppHome from "./pages/app/Home"
+
+import Feed from "./pages/app/Feed"
+import Profile from "./pages/app/Profile"
+import Groups from "./pages/app/Groups"
+import Calendar from "./pages/app/Calendar"
+import Favorites from "./pages/app/Favorites"
+import Chat from "./pages/app/Chat"
+
 import Login from "./pages/Login"
 import RootLayout from "./layout/RootLayout"
 import AppLayout from "./layout/AppLayout"
 import { useSelector } from "react-redux"
 import SignUp from "./pages/SignUp"
 import ForgotPassword from "./pages/ForgotPassword"
+
 
 const ProtectedRoute = ({ children }) => {
     const auth = useSelector((state) => state.auth);
@@ -31,8 +39,16 @@ const App = () => {
                         <AppLayout />
                     </ProtectedRoute>
                 }>
-                    <Route path="" element={<AppHome />} />
+                    <Route path="/app/feed" element={<Feed />} />
+                    <Route path="/app/profile" element={<Profile />} />
+                    <Route path="/app/groups" element={<Groups />} />
+                    <Route path="/app/calendar" element={<Calendar />} />
+                    <Route path="/app/favorites" element={<Favorites />} />
                 </Route>
+                <Route path="/app/chat" element={
+                    <ProtectedRoute>
+                        <Chat />
+                    </ProtectedRoute>} />
             </Routes>
         </>
     )
