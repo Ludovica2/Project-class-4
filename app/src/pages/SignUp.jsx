@@ -1,23 +1,44 @@
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import SDK from "../SDK";
 
 function SignUp() {
+    const navigate = useNavigate();
     const [form, setForm] = useState({
-        nomeCompleto: "",
+        first_name: "",
+        last_name: "",
         email: "",
-        password: ""
+        password: "",
+        conf_password: "",
+        is_terms_accepted: "",
+        role: "user"
     });
 
     const handleInput = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
 
-        setForm((form) => ({ ...form, [name]: value }));
+        setForm((form) => ({ ...form, [name]: type == "checkbox" ? checked : value }));
     }
 
     const handleSignIn = async (e) => {
         e.preventDefault();
 
+        if (form.password !== form.conf_password) {
+            toast.error("Le due password no ncorrispondono");
+            return;
+        }
 
+        try {
+            const { conf_password, ...payload } = form;
+
+            await SDK.auth.register(payload);
+            toast.success("Utente registrato, puoi accedere al tuo nuovo account");
+            navigate("/");
+        } catch (error) {
+            console.log(error)
+            toast.error(error.message);
+        }
     }
 
     useEffect(() => {
@@ -33,24 +54,28 @@ function SignUp() {
                         <p className="mx-4 mt-3 mb-8 px-4 text-center text-gray-600">Benvenuto su Found!, la piattaforma ideale per programmare al meglio i tuoi viaggi</p>
                         <form onSubmit={handleSignIn}>
                             <div className="flex flex-col">
-                                <label htmlFor="nomecompleto" className="font-semibold mt-1">Nome Completo</label>
-                                <input type="nomecompleto" name="nomecompleto" id="nomecompleto" onInput={handleInput} placeholder="Mario Rossi" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <label htmlFor="first_name" className="font-semibold mt-1">Nome</label>
+                                <input type="text" name="first_name" id="first_name" onInput={handleInput} value={form.first_name} placeholder="Mario Rossi" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                            </div>
+                            <div className="flex flex-col">
+                                <label htmlFor="last_name" className="font-semibold mt-1">Cognome</label>
+                                <input type="text" name="last_name" id="last_name" onInput={handleInput} value={form.last_name} placeholder="Mario Rossi" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="email" className="font-semibold mt-1">Indirizzo Email</label>
-                                <input type="email" name="email" id="email" onInput={handleInput} placeholder="mario.rossi@example.com" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <input type="email" name="email" id="email" onInput={handleInput} value={form.email} placeholder="mario.rossi@example.com" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="password" className="font-semibold mt-2">Password</label>
-                                <input type="password" name="password" id="password" onInput={handleInput} placeholder="...." className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <input type="password" name="password" id="password" onInput={handleInput} value={form.password} placeholder="...." className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                             </div>
                             <div className="flex flex-col">
-                                <label htmlFor="confpassword" className="font-semibold mt-2">Conferma Password</label>
-                                <input type="password" name="confpassword" id="confpassword" onInput={handleInput} placeholder="...." className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <label htmlFor="conf_password" className="font-semibold mt-2">Conferma Password</label>
+                                <input type="password" name="conf_password" id="conf_password" onInput={handleInput} value={form.conf_password} placeholder="...." className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                             </div>
                             <div className="flex my-4">
                                 <div>
-                                    <input type="checkbox" name="accept" id="accept" />
+                                    <input type="checkbox" name="is_terms_accepted" id="is_terms_accepted" value={form.is_terms_accepted} onChange={handleInput} required />
                                     <label htmlFor="accept" className="mt-1"> Accetto i <span className="link">Termini & Condizioni</span> </label>
                                 </div>
                             </div>

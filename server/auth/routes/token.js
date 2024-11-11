@@ -1,44 +1,40 @@
 const express = require("express");
 const app = express.Router();
 
-const jwt = require("jsonwebtoken");
+const Joi = require("joi");
+const { User } = require("../../db");
+const { comparePassword, generateToken } = require("../../utilities/auth");
 
-const users = [
-    {
-        id: "abc123",
-        first_name: "Ilaria",
-        last_name: "Mammana",
-        email: "ilaria.mammana@gmail.com",
-        password: "1234"
-    },
-    {
-        id: "abc124",
-        first_name: "Ludovica",
-        last_name: "Spinelli",
-        email: "ludovica.spinelli@gmail.com",
-        password: "1234"
-    },
-];
+/**
+ * @path /auth/token
+ * @method POST
+ */
+app.post("/", async (req, res) => {
+    const schema = Joi.object().keys({
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+    })
 
-app.post("/", (req, res) => {
-    const data = req.body;
+    try {
+        const data = await schema.validateAsync(req.body);
 
-    const user = users.find(u => u.email == data.email);
-
-    if (!user) return res.status(404).json({ message: "User Not Found" });
-
-    const is_valid_password = user.password == data.password;
-
-    if (!is_valid_password) return res.status(404).json({ message: "User Not Found" });
-
-    const { password, ...payload } = user;
-
-    const token = jwt.sign({ id: user.id, email: user.email, role: "user" }, process.env.SERVER_SECRET_KEY);
-
-    return res.status(200).json({
-        token, user: payload
-    });
-
+        const user = await User.findOne({ email: data.email }, null, { lean: true });
+    
+        if (!user) return res.status(404).json({ message: "Utente non trovato" });
+    
+        const is_valid_password = comparePassword(data.password, user.password);
+    
+        if (!is_valid_password) return res.status(404).json({ message: "Utente non trovato" });
+    
+        const { password, ...payload } = user;
+    
+        const token = generateToken({ id: user._id, email: user.email, role: user.role });
+    
+        return res.status(200).json({ token, user: payload });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Errore interno del server" });   
+    }
 });
 
 module.exports = app;

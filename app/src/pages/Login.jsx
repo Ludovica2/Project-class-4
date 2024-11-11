@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react"
-import { buildAuthUrl } from "../config/confing";
 import { useDispatch } from "react-redux";
 import { login } from "../store/slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { useRequest } from "../hooks/request";
 import { toast } from "react-toastify";
+import SDK from "../SDK";
 
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { data, error, request: loginRequest } = useRequest(buildAuthUrl("/token"), { method: "POST", enableCache: false });
 
     const [form, setForm] = useState({
         email: "ilaria.mammana@gmail.com",
@@ -25,22 +23,19 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        loginRequest({ data: { ...form } });
+        try {
+            const data = await SDK.auth.login(form);
+            dispatch(login(data));
+            navigate("/app/feed");
+        } catch (error) {
+            console.log(error)
+            toast.error(error.response.data.message);
+        }
     }
 
     useEffect(() => {
-        if (error) {
-            toast.error(error);
-        }
-
-        if (data) {
-            dispatch(login(data));
-            navigate("/app/");
-        }
-
         document.title = "Found!";
-
-    }, [data, error])
+    }, [])
 
     return (
         <>
@@ -60,8 +55,6 @@ const Login = () => {
                             </div>
                             <div className="flex justify-between my-4">
                                 <div>
-                                    <input type="checkbox" name="rememberme" id="rememberme" />
-                                    <label htmlFor="rememberme" className="font-semibold mt-1"> Resta Connesso </label>
                                 </div>
                                 <span><Link to={"/forgotpassword"} className="link">Password Dimenticata?</Link></span>
                             </div>
@@ -75,7 +68,7 @@ const Login = () => {
                         <div className="mt-6 mx-5">
                             <span className="block h-px mb-4 bg-gray-300"></span>
                             <p className="font-semibold mb-1">Sei un'azienda? </p>
-                            <p className="mb-2"> Prova il nostro <Link to={"/loginbusiness"} className="link">Found! Business</Link></p>
+                            <p className="mb-2"> Prova il nostro <Link to={"/login-business"} className="link">Found! Business</Link></p>
                         </div>
                     </div>
                 </div>
