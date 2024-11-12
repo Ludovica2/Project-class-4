@@ -55,11 +55,11 @@ function SignUp() {
                         <form onSubmit={handleSignIn}>
                             <div className="flex flex-col">
                                 <label htmlFor="first_name" className="font-semibold mt-1">Nome</label>
-                                <input type="text" name="first_name" id="first_name" onInput={handleInput} value={form.first_name} placeholder="Mario Rossi" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <input type="text" name="first_name" id="first_name" onInput={handleInput} value={form.first_name} placeholder="Mario" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="last_name" className="font-semibold mt-1">Cognome</label>
-                                <input type="text" name="last_name" id="last_name" onInput={handleInput} value={form.last_name} placeholder="Mario Rossi" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <input type="text" name="last_name" id="last_name" onInput={handleInput} value={form.last_name} placeholder="Rossi" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="email" className="font-semibold mt-1">Indirizzo Email</label>

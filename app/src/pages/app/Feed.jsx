@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import PostEditing from "../../components/PostEditing";
 
 const Feed = () => {
     useEffect(() => {
@@ -8,6 +9,7 @@ return (
     <>
         <h1>Feed</h1>
         <p>hello world</p>
+        <PostEditing/>
     </>
 )
 }

@@ -11,6 +11,8 @@ export default {
                 primayColor: '#40798C', //#5198B0
                 primayColor_Hover: 'rgb(57 108 124)',
                 primayColor_Border_Hover: 'rgb(52 102 118)',
+                secondaryColor: '#A6B1E1',
+                secondaryColor_Hover: 'rgb(141 151 192)',
             },
             width: {
                 w_450: '450px',
