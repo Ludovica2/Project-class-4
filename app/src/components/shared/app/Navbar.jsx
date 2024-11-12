@@ -17,9 +17,9 @@ const Navbar = () => {
 
 
             <form className="w-96 mx-auto">
-                <div className="relative">
-                    <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Searched and Found!" required />
-                    <button type="submit" className="btn absolute">Search</button>
+                <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1">
+                    <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50" placeholder="Searched and Found!" required />
+                    <button type="submit" className="btn">Search</button>
                 </div>
             </form>
 
