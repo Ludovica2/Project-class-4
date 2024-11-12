@@ -8,6 +8,10 @@
     .link {
         @apply text-primayColor  hover:text-primayColor_Hover;
     }
+
+    .btn {
+        @apply px-4 py-2 end-2.5 bottom-2.5 font-medium border bg-primayColor text-white rounded-lg  hover:bg-primayColor_Hover hover:border hover:border-primayColor_Border_Hover;
+    }
 }
 
 * {
