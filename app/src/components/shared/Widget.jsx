@@ -1,13 +1,9 @@
 import React from 'react'
-<<<<<<< HEAD
 import WidgetItem from './app/WidgetItem'
-=======
->>>>>>> origin/ludovica
 
 const Widget = () => {
   return (
     <>
-<<<<<<< HEAD
       <div className="m-5 rounded-lg bg-white w-full shadow p-4">
         <h2>Eventi Suggeriti</h2>
         <div className='mt-4 flex flex-col gap-3'>
@@ -31,11 +27,6 @@ const Widget = () => {
           />
         </div>
       </div>
-=======
-        <div className="m-5 rounded-lg bg-white w-full shadow p-4">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis ex, officia quisquam modi inventore suscipit, harum, laborum ad consequatur ratione accusantium impedit sapiente reprehenderit. Beatae, tenetur! Earum quae consectetur saepe.</p>
-        </div>
->>>>>>> origin/ludovica
     </>
   )
 }
