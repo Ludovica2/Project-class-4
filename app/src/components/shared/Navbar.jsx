@@ -1,10 +1,22 @@
-import { Link } from "react-router-dom"
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom"
 
 const Navbar = () => {
+  const location = useLocation();
+  const title = location.pathname == "/login-business" || location.pathname == "/signup-business";
+
+
   return (
-    <nav className="flex justify-center p-2">
-        <img src="/images/FoundLogoFull.png" alt="logo" className="logo-login"/>
-    </nav>
+    <>
+      {
+        (
+          !title &&
+            <nav className="flex justify-center p-2">
+                <img src="/images/FoundLogoFull.png" alt="logo" className="logo-login" />
+            </nav>
+        )
+      }
+    </>
   )
 }
 

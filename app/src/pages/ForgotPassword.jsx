@@ -19,7 +19,7 @@ function ForgotPassword() {
 
     return (
         <>
-            <div className="flex justify-center">
+            <div className="flex justify-center pb-20">
                 <div className="flex flex-col w-w_450 2xl:w-w_500 min-w-96 mt-4 p-4 border border-gray-300 rounded-md">
                     <p className="mx-4 mt-3 mb-8 px-4 text-center text-gray-600">Inserisci il tuo indirizzo email, ti invieremo le istruzioni per resettare la tua password </p>
                     <form onSubmit={handleReset}>

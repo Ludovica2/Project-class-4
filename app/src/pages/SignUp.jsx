@@ -47,7 +47,7 @@ function SignUp() {
 
     return (
         <>
-            <div className="relative">
+            <div className="relative pb-20">
                 <img src="/images/FlyngAirplane.gif" alt="plane" className="gif-airplane max-w-w_1400 w-full -z-10" />
                 <div className="flex justify-center">
                     <div className="flex flex-col w-w_450 2xl:w-w_500 min-w-96 mt-4 p-4 bg-white border border-gray-300 rounded-md">
