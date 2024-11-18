@@ -9,7 +9,7 @@ const Profile = () => {
     }, []);
     return (
         <>
-            <div className="flex flex-col my-7">
+            <div className="flex flex-col my-7 w-full max-w-[1280px] lg:max-w-[1320px]">
                 <div className="flex relative bg-white rounded-lg shadow m-5">
                     <div className="flex justify-center items-center w-32 h-32 absolute -top-11 -left-3 bg-white rounded-[50%] shadow">
                         <img className='imgProfile' src="https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile" />
