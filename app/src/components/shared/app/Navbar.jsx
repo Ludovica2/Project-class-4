@@ -41,7 +41,7 @@ const Navbar = () => {
                         </div>
                         {
                             isOpenMenu && (
-                                <motion.div className="top-12 right-5 flex flex-col p-4 w-48 bg-white absolute"
+                                <motion.div className="top-12 right-5 flex flex-col p-4 w-48 bg-white absolute z-10"
                                     initial={{ y: -8 }}
                                     animate={{ y: "calc(0vw + 5%)" }}
                                 >
