@@ -7,11 +7,10 @@ const AppLayout = () => {
   return (
     <>
       <Sidebar navbar={<Navbar />}>
-        <main className="flex justify-center h-[calc(100vh - 50px)] overflow-y-auto">
+        <main className="flex justify-center">
           <Outlet />
         </main>
       </Sidebar>
-      <Footer />
     </>
   )
 }

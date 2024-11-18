@@ -12,12 +12,12 @@ const Sidebar = ({ children, navbar }) => {
     return (
         <div className="overflow-hidden h-screen flex flex-col">
             {navbar}
-            <div className="w-screen flex-grow overflow-hidden flex flex-col p-3">
+            <div className="w-screen flex-grow overflow-hidden flex flex-col">
                 <div className="flex flex-grow">
                     {
                         isOpenSidebar && (
                             
-                            <motion.div className="w-[150px] flex bg-white flex-col justify-between"
+                            <motion.div className="w-[150px] flex bg-white flex-col justify-between p-4"
                                 initial={{ x: -100 }}
                                 animate={{ x: "calc(0vw + 0%)" }}
                             >
@@ -44,7 +44,7 @@ const Sidebar = ({ children, navbar }) => {
                     <span className='relative'>
                         <button onClick={toggleSidebar}><i className="fa-regular fa-square-caret-down fa-rotate-90 text-lg text-primayColor"></i></button>
                     </span>
-                    <div className="bg-slate-50 flex-grow">
+                    <div className="bg-slate-50 flex-grow h-[calc(100vh-65px)] overflow-y-auto">
                         {children}
                     </div>
                     

@@ -15,6 +15,33 @@ const Feed = () => {
                     <CustomBox title="Il mio feed">
                         <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
                     </CustomBox>
+                    <CustomBox title="Il mio feed">
+                        <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
+                    </CustomBox>
+                    <CustomBox title="Il mio feed">
+                        <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
+                    </CustomBox>
+                    <CustomBox title="Il mio feed">
+                        <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
+                    </CustomBox>
+                    <CustomBox title="Il mio feed">
+                        <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
+                    </CustomBox>
+                    <CustomBox title="Il mio feed">
+                        <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
+                    </CustomBox>
+                    <CustomBox title="Il mio feed">
+                        <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
+                    </CustomBox>
+                    <CustomBox title="Il mio feed">
+                        <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
+                    </CustomBox>
+                    <CustomBox title="Il mio feed">
+                        <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
+                    </CustomBox>
+                    <CustomBox title="Il mio feed">
+                        <p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
+                    </CustomBox>
                 </div>
                 <div className="w-full max-w-[360px]">
                     <Widget/>
