@@ -24,19 +24,13 @@ const Navbar = () => {
             </div>
 
             <form className="w-96 mx-auto">
-<<<<<<< HEAD
-                <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-0">
-                    <input type="search" id="default-search" className="block w-full p-3 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50" placeholder="Searched and Found!" required />
-=======
                 <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1">
                     <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50" placeholder="Searched and Found!" required />
->>>>>>> origin/ludovica
                     <button type="submit" className="btn">Search</button>
                 </div>
             </form>
 
             <div>
-<<<<<<< HEAD
                 <button onClick={toggleProfileMenu}>
                     <div className="flex justify-center items-center">
                         <div className="flex gap-2 items-center justify-center">
@@ -64,9 +58,6 @@ const Navbar = () => {
                         }
                     </div>
                 </button>
-=======
-                <button onClick={handleLogout} className="btn">Logout</button>
->>>>>>> origin/ludovica
             </div>
         </nav>
     )
