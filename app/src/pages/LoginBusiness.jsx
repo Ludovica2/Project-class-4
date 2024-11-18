@@ -40,12 +40,9 @@ const LoginBusiness = () => {
         <>
             <div className="relative flex h-full">
                 <div className="flex justify-center items-center w-1/2 bg-primayColor">
-                    <div className="flex justify-center items-center drag-area">
-                    </div>
+                    <div className="flex justify-center items-center drag-area"></div>
                     <div className="w-96 overflow-hidden z-10 images-container">
-                        <Swiper
-                           
-                        >
+                        <Swiper>
                             <SwiperSlide>
                                 <img src="/images/3.jpg" alt="community-business" className="max-h-64 rounded-md" />
                                 <div className="m-6">
@@ -68,7 +65,6 @@ const LoginBusiness = () => {
                                 </div>
                             </SwiperSlide>
                         </Swiper>
-
                     </div>
                 </div>
                 <div className="flex items-center justify-center w-1/2 pt-9 pb-11 max-h-full">
