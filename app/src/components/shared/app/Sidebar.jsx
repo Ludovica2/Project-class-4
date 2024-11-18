@@ -1,45 +1,53 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 
 const Sidebar = ({ children, navbar }) => {
-    const { user } = useSelector((state) => state.auth);
+    const [isOpenSidebar, setIsOpenSidebar] = useState(true);
+
+    const toggleSidebar = () => {
+        setIsOpenSidebar((isOpen) => !isOpen);
+    }
 
     return (
         <div className="overflow-hidden h-screen flex flex-col">
             {navbar}
             <div className="w-screen flex-grow overflow-hidden flex flex-col p-3">
                 <div className="flex flex-grow">
-                    <div className="w-[150px] flex bg-white flex-col justify-between">
-                        <div className="flex flex-col">
-                            <h2>Main</h2>
-                            <div className="mb-4">
-                                <p><Link to={"/app/feed"}>Feed</Link></p>
-                                <p><Link to={"/app/profile"}>Profile</Link></p>
-                                <p><Link to={"/app/groups"}>Groups</Link></p>
-                            </div>
-                            <hr />
-                            <div className="flex flex-col mt-4">
-                                <h2>Featured</h2>
-                                <div className="">
-                                    <p><Link to={"/app/chat"}>Chat</Link></p>
-                                    <p><Link to={"/app/calendar"}>Calendar</Link></p>
-                                    <p><Link to={"/app/favorites"}>Favorites</Link></p>
+                    {
+                        isOpenSidebar && (
+                            
+                            <motion.div className="w-[150px] flex bg-white flex-col justify-between"
+                                initial={{ x: -100 }}
+                                animate={{ x: "calc(0vw + 0%)" }}
+                            >
+                                <div className="flex flex-col">
+                                    <h2>Principale</h2>
+                                    <div className="mb-4">
+                                        <div><Link to={"/app/feed"} className='hover:text-secondaryColor flex'><div className='w-5 mr-1'><i className="fa-regular fa-newspaper text-primayColor "></i></div> <span>Bacheca</span></Link></div>
+                                        <div><Link to={"/app/profile"} className=' flex'><div className='w-5 mr-1'><i className="fa-solid fa-passport text-primayColor"></i></div> <span>Profilo</span></Link></div>
+                                        <div><Link to={"/app/groups"} className=' flex'><div className='w-5 mr-1'><i className="fa-solid fa-users text-primayColor  text-sm"></i></div> <span>Gruppi</span></Link></div>
+                                    </div>
+                                    <hr />
+                                    <div className="flex flex-col mt-4">
+                                        <h2>Strumenti</h2>
+                                        <div className="">
+                                            <div><Link to={"/app/chat"} className=' flex'><div className='w-5 mr-1'><i className="fa-solid fa-comments text-primayColor  text-sm"></i></div> <span>Chat</span></Link></div>
+                                            <div><Link to={"/app/calendar"} className=' flex'><div className='w-5 mr-1'><i className="fa-solid fa-calendar-days text-primayColor "></i></div> <span>Calendario</span></Link></div>
+                                            <div><Link to={"/app/favorites"} className=' flex'><div className='w-5 mr-1'><i className="fa-solid fa-suitcase-rolling text-primayColor "></i></div> <span>Preferiti</span></Link></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-center items-center">
-                            <div className="flex gap-2 items-center justify-center">
-                                <div className="bg-slate-300 p-1 flex items-center justify-center rounded-full text-slate-800 text-sm">
-                                    <i className="fa-regular fa-user"></i>
-                                </div>
-                                <p>{user.first_name} {user.last_name}</p>
-                            </div>
-                        </div>
-                    </div>
+                            </motion.div>
+                        )
+                    }
+                    <span className='relative'>
+                        <button onClick={toggleSidebar}><i className="fa-regular fa-square-caret-down fa-rotate-90 text-lg text-primayColor"></i></button>
+                    </span>
                     <div className="bg-slate-50 flex-grow">
                         {children}
                     </div>
+                    
                 </div>
             </div>
         </div>

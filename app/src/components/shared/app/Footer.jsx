@@ -1,9 +1,22 @@
 const Footer = () => {
   return (
     <>
-    <div className="flex justify-end items-center h-[50px] pr-[20px] bg-[#40798C]">
-      <p className="text-white">© Mia Academy Class-4</p>
-    </div>
+      <footer className="flex flex-col items-center w-full">
+        <div className="w-full h-1 mb-5 bg-gradient-to-r from-white via-slate-500 to-white">
+        </div>
+        <div className="flex flex-col text-xs">
+          <div className="flex justify-center gap-8">
+            <span className="link">Condizioni d'uso</span>
+            <span className="link">Informativa sulla privacy</span>
+            <span className="link">Aiuto</span>
+            <span className="link">Informativa sui Cookie</span>
+          </div>
+          <div className="text-center mt-3">
+            <i className="fa-regular fa-copyright"></i>
+            <span className="ml-1 mb-1">Ilaria Mammana & Ludovica Spinelli By Mia Tech Academy</span>
+          </div>
+        </div>
+      </footer>
     </>
   )
 }
