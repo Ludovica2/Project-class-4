@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <>
-      <footer className="flex flex-col items-center w-full mt-20">
+      <footer className="flex flex-col items-center w-full">
         <div className="w-full h-1 mb-5 bg-gradient-to-r from-white via-slate-500 to-white">
         </div>
         <div className="flex flex-col text-xs">
@@ -13,7 +13,7 @@ const Footer = () => {
           </div>
           <div className="text-center mt-3">
               <i className="fa-regular fa-copyright"></i>
-              <span className="ml-1 mb-1">Ilaria Mammana & Ludovica Spinelli By Mia Tech Academy</span>
+              <span className="ml-1 pb-2">Ilaria Mammana & Ludovica Spinelli By Mia Tech Academy</span>
           </div>
         </div>
       </footer>

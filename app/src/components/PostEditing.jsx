@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ContentEditable from "react-contenteditable";
+import { motion } from "framer-motion"
 
 const PostEditing = () => {
     const [field, setField] = useState("Crea il tuo post...");
@@ -16,23 +17,36 @@ const PostEditing = () => {
                     <div className="w-full h-[1px] mb-5 bg-slate-100"></div>
                 </div>
                 <div className="m-4 p-1 h-16">
-                    <ContentEditable onChange={handleChange} disabled={false} html={field} className="border-none outline-none"/>
+                    <ContentEditable onChange={handleChange} disabled={false} html={field} className="border-none outline-none" />
                 </div>
                 <div className="flex justify-between mt-6 p-4 bg-slate-100 rounded-b-lg">
                     <div>
-                        <button className="p-2 mr-2">
+                        <motion.button className="p-2 mr-2"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
                             <i className="fa-solid fa-camera text-secondaryColor text-xl hover:text-secondaryColor_Hover"></i>
-                        </button>
-                        <button className="p-2 mr-2">
+                        </motion.button>
+                        <motion.button className="p-2 mr-2"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
                             <i className="fa-solid fa-video text-secondaryColor text-xl hover:text-secondaryColor_Hover"></i>
-                        </button>
-                        <button className="p-2 mr-2">
+                        </motion.button>
+                        <motion.button className="p-2 mr-2"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
                             <i className="fa-solid fa-location-dot text-secondaryColor text-xl hover:text-secondaryColor_Hover"></i>
-                        </button>
-                    </div>                  
-                    <button className="btn">Invia</button>
+                        </motion.button>
+                    </div>
+                    <motion.button className="btn"
+                            whileTap={{ scale: 0.95 }}
+                    >
+                    Invia
+                    </motion.button>
                 </div>
-            </div>         
+            </div>
         </>
     )
 }

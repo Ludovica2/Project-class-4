@@ -12,6 +12,18 @@
     .btn {
         @apply px-4 py-2 end-2.5 bottom-2.5 font-medium border bg-primayColor text-white rounded-lg  hover:bg-primayColor_Hover hover:border hover:border-primayColor_Border_Hover;
     }
+
+    .textSmall-gray {
+        @apply text-sm text-text_secondaryColor;
+    }
+
+    .icon {
+        @apply textSmall-gray mr-1;
+    }
+
+    .icon-text {
+        @apply mr-3 text-text_secondaryColor text-xs hover:text-primayColor_Hover;
+    }
 }
 
 * {
@@ -25,11 +37,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .logo-login {
     width: 170px;
-    height: 50px;
 }
 
 input[type=checkbox] {
     accent-color: #40798C;
+}
+
+.img_bg-business {
+    max-width: 1900px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    z-index: -10;
 }
 
 .gif-airplane {
@@ -39,3 +59,53 @@ input[type=checkbox] {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.imgProfile{
+    border-radius: 50%;
+    height: 120px;
+    width: 120px;
+}
+
+.imgProfile-post {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+}
+
+.img-LikesProf {
+    border-radius: 50%;
+    height: 26px;
+    width: 26px;
+}
+
+.img-CommentsProf {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.btn-reactions:hover #reactions{
+    visibility: visible;
+    opacity: 1;
+    top: -25px;
+    transition: all 0.4s ease-in-out;
+}
+
+.drag-area {
+    opacity: 0.1;
+    position:absolute;
+    background: white;
+    width: 500px;
+    height: 480px;
+    border-radius: 20px;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+  }
+/* 
+  .images-container > img {
+    animation: movement 12s infinite cubic-bezier(.66,-0.01,.36,1);
+  }
+
+  .images-container> img:nth-child(2) {animation-delay: -3s}
+  .images-container > img:nth-child(3) {animation-delay: -6s} */

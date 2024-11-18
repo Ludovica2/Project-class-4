@@ -14,6 +14,8 @@ import AppLayout from "./layout/AppLayout"
 import { useSelector } from "react-redux"
 import SignUp from "./pages/SignUp"
 import ForgotPassword from "./pages/ForgotPassword"
+import LoginBusiness from "./pages/LoginBusiness"
+import SignUpBusiness from "./pages/SignUpBusiness"
 
 
 const ProtectedRoute = ({ children }) => {
@@ -32,7 +34,9 @@ const App = () => {
                 <Route path="/" element={<RootLayout />}>
                     <Route path="" element={<Login />} />
                     <Route path="signup" element={<SignUp />} />
-                    <Route path="forgotpassword" element={<ForgotPassword />} />
+                    <Route path="forgot-password" element={<ForgotPassword />} />
+                    <Route path="signup-business" element={<SignUpBusiness />} />
+                    <Route path="login-business" element={<LoginBusiness />} />
                 </Route>
                 <Route path="/app" element={
                     <ProtectedRoute>

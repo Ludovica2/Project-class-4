@@ -13,6 +13,7 @@ export default {
                 primayColor_Border_Hover: 'rgb(52 102 118)',
                 secondaryColor: '#A6B1E1',
                 secondaryColor_Hover: 'rgb(141 151 192)',
+                text_secondaryColor: '#8a92a0',
             },
             width: {
                 w_450: '450px',
