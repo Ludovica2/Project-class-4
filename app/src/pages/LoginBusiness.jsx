@@ -44,7 +44,12 @@ const LoginBusiness = () => {
                     </div>
                     <div className="w-96 overflow-hidden z-10 images-container">
                         <Swiper
-                           
+                           spaceBetween={30}
+                           centeredSlides={true}
+                           autoplay={{
+                             delay: 2500,
+                             disableOnInteraction: false,
+                           }}
                         >
                             <SwiperSlide>
                                 <img src="/images/3.jpg" alt="community-business" className="max-h-64 rounded-md" />
