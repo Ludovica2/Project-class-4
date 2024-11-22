@@ -54,7 +54,7 @@ const Sidebar = ({ children, navbar }) => {
                                     <div className="flex flex-col mt-4">
                                         <h2>Strumenti</h2>
                                         <div className="">
-                                            <div className={location.pathname.startsWith("/app/chat") && "bg-[#e1e4f5] rounded w-[120px] p-1"}>
+                                            <div>
                                                 <Link to={"/app/chat"} className='flex hover:opacity-70'>
                                                     <div className='w-5 mr-1'>
                                                         <i className="fa-solid fa-comments text-primayColor text-sm"></i>
