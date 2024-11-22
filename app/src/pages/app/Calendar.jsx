@@ -3,13 +3,12 @@ import { useEffect } from "react"
 const Calendar = () => {
     useEffect(() => {
         document.title = "Calendar - Found!";
-}, []);
-return (
-    <>
-        <h1>Calendar</h1>
-        <p>hello world</p>
-    </>
-)
+    }, []);
+    return (
+        <>
+         <h2>Calendar</h2>
+        </>
+    )
 }
 
 export default Calendar

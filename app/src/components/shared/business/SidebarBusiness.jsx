@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 
-const Sidebar = ({ children, navbar }) => {
+const SidebarBusiness = ({ children, navbar }) => {
     const [isOpenSidebar, setIsOpenSidebar] = useState(true);
-    const location = useLocation();
 
     const toggleSidebar = () => {
         setIsOpenSidebar((isOpen) => !isOpen);
@@ -25,28 +24,28 @@ const Sidebar = ({ children, navbar }) => {
                                 <div className="flex flex-col">
                                     <h2>Principale</h2>
                                     <div className="mb-4">
-                                        <div className={location.pathname.startsWith("/app/feed") && "bg-[#e1e4f5] rounded w-[120px] p-1"}>
-                                            <Link to={"/app/feed"} className='flex hover:opacity-70'>
+                                        <div>
+                                            <Link to={""} className='flex group'>
                                                 <div className='w-5 mr-1'>
-                                                    <i className="fa-regular fa-newspaper text-primayColor"></i>
+                                                    <i className="fa-regular fa-newspaper text-primayColor group-hover:text-secondaryColor"></i>
                                                 </div>
-                                                <span className=''>Bacheca</span>
+                                                <span className=' group-hover:text-secondaryColor'>Bacheca</span>
                                             </Link>
                                         </div>
-                                        <div className={location.pathname.startsWith("/app/profile") && "bg-[#e1e4f5] rounded w-[120px] p-1"}>
-                                            <Link to={"/app/profile"} className=' flex hover:opacity-70'>
+                                        <div>
+                                            <Link to={""} className=' flex group'>
                                                 <div className='w-5 mr-1'>
-                                                    <i className="fa-solid fa-passport text-primayColor "></i>
+                                                    <i className="fa-solid fa-passport text-primayColor  group-hover:text-secondaryColor"></i>
                                                 </div>
-                                                <span className=''>Profilo</span>
+                                                <span className=' group-hover:text-secondaryColor'>Profilo</span>
                                             </Link>
                                         </div>
-                                        <div className={location.pathname.startsWith("/app/groups") && "bg-[#e1e4f5] rounded w-[120px] p-1"}>
-                                            <Link to={"/app/groups"} className=' flex hover:opacity-70'>
+                                        <div>
+                                            <Link to={""} className=' flex group'>
                                                 <div className='w-5 mr-1'>
-                                                    <i className="fa-solid fa-users text-primayColor text-sm"></i>
+                                                    <i className="fa-solid fa-users text-primayColor group-hover:text-secondaryColor text-sm"></i>
                                                 </div>
-                                                <span className=''>Gruppi</span>
+                                                <span className=' group-hover:text-secondaryColor'>cose</span>
                                             </Link>
                                         </div>
                                     </div>
@@ -54,28 +53,28 @@ const Sidebar = ({ children, navbar }) => {
                                     <div className="flex flex-col mt-4">
                                         <h2>Strumenti</h2>
                                         <div className="">
-                                            <div className={location.pathname.startsWith("/app/chat") && "bg-[#e1e4f5] rounded w-[120px] p-1"}>
-                                                <Link to={"/app/chat"} className='flex hover:opacity-70'>
+                                            <div>
+                                                <Link to={""} className='flex group'>
                                                     <div className='w-5 mr-1'>
-                                                        <i className="fa-solid fa-comments text-primayColor text-sm"></i>
+                                                        <i className="fa-solid fa-comments text-primayColor group-hover:text-secondaryColor text-sm"></i>
                                                     </div>
-                                                    <span className=''>Chat</span>
+                                                    <span className=' group-hover:text-secondaryColor'>Chat</span>
                                                 </Link>
                                             </div>
-                                            <div className={location.pathname.startsWith("/app/calendar") && "bg-[#e1e4f5] rounded w-[120px] p-1"}>
-                                                <Link to={"/app/calendar"} className='flex hover:opacity-70'>
+                                            <div>
+                                                <Link to={""} className='flex group'>
                                                     <div className='w-5 mr-1'>
-                                                        <i className="fa-solid fa-calendar-days text-primayColor"></i>
+                                                        <i className="fa-solid fa-calendar-days text-primayColor group-hover:text-secondaryColor"></i>
                                                     </div>
-                                                    <span className=''>Calendario</span>
+                                                    <span className=' group-hover:text-secondaryColor'>cose</span>
                                                 </Link>
                                             </div>
-                                            <div className={location.pathname.startsWith("/app/favorites") && "bg-[#e1e4f5] rounded w-[120px] p-1"}>
-                                                <Link to={"/app/favorites"} className='flex hover:opacity-70'>
+                                            <div>
+                                                <Link to={""} className='flex group'>
                                                     <div className='w-5 mr-1'>
-                                                        <i className="fa-solid fa-suitcase-rolling text-primayColor"></i>
+                                                        <i className="fa-solid fa-suitcase-rolling text-primayColor group-hover:text-secondaryColor"></i>
                                                     </div>
-                                                    <span className=''>Preferiti</span>
+                                                    <span className=' group-hover:text-secondaryColor'>cose</span>
                                                 </Link>
                                             </div>
                                         </div>
@@ -97,4 +96,4 @@ const Sidebar = ({ children, navbar }) => {
     )
 }
 
-export default Sidebar
+export default SidebarBusiness

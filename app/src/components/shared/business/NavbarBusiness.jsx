@@ -6,7 +6,7 @@ import { motion } from "motion/react"
 import { useRef } from "react";
 import { useEffect } from "react";
 
-const Navbar = () => {
+const NavbarBusiness = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
     const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -22,13 +22,13 @@ const Navbar = () => {
         setIsOpenNotify(false);
         setIsOpenMessage(false);
     }
-    
+
     const toggleNotify = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(true);
         setIsOpenMessage(false);
     }
-    
+
     const toggleMessage = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(false);
@@ -61,7 +61,7 @@ const Navbar = () => {
     return (
         <nav className="flex justify-between items-center h-[65px] pr-[20px]">
             <div className="pl-4">
-                <img src="/images/FoundLogoFull.png" alt="Logo Found" className="h-[40px] w-auto" />
+                <img src="/images/FoundLogoBusiness.png" alt="Logo Found" className="h-[40px] w-auto" />
             </div>
 
             <form className="w-96 mx-auto">
@@ -143,11 +143,40 @@ const Navbar = () => {
                                     >
                                         <div className="mb-4"><h4>Ciao {user.first_name}</h4></div>
                                         <div className="flex flex-col gap-3 items-start">
-                                            <div><Link to={"/app/profile"} className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-passport"></i></div> <span>Profilo</span></Link></div>
-                                            <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-user-pen text-sm"></i></div> <span>Modifica Profilo</span></Link></div>
-                                            <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-gear"></i></div> <span>Impostazioni</span></Link></div>
-                                            <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-shield-halved"></i></div> <span>Privacy</span></Link></div>
-                                            <div><span onClick={handleLogout}>Esci</span></div>
+                                            <div>
+                                                <Link to={"/app/profile"} className="flex">
+                                                    <div className='w-5 mr-1'>
+                                                        <i className="fa-solid fa-passport"></i>
+                                                    </div>
+                                                    <span>Profilo</span>
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <Link className="flex">
+                                                    <div className='w-5 mr-1'>
+                                                        <i className="fa-solid fa-user-pen text-sm"></i>
+                                                    </div>
+                                                    <span>Modifica Profilo</span>
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <Link className="flex">
+                                                    <div className='w-5 mr-1'>
+                                                        <i className="fa-solid fa-gear"></i>
+                                                    </div> <span>Impostazioni</span>
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <Link className="flex">
+                                                    <div className='w-5 mr-1'>
+                                                        <i className="fa-solid fa-shield-halved"></i>
+                                                    </div>
+                                                    <span>Privacy</span>
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <span onClick={handleLogout}>Esci</span>
+                                            </div>
                                         </div>
                                     </motion.div>
                                 )
@@ -160,4 +189,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default NavbarBusiness
