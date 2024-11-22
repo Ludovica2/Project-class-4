@@ -1,21 +1,15 @@
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from "../../../store/slices/authSlice";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { motion } from "motion/react"
-import { useRef } from "react";
-import { useEffect } from "react";
+import { useClickOutside } from "../../../hooks/useClickOutside";
 
 const Navbar = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
-    const [isOpenMenu, setIsOpenMenu] = useState(false);
-    const [isOpenNotify, setIsOpenNotify] = useState(false);
-    const [isOpenMessage, setIsOpenMessage] = useState(false);
-
-    const menuRef = useRef();
-    const notifyRef = useRef();
-    const messageRef = useRef();
+    const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef} = useClickOutside(false)
+    const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef} = useClickOutside(false)
+    const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef} = useClickOutside(false)
 
     const toggleProfileMenu = () => {
         setIsOpenMenu(true);
@@ -39,24 +33,6 @@ const Navbar = () => {
         dispatch(logout());
     }
 
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (menuRef.current && !menuRef.current.contains(e.target) && isOpenMenu) {
-                setIsOpenMenu(false);
-            }
-            if (notifyRef.current && !notifyRef.current.contains(e.target) && isOpenNotify) {
-                setIsOpenNotify(false);
-            }
-            if (messageRef.current && !messageRef.current.contains(e.target) && isOpenMessage) {
-                setIsOpenMessage(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isOpenMenu, isOpenNotify, isOpenMessage]);
 
     return (
         <nav className="flex justify-between items-center h-[65px] pr-[20px]">
