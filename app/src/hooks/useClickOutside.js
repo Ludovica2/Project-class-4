@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 export const useClickOutside = (initialState = false) => {
     const [active, setActive] = useState(initialState);
     const elRef = useRef();
+    
 
     useEffect(() => {
         const handleClickOutside = (e) => {
