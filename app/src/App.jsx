@@ -17,14 +17,19 @@ import ForgotPassword from "./pages/ForgotPassword"
 import LoginBusiness from "./pages/LoginBusiness"
 import SignUpBusiness from "./pages/SignUpBusiness"
 import EditProfile from "./pages/app/EditProfile"
+import { useLastRole } from "./hooks/useLastRole"
 
 
 const ProtectedRoute = ({ children }) => {
     const auth = useSelector((state) => state.auth);
+    const [lastRole, setLastRole] = useLastRole();
 
-    if (auth.token) return children;
+    if (auth.token) {
+        if (!lastRole) setLastRole(auth.user.role);
+        return children;
+    }
 
-    return <Navigate to="/" />
+    return <Navigate to={lastRole == "user" ? "/" : "/login-business"} />
 }
 
 const App = () => {

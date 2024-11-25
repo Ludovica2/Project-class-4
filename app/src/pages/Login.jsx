@@ -4,10 +4,12 @@ import { login } from "../store/slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import SDK from "../SDK";
+import { useLastRole } from "../hooks/useLastRole";
 
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [_, setLastRole] = useLastRole();
 
     const [form, setForm] = useState({
         email: "ilaria.mammana15@gmail.com",
@@ -26,6 +28,7 @@ const Login = () => {
         try {
             const data = await SDK.auth.login(form);
             dispatch(login(data));
+            setLastRole("user");
             navigate("/app/feed");
         } catch (error) {
             console.log(error)

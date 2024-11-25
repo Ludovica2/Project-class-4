@@ -2,11 +2,19 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import SliderLogin from "../components/shared/SliderLogin";
+import { toast } from "react-toastify";
+import SDK from "../SDK";
+import { login } from "../store/slices/authSlice";
+import { useLastRole } from "../hooks/useLastRole";
 
 const LoginBusiness = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [form, setForm] = useState({});
+    const [_, setLastRole] = useLastRole();
+    const [form, setForm] = useState({
+        email: "giovanni.barbarossa@gmail.com",
+        password: "0987"
+    });
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -18,8 +26,9 @@ const LoginBusiness = () => {
         e.preventDefault();
 
         try {
-            const data = await SDK.auth.login(form);
+            const data = await SDK.auth.loginBusiness(form);
             dispatch(login(data));
+            setLastRole("business");
             navigate("/app/feed");
         } catch (error) {
             console.log(error)
