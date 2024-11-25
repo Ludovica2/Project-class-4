@@ -48,7 +48,7 @@ const Navbar = () => {
                                     <div className="mb-4"><h4>Ciao {user.first_name}</h4></div>
                                     <div className="flex flex-col gap-3 items-start">
                                         <div><Link to={"/app/profile"} className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-passport"></i></div> <span>Profilo</span></Link></div>
-                                        <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-user-pen text-sm"></i></div> <span>Modifica Profilo</span></Link></div>
+                                        <div><Link className="flex" to={"/app/profile/editprofile"}><div className='w-5 mr-1'><i className="fa-solid fa-user-pen text-sm"></i></div> <span>Modifica Profilo</span></Link></div>
                                         <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-gear"></i></div> <span>Impostazioni</span></Link></div>
                                         <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-shield-halved"></i></div> <span>Privacy</span></Link></div>
                                         <div><span onClick={handleLogout}>Esci</span></div>
