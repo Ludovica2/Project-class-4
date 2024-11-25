@@ -52,15 +52,15 @@ export default {
     ]
 }
 
-export const renderSidebarItem = (item) => {
+export const renderSidebarItem = (item, index) => {
     switch (item.type) {
         case "title":
             return (
-                <h2>{item.label}</h2>
+                <h2 key={`side-item-${index}`}>{item.label}</h2>
             )
         case "item":
             return (
-                <SidebarItem to={item.to}>
+                <SidebarItem key={`side-item-${index}`} to={item.to}>
                     <div className='w-5 mr-1'>
                         <i className={item.iconClassName}></i>
                     </div>
@@ -69,7 +69,7 @@ export const renderSidebarItem = (item) => {
             )
         case "separator":
             return (
-                <hr className='my-4' />
+                <hr key={`side-item-${index}`} className='my-4' />
             )
         default:
             return (

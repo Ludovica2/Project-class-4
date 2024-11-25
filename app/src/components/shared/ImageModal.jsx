@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -8,10 +8,6 @@ import { Navigation, Pagination } from 'swiper/modules';
 
 const ImageModal = ({ children, images }) => {
     const [isOpen, setIsOpen] = useState(false);
-    
-    useEffect(() => {
-        console.log(isOpen);
-    }, []);
 
     return (
         <>
