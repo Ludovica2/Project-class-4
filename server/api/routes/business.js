@@ -6,7 +6,7 @@ const { hashPassword } = require("../../utilities/auth");
 const { User } = require("../../db");
 
 /**
- * @path /api/users
+ * @path /api/business
  * @method POST
  */
 app.post("/", async (req, res) => {
@@ -26,6 +26,7 @@ app.post("/", async (req, res) => {
 
         data.password = hashPassword(data.password);
         data.nickname = data.nickname ? data.nickname : data.email.split("@")[0];
+        data.role = "business";
 
         const user = (await new User(data).save()).toObject();
 
