@@ -16,6 +16,7 @@ import SignUp from "./pages/SignUp"
 import ForgotPassword from "./pages/ForgotPassword"
 import LoginBusiness from "./pages/LoginBusiness"
 import SignUpBusiness from "./pages/SignUpBusiness"
+import EditProfile from "./pages/app/EditProfile"
 
 
 const ProtectedRoute = ({ children }) => {
@@ -45,6 +46,7 @@ const App = () => {
                 }>
                     <Route path="/app/feed" element={<Feed />} />
                     <Route path="/app/profile" element={<Profile />} />
+                    <Route path="/app/profile/editprofile" element={<EditProfile />} />
                     <Route path="/app/groups" element={<Groups />} />
                     <Route path="/app/calendar" element={<Calendar />} />
                     <Route path="/app/favorites" element={<Favorites />} />

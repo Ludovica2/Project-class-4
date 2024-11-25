@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ContentEditable from "react-contenteditable";
 import { motion } from "framer-motion"
+import ImageModal from './ImageModal';
 
 const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", dataPost = "" }) => {
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
     const [replyComments, setReplyComments] = useState(false);
+    const [isOpenOptions, setIsOpenOptions] = useState(false);
 
     const handleChange = (event) => {
         setField(event.target.value);
@@ -17,6 +19,10 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
 
     const toggleReplyComments = () => {
         setReplyComments((isOpen) => !isOpen);
+    }
+
+    const toggleOptionsPost = () => {
+        setIsOpenOptions((isOpen) => !isOpen);
     }
 
     return (
@@ -31,16 +37,67 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                         <span className='textSmall-gray'>{dataPost}</span>
                     </div>
                     <div className='flex'>
-                        <button className="p-2 mr-2 justify-center">
+                        <div className="p-2 mr-2 justify-center relative cursor-pointer" onClick={toggleOptionsPost}>
                             <i className="fa-solid fa-ellipsis"></i>
-                        </button>
+                            {
+                                isOpenOptions && (
+                                    <motion.div className="flex flex-col absolute top-9 -left-3 px-2 w-64 bg-white border border-slate-100 z-10"
+                                        initial={{ y: -8 }}
+                                        animate={{ y: "calc(0vw + 5%)" }}
+                                    >
+                                        <button className='flex mt-2 border-b border-b-slate-100 group'>
+                                            <div>
+                                                <i className="fa-regular fa-circle-xmark text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
+                                            </div>
+                                            <div className='flex flex-col ml-2'>
+                                                <h3 className='text-sm font-semibold text-start'>Nascondi Post</h3>
+                                                <span className='mb-2 text-xs text-text_secondaryColor group-hover:text-secondaryColor_Hover'>Mostra meno post come questo.</span>
+                                            </div>
+                                        </button>
+                                        <button className='flex mt-2 border-b border-b-slate-100 group'>
+                                            <div>
+                                                <i className="fa-solid fa-user-minus text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
+                                            </div>
+                                            <div className='flex flex-col ml-2'>
+                                                <h3 className='text-sm font-semibold text-start'>Non seguire più</h3>
+                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover'>Non vedrai più i post di questo utente.</span>
+                                            </div>
+                                        </button>
+                                        <button className='flex mt-2 border-b border-b-slate-100 group'>
+                                            <div>
+                                                <i className="fa-solid fa-bell text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
+                                            </div>
+                                            <div className='flex flex-col ml-2'>
+                                                <h3 className='text-sm font-semibold text-start'>Attiva Notifiche</h3>
+                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover'>Riceverai notifiche per i nuovi post di questo utente.</span>
+                                            </div>
+                                        </button>
+                                    </motion.div>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
-                {/* divider &&  */<div className="w-full h-[1px] mb-5 mt-2 bg-slate-100"></div>}
+                <div className="w-full h-[1px] mb-5 mt-2 bg-slate-100"></div>
                 <div className="m-4 rounded-b-lg">
                     <div>
                         {children}
                     </div>
+
+                    {/* Modal */}
+                    <div>
+                        {
+                            <ImageModal images={["https://images.pexels.com/photos/12893376/pexels-photo-12893376.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/8219320/pexels-photo-8219320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/6617683/pexels-photo-6617683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"]}> 
+                                {
+                                    (setIsShowModal) => {
+                                        return <button onClick={() => setIsShowModal(true)}>Images</button>;
+                                    }
+                                }
+                            </ImageModal>
+                        }
+                        
+                    </div>
+
                     <div className='flex mt-4'>
                         <ul className='flex mr-1'>
                             <li>
@@ -61,22 +118,22 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                 </div>
                 <div className="flex flex-col mt-5 pt-3 border-t border-slate-100 rounded-b-lg">
                     <div className='flex justify-between'>
-                        <button className='hover:text-primayColor'>
-                            <i className="fa-regular fa-compass icon"></i>
-                            <span className='icon-text'>100 Mi Piace</span>
+                        <button className='group'>
+                            <i className="fa-regular fa-compass icon group-hover:text-primayColor"></i>
+                            <span className='icon-text group-hover:text-primayColor'>100 Mi Piace</span>
                         </button>
                         <div>
-                            <button onClick={toggleCommentsBox}>
-                                <i className="fa-regular fa-comment-dots icon"></i>
-                                <span className='icon-text'>20 Commenti</span>
+                            <button onClick={toggleCommentsBox} className='group'>
+                                <i className="fa-regular fa-comment-dots icon group-hover:text-primayColor"></i>
+                                <span className='icon-text group-hover:text-primayColor'>20 Commenti</span>
                             </button>
-                            <button>
-                                <i className="fa-solid fa-suitcase-rolling icon"></i>
-                                <span className='icon-text'>Salva</span>
+                            <button className='group'>
+                                <i className="fa-solid fa-suitcase-rolling icon group-hover:text-primayColor"></i>
+                                <span className='icon-text group-hover:text-primayColor'>Salva</span>
                             </button>
-                            <button>
-                                <i className="fa-solid fa-share-nodes icon"></i>
-                                <span className='icon-text'>Condividi</span>
+                            <button className='group'>
+                                <i className="fa-solid fa-share-nodes icon group-hover:text-primayColor"></i>
+                                <span className='icon-text group-hover:text-primayColor'>Condividi</span>
                             </button>
                         </div>
                     </div>
@@ -94,44 +151,44 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                     <div className=' mt-2 ml-4 p-2 text-sm bg-slate-100 rounded-b-lg'>
                                         <p>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi repellat aliquid, explicabo ipsa adipisci molestias illo temporibus id, cupiditate tempore magnam suscipit! Aut illo veritatis quo. Id dolor explicabo temporibus."</p>
                                         <div className='ml-3 mt-2'>
-                                            <button className='relative btn-reactions'>
+                                            <button className='relative btn-reactions group'>
                                                 <div className="absolute -top-3 left-[15px] opacity-0 flex bg-white p-1 rounded-md invisible" id='reactions'>
                                                     <motion.i className="fa-solid fa-heart m-1" style={{ color: '#f31212' }}
-                                                        whileHover={{scale: 1.2}}
+                                                        whileHover={{ scale: 1.2 }}
                                                     >
                                                     </motion.i>
                                                     <motion.i className="fa-regular fa-thumbs-up m-1" style={{ color: '#74C0FC' }}
-                                                        whileHover={{scale: 1.2}}
+                                                        whileHover={{ scale: 1.2 }}
                                                     >
                                                     </motion.i>
                                                     <motion.i className="fa-solid fa-plane-up text-secondaryColor m-1"
-                                                        whileHover={{scale: 1.2}}
+                                                        whileHover={{ scale: 1.2 }}
                                                     >
                                                     </motion.i>
                                                     <motion.i className="fa-solid fa-face-laugh-squint m-1" style={{ color: '#FFD43B' }}
-                                                        whileHover={{scale: 1.2}}
+                                                        whileHover={{ scale: 1.2 }}
                                                     >
                                                     </motion.i>
                                                     <motion.i className="fa-solid fa-face-surprise m-1" style={{ color: '#FFD43B' }}
-                                                        whileHover={{scale: 1.2}}
+                                                        whileHover={{ scale: 1.2 }}
                                                     >
                                                     </motion.i>
                                                     <motion.i className="fa-solid fa-face-grin-hearts m-1" style={{ color: '#FFD43B' }}
-                                                        whileHover={{scale: 1.2}}
+                                                        whileHover={{ scale: 1.2 }}
                                                     >
                                                     </motion.i>
-                                                    <motion.span  className='textSmall-gray'
-                                                        whileHover={{scale: 1.2}}
+                                                    <motion.span className='textSmall-gray'
+                                                        whileHover={{ scale: 1.2 }}
                                                     >
                                                         ...
                                                     </motion.span>
                                                 </div>
-                                                <i className="fa-solid fa-icons icon"></i>
-                                                <span className='icon-text'>Reazioni</span>
+                                                <i className="fa-solid fa-icons icon group-hover:text-primayColor"></i>
+                                                <span className='icon-text group-hover:text-primayColor'>Reazioni</span>
                                             </button>
-                                            <button onClick={toggleReplyComments}>
-                                                <i className="fa-solid fa-reply icon"></i>
-                                                <span className='icon-text'>Rispondi...</span>
+                                            <button onClick={toggleReplyComments} className='group'>
+                                                <i className="fa-solid fa-reply icon group-hover:text-primayColor" ></i>
+                                                <span className='icon-text group-hover:text-primayColor'>Rispondi...</span>
                                             </button>
                                         </div>
                                     </div>

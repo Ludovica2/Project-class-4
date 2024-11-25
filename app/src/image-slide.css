@@ -1,0 +1,18 @@
+.modal {
+    height: 100vh;
+    padding: 0 !important;
+    display: block !important;
+}
+
+.modal .close-modal {
+    z-index: 9;
+}
+
+.modal .swiper {
+    height: 100vh;
+}
+
+.modal .swiper .modal-content {
+    height: 90vh;
+    margin-top: 4vh;
+}
