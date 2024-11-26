@@ -111,14 +111,34 @@ app.put("/email", authUser(["user"]), async (req, res) => {
     try {
         const data = await schema.validateAsync(req.body);
 
-        if (data.birth_date) data.birth_date = new Date(data.birth_date);
-
         await User.updateOne({ _id }, data);
 
         return res.status(200).json({ message: "User email updated" });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: error.message })
+    }
+});
+
+/**
+ * @path /api/users/nickname
+ * @method PUT
+ */
+app.put("/nickname", authUser(["user"]), async (req, res) => {
+    const _id = req.user._id;
+    const schema = Joi.object().keys({
+        nickname: Joi.string().required(),
+    });
+
+    try {
+        const data = await schema.validateAsync(req.body);
+
+        await User.updateOne({ _id }, data);
+
+        return res.status(200).json({ message: "User nickname updated" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Nickname already taken" })
     }
 });
 
