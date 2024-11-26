@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react"
 import { useClickOutside } from "../../../hooks/useClickOutside";
 
+
 const Navbar = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
@@ -136,23 +137,23 @@ const Navbar = () => {
                                                 <Link to={"/app/profile"} className="flex">
                                                     <div className='w-5 mr-1'>
                                                         <i className="fa-solid fa-passport"></i>
-                                                    </div>
+                                                    </div> 
                                                     <span>Profilo</span>
                                                 </Link>
                                             </div>
                                             <div>
-                                                <Link className="flex">
+                                                <Link to={"/app/profile/editprofile"} className="flex">
                                                     <div className='w-5 mr-1'>
                                                         <i className="fa-solid fa-user-pen text-sm"></i>
-                                                    </div>
+                                                    </div> 
                                                     <span>Modifica Profilo</span>
                                                 </Link>
                                             </div>
                                             <div>
-                                                <Link className="flex">
+                                                <Link to={"/app/profile/settingsprofile"} className="flex">
                                                     <div className='w-5 mr-1'>
                                                         <i className="fa-solid fa-gear"></i>
-                                                    </div>
+                                                    </div> 
                                                     <span>Impostazioni</span>
                                                 </Link>
                                             </div>
@@ -160,13 +161,12 @@ const Navbar = () => {
                                                 <Link className="flex">
                                                     <div className='w-5 mr-1'>
                                                         <i className="fa-solid fa-shield-halved"></i>
-                                                    </div>
+                                                    </div> 
                                                     <span>Privacy</span>
                                                 </Link>
                                             </div>
                                             <div>
-                                                <span onClick={handleLogout}>Esci</span>
-                                            </div>
+                                                <span onClick={handleLogout}>Esci</span></div>
                                         </div>
                                     </motion.div>
                                 )

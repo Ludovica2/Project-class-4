@@ -18,12 +18,12 @@ const Profile = () => {
                     <div className="flex justify-center items-center w-32 h-32 absolute -top-11 -left-3 bg-white rounded-[50%] shadow">
                         {/* Modal */}
                         {
-                           <ImageModal images={["https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"]}>
-                            {
-                                (setIsShowModal) => {
-                                    return <img className='imgProfile cursor-pointer' onClick={() => setIsShowModal(true)} src="https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile"/>
+                            <ImageModal images={["https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"]}>
+                                {
+                                    (setIsShowModal) => {
+                                        return <img className='imgProfile cursor-pointer' onClick={() => setIsShowModal(true)} src="https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile" />
+                                    }
                                 }
-                            }
                             </ImageModal>
                         }
                     </div>
@@ -67,16 +67,29 @@ const Profile = () => {
                                 </div>
                             </div>
                             <div className="flex flex-col">
-                                <div className="flex justify-end mr-2">
-                                    <Link to="/app/profile/editprofile">
-                                        <button className="relative btn-tooltip">
-                                            <i className="fa-solid fa-user-pen text-text_primaryColor"></i>
-                                            <div className="tooltip-container tooltip-bottom">
-                                                Modifica Profilo
-                                                <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                            </div>
-                                        </button>
-                                    </Link>
+                                <div className="flex gap-1 justify-end">
+                                    <div className=" mr-2">
+                                        <Link to="/app/profile/editprofile">
+                                            <button className="relative btn-tooltip">
+                                                <i className="fa-solid fa-user-pen text-text_primaryColor"></i>
+                                                <div className="tooltip-container tooltip-bottom">
+                                                    Modifica Profilo
+                                                    <div className="arrow-tooltip arrow-tlt-bottom"></div>
+                                                </div>
+                                            </button>
+                                        </Link>
+                                    </div>
+                                    <div className="mr-2">
+                                        <Link to="/app/profile/settingsprofile">
+                                            <button className="relative btn-tooltip">
+                                                <i className="fa-solid fa-gear text-text_primaryColor"></i>
+                                                <div className="tooltip-container tooltip-bottom">
+                                                    Impostazioni
+                                                    <div className="arrow-tooltip arrow-tlt-bottom"></div>
+                                                </div>
+                                            </button>
+                                        </Link>
+                                    </div>
                                 </div>
                                 <div className="">
                                     <p className="m-2">Altri Social</p>

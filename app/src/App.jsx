@@ -18,6 +18,7 @@ import LoginBusiness from "./pages/LoginBusiness"
 import SignUpBusiness from "./pages/SignUpBusiness"
 import EditProfile from "./pages/app/EditProfile"
 import { useLastRole } from "./hooks/useLastRole"
+import SettingsProfile from "./pages/app/SettingsProfile"
 
 
 const ProtectedRoute = ({ children }) => {
@@ -52,6 +53,7 @@ const App = () => {
                     <Route path="/app/feed" element={<Feed />} />
                     <Route path="/app/profile" element={<Profile />} />
                     <Route path="/app/profile/editprofile" element={<EditProfile />} />
+                    <Route path="/app/profile/settingsprofile" element={<SettingsProfile />} />
                     <Route path="/app/groups" element={<Groups />} />
                     <Route path="/app/calendar" element={<Calendar />} />
                     <Route path="/app/favorites" element={<Favorites />} />

@@ -158,6 +158,24 @@ input[type=checkbox] {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Toggle */
+
+.switch {
+    width: 40px;
+    height: 25px;
+    background-color: #cdd2da;
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 50px;
+    padding: 2.5px;
+    cursor: pointer;
+  }
+  
+  .switch[data-isOn="true"] {
+    justify-content: flex-end;
+  }
+
+
 /* Modal Images */
 
 .modal {
