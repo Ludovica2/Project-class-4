@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react"
 import { useClickOutside } from "../../../hooks/useClickOutside";
 
+
 const Navbar = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
@@ -120,8 +121,8 @@ const Navbar = () => {
                                         <div className="mb-4"><h4>Ciao {user.first_name}</h4></div>
                                         <div className="flex flex-col gap-3 items-start">
                                             <div><Link to={"/app/profile"} className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-passport"></i></div> <span>Profilo</span></Link></div>
-                                            <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-user-pen text-sm"></i></div> <span>Modifica Profilo</span></Link></div>
-                                            <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-gear"></i></div> <span>Impostazioni</span></Link></div>
+                                            <div><Link to={"/app/profile/editprofile"} className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-user-pen text-sm"></i></div> <span>Modifica Profilo</span></Link></div>
+                                            <div><Link to={"/app/profile/settingsprofile"} className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-gear"></i></div> <span>Impostazioni</span></Link></div>
                                             <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-shield-halved"></i></div> <span>Privacy</span></Link></div>
                                             <div><span onClick={handleLogout}>Esci</span></div>
                                         </div>
