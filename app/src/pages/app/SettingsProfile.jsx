@@ -74,10 +74,19 @@ const SettingsProfile = () => {
                             <div className="w-11/12">
                                 <h2 className="text-lg mt-1 mb-6">Altri Social:</h2>
                                 <div className="flex items-center w-3/4 justify-between mb-6">
-                                    <label className="mt-1"> Instagram </label>
-                                    <div className="switch" data-ison={isOnInstagram} onClick={toggleSwitchInstagram}>
-                                        <motion.div className={"w-5 h-5 rounded-[40px]" + (isOnInstagram ? " bg-primayColor" : " bg-white")} layout transition={spring} />
+                                    <div>
+                                        <label className="mt-1"> Instagram </label>
+                                        <div className="switch" data-ison={isOnInstagram} onClick={toggleSwitchInstagram}>
+                                            <motion.div className={"w-5 h-5 rounded-[40px]" + (isOnInstagram ? " bg-primayColor" : " bg-white")} layout transition={spring} />
+                                        </div>
                                     </div>
+                                    {
+                                        isOnInstagram && (
+                                            <div>
+                                                <input type="text" name="" id="" />
+                                            </div>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
