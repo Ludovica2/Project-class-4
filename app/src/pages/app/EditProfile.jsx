@@ -12,6 +12,25 @@ const activeTab = {
 const EditProfile = () => {
     const { user } = useSelector((state) => state.auth);
     const [tabToOpen, setTabToOpen] = useState(activeTab.personalInfo);
+    const [form, setForm] = useState({
+        [activeTab.personalInfo]: {
+            first_name: "",
+            last_name: "",
+            birth_date: "",
+            nation: "",
+            city: "",
+            bio: "",
+        },        
+        [activeTab.changePassword]: {
+            current_password: "",
+            new_password: "",
+            conf_password: "",
+        },        
+        [activeTab.manageContact]: {
+            email: "",
+            tel: "",
+        },        
+    });
 
     const showTab = (tab) => {
         setTabToOpen(tab);

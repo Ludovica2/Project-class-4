@@ -6,7 +6,7 @@ const Calendar = () => {
     }, []);
     return (
         <>
-         <h2>Calendar</h2>
+            <h1>Calendar</h1>
         </>
     )
 }

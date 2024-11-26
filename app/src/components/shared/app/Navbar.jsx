@@ -8,22 +8,22 @@ import { useClickOutside } from "../../../hooks/useClickOutside";
 const Navbar = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
-    const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef} = useClickOutside(false)
-    const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef} = useClickOutside(false)
-    const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef} = useClickOutside(false)
+    const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef } = useClickOutside(false)
+    const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef } = useClickOutside(false)
+    const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef } = useClickOutside(false)
 
     const toggleProfileMenu = () => {
         setIsOpenMenu(true);
         setIsOpenNotify(false);
         setIsOpenMessage(false);
     }
-    
+
     const toggleNotify = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(true);
         setIsOpenMessage(false);
     }
-    
+
     const toggleMessage = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(false);
@@ -38,7 +38,13 @@ const Navbar = () => {
     return (
         <nav className="flex justify-between items-center h-[65px] pr-[20px]">
             <div className="pl-4">
-                <img src="/images/FoundLogoFull.png" alt="Logo Found" className="h-[40px] w-auto" />
+                {
+                    user.role == "user" ? (
+                        <img src="/images/FoundLogoFull.png" alt="Logo Found" className="h-[40px] w-auto" />
+                    ) : (
+                        <img src="/images/FoundLogoBusiness.png" alt="Logo Business" className="h-[40px] w-auto" />
+                    )
+                }
             </div>
 
             <form className="w-96 mx-auto">
@@ -110,7 +116,14 @@ const Navbar = () => {
                                 <div className="bg-slate-300 p-1 flex items-center justify-center rounded-full text-slate-800 text-sm">
                                     <i className="fa-regular fa-user"></i>
                                 </div>
-                                <p>{user.first_name} {user.last_name}</p>
+                                {
+                                    user.role == "user" ? (
+                                        <p>{user.first_name} {user.last_name}</p>
+                                    ) : (
+                                        <p>{user.metadata.company_name}</p>
+                                    )
+                                }
+                                
                             </div>
                             {
                                 isOpenMenu && (
@@ -120,11 +133,40 @@ const Navbar = () => {
                                     >
                                         <div className="mb-4"><h4>Ciao {user.first_name}</h4></div>
                                         <div className="flex flex-col gap-3 items-start">
-                                            <div><Link to={"/app/profile"} className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-passport"></i></div> <span>Profilo</span></Link></div>
-                                            <div><Link to={"/app/profile/editprofile"} className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-user-pen text-sm"></i></div> <span>Modifica Profilo</span></Link></div>
-                                            <div><Link to={"/app/profile/settingsprofile"} className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-gear"></i></div> <span>Impostazioni</span></Link></div>
-                                            <div><Link className="flex"><div className='w-5 mr-1'><i className="fa-solid fa-shield-halved"></i></div> <span>Privacy</span></Link></div>
-                                            <div><span onClick={handleLogout}>Esci</span></div>
+                                            <div>
+                                                <Link to={"/app/profile"} className="flex">
+                                                    <div className='w-5 mr-1'>
+                                                        <i className="fa-solid fa-passport"></i>
+                                                    </div> 
+                                                    <span>Profilo</span>
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <Link to={"/app/profile/editprofile"} className="flex">
+                                                    <div className='w-5 mr-1'>
+                                                        <i className="fa-solid fa-user-pen text-sm"></i>
+                                                    </div> 
+                                                    <span>Modifica Profilo</span>
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <Link to={"/app/profile/settingsprofile"} className="flex">
+                                                    <div className='w-5 mr-1'>
+                                                        <i className="fa-solid fa-gear"></i>
+                                                    </div> 
+                                                    <span>Impostazioni</span>
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <Link className="flex">
+                                                    <div className='w-5 mr-1'>
+                                                        <i className="fa-solid fa-shield-halved"></i>
+                                                    </div> 
+                                                    <span>Privacy</span>
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <span onClick={handleLogout}>Esci</span></div>
                                         </div>
                                     </motion.div>
                                 )
