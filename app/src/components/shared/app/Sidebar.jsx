@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { Link, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
-import SidebarItem from '../SidebarItem';
 import sidebar, { renderSidebarItem } from '../../../config/sidebar';
+import { useSelector } from 'react-redux'
 
 const Sidebar = ({ children, navbar }) => {
     const [isOpenSidebar, setIsOpenSidebar] = useState(true);
-    const location = useLocation();
+    const {user} = useSelector((state) => state.auth);
 
     const toggleSidebar = () => {
         setIsOpenSidebar((isOpen) => !isOpen);
@@ -26,7 +25,7 @@ const Sidebar = ({ children, navbar }) => {
                             >
                                 <div className="flex flex-col">
                                     {
-                                        sidebar.USER_SIDEBAR.map(renderSidebarItem)
+                                        sidebar[`${user.role.toUpperCase()}_SIDEBAR`].map(renderSidebarItem)
                                     }
                                 </div>
                             </motion.div>

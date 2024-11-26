@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import PostEditing from "../../components/PostEditing";
 import Widget from "../../components/shared/Widget";
 import { motion } from "framer-motion"
@@ -6,12 +6,6 @@ import { Link } from "react-router-dom";
 import ImageModal from "../../components/shared/ImageModal";
 
 const Profile = () => {
-    const modalElement = useRef();
-    const modalImage = useRef();
-
-    const closeModal = () => {
-        modalElement.current.style.display = "none";
-    }
 
     useEffect(() => {
         document.title = "Profile - Found!";

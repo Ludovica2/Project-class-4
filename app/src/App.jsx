@@ -55,11 +55,8 @@ const App = () => {
                     <Route path="/app/groups" element={<Groups />} />
                     <Route path="/app/calendar" element={<Calendar />} />
                     <Route path="/app/favorites" element={<Favorites />} />
+                    <Route path="/app/chat" element={<Chat />} />
                 </Route>
-                <Route path="/app/chat" element={
-                    <ProtectedRoute>
-                        <Chat />
-                    </ProtectedRoute>} />
             </Routes>
         </>
     )
