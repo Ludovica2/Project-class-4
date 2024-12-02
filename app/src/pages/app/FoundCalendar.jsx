@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -8,30 +8,35 @@ const localizer = momentLocalizer(moment);
 
 
 const FoundCalendar = () => {
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState([
+        {
+            id: 0,
+            title: 'Mercatini di Natale - Amburgo',
+            start: new Date(2024, 11, 8, 0, 0),
+            end: new Date(2024, 11, 9, 1, 0),
+        },
+        {
+            id: 1,
+            title: 'Capodanno - New York',
+            start: new Date(2024, 11, 31, 0, 0), 
+            end: new Date(2025, 0, 1, 1, 0), 
+        },
+    ]);
+
+    const handleSelectSlot = useCallback(
+        ({ start, end }) => {
+          const title = window.prompt('New Event name')
+          if (title) {
+            setEvents((prev) => [...prev, { start, end, title }])
+          }
+        },
+        [setEvents]
+      )
 
     useEffect(() => {
         document.title = "Calendar - Found!";
     }, []);
 
-    useEffect(() => {
-        const savedEvents = [
-            {
-                id: 0,
-                title: 'Mercatini di Natale - Amburgo',
-                start: new Date(2024, 11, 8, 0, 0),
-                end: new Date(2024, 11, 9, 1, 0),
-            },
-            {
-                id: 1,
-                title: 'Capodanno - New York',
-                start: new Date(2024, 11, 31, 0, 0), 
-                end: new Date(2025, 0, 1, 1, 0), 
-            },
-        ];
-
-        setEvents(savedEvents);
-    }, []);
 
     return (
         <>
@@ -46,6 +51,7 @@ const FoundCalendar = () => {
                     defaultView="month"
                     selectable
                     onSelectEvent={event => alert(event.title)}
+                    onSelectSlot={handleSelectSlot}
                 />
             </div>
         </>
