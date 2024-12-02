@@ -2,41 +2,60 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { toast } from "react-toastify"
+import SDK from "../../SDK"
+import { useDispatch, useSelector } from 'react-redux'
+import { createNewEvent, setAllEvents } from '../../store/slices/eventSlice';
 
 
 const localizer = momentLocalizer(moment);
 
 
 const FoundCalendar = () => {
-    const [events, setEvents] = useState([
-        {
-            id: 0,
-            title: 'Mercatini di Natale - Amburgo',
-            start: new Date(2024, 11, 8, 0, 0),
-            end: new Date(2024, 11, 9, 1, 0),
-        },
-        {
-            id: 1,
-            title: 'Capodanno - New York',
-            start: new Date(2024, 11, 31, 0, 0), 
-            end: new Date(2025, 0, 1, 1, 0), 
-        },
-    ]);
+    const dispatch = useDispatch();
+    const events = useSelector((state) => state.event.all);
+    const { token } = useSelector((state) => state.auth);
 
-    const handleSelectSlot = useCallback(
-        ({ start, end }) => {
-          const title = window.prompt('New Event name')
-          if (title) {
-            setEvents((prev) => [...prev, { start, end, title }])
-          }
-        },
-        [setEvents]
-      )
+    const handleSelectSlot = async ({ start, end }) => {
+        const title = window.prompt('New Event name')
+        if (title) {
+            try {
+                const event = await SDK.events.create({title, start, end}, token);
+                event.event.start = new Date(event.event.start);
+                event.event.end = new Date(event.event.end);
+                dispatch(createNewEvent(event.event));
+            } catch (error) {
+                console.log(error);
+
+                toast.error("Errore interno del server")
+            }
+        }
+    };
+
+    const fetchData = async () => {
+        try {
+            let data = await SDK.events.getAll(token);
+            data = data.map((item) => ({ ...item, start: new Date(item.start), end: new Date(item.end) }))
+            dispatch(setAllEvents(data));
+
+        } catch (error) {
+            console.log(error);
+
+            toast.error("Errore interno del server")
+        }
+    }
+
+    const handleForceSync = () => {
+        fetchData()
+    }
 
     useEffect(() => {
         document.title = "Calendar - Found!";
-    }, []);
 
+        if (events.length == 0) {
+            fetchData()
+        }
+    }, []);
 
     return (
         <>

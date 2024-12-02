@@ -65,5 +65,45 @@ export default {
                 data: payload,
             })).data;
         },
+    },
+    events: {
+        getAll: async (token) => {
+            return (await axios({
+                url: buildApiUrl("/events"),
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })).data;
+        },
+        create: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl(`/events`),
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+        update: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl(`/events/${payload._id}`),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+        delete: async (_id, token) => {
+            return (await axios({
+                url: buildApiUrl(`/events/${_id}`),
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })).data;
+        }
     }
 }
