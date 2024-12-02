@@ -46,11 +46,6 @@ const FoundCalendar = () => {
                     defaultView="month"
                     selectable
                     onSelectEvent={event => alert(event.title)}
-                    onSelectSlot={slotInfo =>
-                        alert(
-                            `Hai selezionato il ${moment(slotInfo.start).format('MMMM Do YYYY, h:mm a')} al ${moment(slotInfo.end).format('h:mm a')}`
-                        )
-                    }
                 />
             </div>
         </>
