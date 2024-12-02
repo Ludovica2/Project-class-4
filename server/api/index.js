@@ -21,4 +21,9 @@ app.use("/me", require("./routes/me"));
  */
 app.use("/business", require("./routes/business"));
 
+/**
+ * @path /api/events
+ */
+app.use("/events", require("./routes/events"));
+
 module.exports = app;
