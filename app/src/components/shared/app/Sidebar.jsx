@@ -12,18 +12,18 @@ const Sidebar = ({ children, navbar }) => {
     }
 
     return (
-        <div className="overflow-hidden h-screen flex flex-col">
+        <div className="overflow-hidden h-screen flex flex-col dark:bg-elements_dark">
             {navbar}
-            <div className="w-screen flex-grow overflow-hidden flex flex-col">
+            <div className="w-screen flex-grow overflow-hidden flex flex-col ">
                 <div className="flex flex-grow">
                     {
                         isOpenSidebar && (
 
-                            <motion.div className="w-[150px] flex bg-white flex-col justify-between p-4"
+                            <motion.div className="w-[150px] flex bg-white flex-col justify-between p-4 dark:bg-elements_dark"
                                 initial={{ x: -100 }}
                                 animate={{ x: "calc(0vw + 0%)" }}
                             >
-                                <div className="flex flex-col">
+                                <div className="flex flex-col dark:text-white">
                                     {
                                         sidebar[`${user.role.toUpperCase()}_SIDEBAR`].map(renderSidebarItem)
                                     }

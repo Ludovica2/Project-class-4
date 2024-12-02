@@ -4,8 +4,11 @@ import Widget from "../../components/shared/Widget";
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom";
 import ImageModal from "../../components/shared/ImageModal";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
+
+    const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
         document.title = "Profile - Found!";
@@ -14,8 +17,8 @@ const Profile = () => {
     return (
         <>
             <div className="flex flex-col my-7 w-full max-w-[1280px] lg:max-w-[1320px]">
-                <div className="flex relative bg-white rounded-lg shadow m-5">
-                    <div className="flex justify-center items-center w-32 h-32 absolute -top-11 -left-3 bg-white rounded-[50%] shadow">
+                <div className="flex relative bg-white rounded-lg shadow m-5 dark:bg-elements_dark dark:shadow-slate-600">
+                    <div className="flex justify-center items-center w-32 h-32 absolute -top-11 -left-3 bg-white rounded-[50%] shadow dark:bg-elements_dark dark:shadow-slate-400">
                         {/* Modal */}
                         {
                             <ImageModal images={["https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"]}>
@@ -30,37 +33,38 @@ const Profile = () => {
                     <div className="flex flex-col w-full ">
                         <div className="flex justify-between ml-32 p-3">
                             <div className="flex flex-col">
-                                <h2 className="text-xl mb-2">Ilaria Mammana</h2>
+                                <h2 className="text-xl dark:text-slate-100">{`${user.first_name} ${user.last_name}`}</h2>
+                                <span className="ml-1  mb-2 text-sm font-bold dark:text-slate-300">@{user.nickname}</span>
                                 <div className="flex">
                                     <ul className="flex justify-center w-full">
                                         <li className="border-r border-r-slate-100 px-8 py-4">
                                             <div className="flex flex-col justify-center">
-                                                <span className="font-bold">Post</span>
-                                                <span className="text-center">20</span>
+                                                <span className="font-bold dark:text-slate-300">Post</span>
+                                                <span className="text-center text-dark">20</span>
                                             </div>
                                         </li>
                                         <li className="border-r border-r-slate-100 px-8 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold">Città</span>
-                                                <span className="text-center">9</span>
+                                                <span className="font-bold dark:text-slate-300">Città</span>
+                                                <span className="text-center text-dark">9</span>
                                             </div>
                                         </li>
                                         <li className="border-r border-r-slate-100 px-8 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold">Eventi</span>
-                                                <span className="text-center">5</span>
+                                                <span className="font-bold dark:text-slate-300">Eventi</span>
+                                                <span className="text-center text-dark">5</span>
                                             </div>
                                         </li>
                                         <li className="border-r border-r-slate-100 px-8 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold">Amici</span>
-                                                <span className="text-center">50</span>
+                                                <span className="font-bold dark:text-slate-300">Amici</span>
+                                                <span className="text-center text-dark">50</span>
                                             </div>
                                         </li>
                                         <li className="px-8 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold">Attrazioni</span>
-                                                <span className="text-center">22</span>
+                                                <span className="font-bold dark:text-slate-300">Attrazioni</span>
+                                                <span className="text-center text-dark">22</span>
                                             </div>
                                         </li>
                                     </ul>
@@ -71,7 +75,7 @@ const Profile = () => {
                                     <div className=" mr-2">
                                         <Link to="/app/profile/editprofile">
                                             <button className="relative btn-tooltip">
-                                                <i className="fa-solid fa-user-pen text-text_primaryColor"></i>
+                                                <i className="fa-solid fa-user-pen text-text_primaryColor dark:text-gray-500"></i>
                                                 <div className="tooltip-container tooltip-bottom">
                                                     Modifica Profilo
                                                     <div className="arrow-tooltip arrow-tlt-bottom"></div>
@@ -82,7 +86,7 @@ const Profile = () => {
                                     <div className="mr-2">
                                         <Link to="/app/profile/settingsprofile">
                                             <button className="relative btn-tooltip">
-                                                <i className="fa-solid fa-gear text-text_primaryColor"></i>
+                                                <i className="fa-solid fa-gear text-text_primaryColor dark:text-gray-500"></i>
                                                 <div className="tooltip-container tooltip-bottom">
                                                     Impostazioni
                                                     <div className="arrow-tooltip arrow-tlt-bottom"></div>
@@ -92,7 +96,7 @@ const Profile = () => {
                                     </div>
                                 </div>
                                 <div className="">
-                                    <p className="m-2">Altri Social</p>
+                                    <p className="m-2 dark:text-slate-100">Altri Social</p>
                                     <div className="flex gap-1">
                                         <motion.button className="w-5 h-5 relative btn-tooltip"
                                             whileHover={{ scale: 1.2 }}
@@ -170,6 +174,16 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
+                        {
+                            user.bio && (
+                                <div className="flex flex-col w-full">
+                                    <hr className="mx-6 border-slate-100"/>
+                                    <div className="py-6 px-10 text-dark">
+                                        {user.bio}
+                                    </div>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
                 <div className="flex"></div>
