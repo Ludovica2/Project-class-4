@@ -34,7 +34,7 @@ const Sidebar = ({ children, navbar }) => {
                     <span className='relative'>
                         <button onClick={toggleSidebar}><i className="fa-regular fa-square-caret-down fa-rotate-90 text-lg text-primayColor"></i></button>
                     </span>
-                    <div className="bg-slate-50 flex-grow h-[calc(100vh-65px)] overflow-y-auto">
+                    <div className="bg-slate-50 flex-grow h-[calc(100vh-65px)] overflow-y-auto dark:bg-bg_dark">
                         {children}
                     </div>
 
