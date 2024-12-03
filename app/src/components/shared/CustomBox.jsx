@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import ContentEditable from "react-contenteditable";
 import { motion } from "framer-motion"
 import ImageModal from './ImageModal';
+import { useClickOutside } from '../../hooks/useClickOutside';
 
 const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", dataPost = "" }) => {
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
     const [replyComments, setReplyComments] = useState(false);
-    const [isOpenOptions, setIsOpenOptions] = useState(false);
+    const { active: isOpenOptionsMenu, setActive: setIsOpenOptionsMenu, elRef: optionsRef} = useClickOutside(false)
 
     const handleChange = (event) => {
         setField(event.target.value);
@@ -22,7 +23,7 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
     }
 
     const toggleOptionsPost = () => {
-        setIsOpenOptions((isOpen) => !isOpen);
+        setIsOpenOptionsMenu(true);
     }
 
     return (
@@ -40,8 +41,8 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                         <div className="p-2 mr-2 justify-center relative cursor-pointer" onClick={toggleOptionsPost}>
                             <i className="fa-solid fa-ellipsis"></i>
                             {
-                                isOpenOptions && (
-                                    <motion.div className="flex flex-col absolute top-9 -left-3 px-2 w-64 bg-white border border-slate-100 z-10"
+                                isOpenOptionsMenu && (
+                                    <motion.div ref={optionsRef} className="flex flex-col absolute top-9 -left-3 px-2 w-64 bg-white border border-slate-100 z-10"
                                         initial={{ y: -8 }}
                                         animate={{ y: "calc(0vw + 5%)" }}
                                     >

@@ -14,9 +14,34 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
     },
+    nickname: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     password: {
         type: String,
         required: true,
+    },
+    birth_date: {
+        type: Date,
+        default: null,
+    },
+    nation: {
+        type: String,
+        default: null,
+    },
+    city: {
+        type: String,
+        default: null,
+    },
+    tel: {
+        type: String,
+        default: null,
+    },
+    bio: {
+        type: String,
+        default: null,
     },
     metadata: {
         type: Object,

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
+import { useSelector } from "react-redux";
 
 const activeTab = {
     personalInfo: "personal",
@@ -9,7 +10,27 @@ const activeTab = {
 
 
 const EditProfile = () => {
+    const { user } = useSelector((state) => state.auth);
     const [tabToOpen, setTabToOpen] = useState(activeTab.personalInfo);
+    const [form, setForm] = useState({
+        [activeTab.personalInfo]: {
+            first_name: "",
+            last_name: "",
+            birth_date: "",
+            nation: "",
+            city: "",
+            bio: "",
+        },        
+        [activeTab.changePassword]: {
+            current_password: "",
+            new_password: "",
+            conf_password: "",
+        },        
+        [activeTab.manageContact]: {
+            email: "",
+            tel: "",
+        },        
+    });
 
     const showTab = (tab) => {
         setTabToOpen(tab);
@@ -57,33 +78,33 @@ const EditProfile = () => {
                                         <div className="flex flex-wrap justify-around">
                                             <div className="flex flex-col w-2/5">
                                                 <label htmlFor="first_name" className="font-semibold mt-1">Nome</label>
-                                                <input type="text" name="first_name" id="first_name" /* onInput={handleInput} value={form.first_name} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                                <input type="text" name="first_name" id="first_name" /* onInput={handleInput} */ value={user.first_name} className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                             </div>
                                             <div className="flex flex-col w-2/5">
                                                 <label htmlFor="last_name" className="font-semibold mt-1">Cognome</label>
-                                                <input type="text" name="last_name" id="last_name" /* onInput={handleInput} value={form.last_name} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                                <input type="text" name="last_name" id="last_name" /* onInput={handleInput} */ value={user.last_name} className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                             </div>
                                             <div className="flex flex-col w-2/5">
-                                                <label htmlFor="username" className="font-semibold mt-1">Nome Utente</label>
-                                                <input type="text" name="username" id="username" /* onInput={handleInput} value={form.last_name} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                                <label htmlFor="nickname" className="font-semibold mt-1">Nome Utente</label>
+                                                <input type="text" name="nickname" id="nickname" /* onInput={handleInput} */ value={user.nickname} className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                             </div>
                                             <div className="flex flex-col w-2/5">
-                                                <label htmlFor="birthday" className="font-semibold mt-1">Data Nascita</label>
-                                                <input type="date" name="birthday" id="birthday" /* onInput={handleInput} value={form.last_name} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                                <label htmlFor="birth_date" className="font-semibold mt-1">Data Nascita</label>
+                                                <input type="date" name="birth_date" id="birth_date" /* onInput={handleInput} */ value={user.birth_date} className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                            </div>
+                                            <div className="flex flex-col w-2/5">
+                                                <label htmlFor="nation" className="font-semibold mt-1">Nazione</label>
+                                                <input type="text" name="nation" id="nation" /* onInput={handleInput} */ value={user.nation} className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                             </div>
                                             <div className="flex flex-col w-2/5">
                                                 <label htmlFor="city" className="font-semibold mt-1">Città</label>
-                                                <input type="text" name="city" id="city" /* onInput={handleInput} value={form.last_name} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
-                                            </div>
-                                            <div className="flex flex-col w-2/5">
-                                                <label htmlFor="phone_number" className="font-semibold mt-1">Numero di Telefono</label>
-                                                <input type="text" name="phone_number" id="phone_number" /* onInput={handleInput} value={form.last_name} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                                <input type="text" name="city" id="city" /* onInput={handleInput} */ value={user.city} className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col">
                                         <label htmlFor="bio" className="font-semibold mt-1">Biografia</label>
-                                        <textarea name="bio" id="bio" /* onInput={handleInput} value={form.last_name} */ placeholder="Racconta qualcosa di te..." className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor"></textarea>
+                                        <textarea name="bio" id="bio" /* onInput={handleInput} */ value={user.bio} placeholder="Racconta qualcosa di te..." className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor"></textarea>
                                     </div>
                                 </div>
                             )
@@ -95,15 +116,32 @@ const EditProfile = () => {
                                     <div className="flex justify-around gap-5">
                                         <div className="flex flex-col w-1/3">
                                             <label htmlFor="current-password" className="font-semibold mt-2">Password Attuale</label>
-                                            <input type="password" name="current-password" id="current-password" /* onInput={handleInput} value={form.password} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                            <input type="password" name="current-password" id="current-password" /* onInput={handleInput} value={form.password} */ placeholder="........" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                         </div>
                                         <div className="flex flex-col w-1/3">
                                             <label htmlFor="new-password" className="font-semibold mt-2">Nuova Password</label>
-                                            <input type="password" name="new-password" id="new-password" /* onInput={handleInput} value={form.password} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                            <input type="password" name="new-password" id="new-password" /* onInput={handleInput} value={form.password} */ placeholder="........" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                         </div>
                                         <div className="flex flex-col w-1/3">
                                             <label htmlFor="conf_password" className="font-semibold mt-2">Conferma Password</label>
-                                            <input type="password" name="conf_password" id="conf_password" /* onInput={handleInput} value={form.conf_password} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                            <input type="password" name="conf_password" id="conf_password" /* onInput={handleInput} value={form.conf_password} */ placeholder="........" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        {
+                            tabToOpen == activeTab.manageContact && (
+                                <div>
+                                    <h2 className="text-lg mb-6">Gestisci Contatti</h2>
+                                    <div className="flex flex-col">
+                                        <div className="flex flex-col w-1/2">
+                                            <label htmlFor="email" className="font-semibold mt-1">Indirizzo Email</label>
+                                            <input type="email" name="email" id="email" value={user.email} /* onInput={handleInput} */ className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                        </div>
+                                        <div className="flex flex-col w-1/2">
+                                            <label htmlFor="tel" className="font-semibold mt-1">Numero di Telefono</label>
+                                            <input type="text" name="tel" id="tel" /* onInput={handleInput} */ value={user.tel} className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                         </div>
                                     </div>
                                 </div>

@@ -13,12 +13,14 @@ app.post("/", async (req, res) => {
     const schema = Joi.object().keys({
         email: Joi.string().email().required(),
         password: Joi.string().required(),
-    })
+    });
+
+    const role = req.query.role || "user"; 
 
     try {
         const data = await schema.validateAsync(req.body);
 
-        const user = await User.findOne({ email: data.email }, null, { lean: true });
+        const user = await User.findOne({ email: data.email, role }, null, { lean: true });
     
         if (!user) return res.status(404).json({ message: "Utente non trovato" });
     

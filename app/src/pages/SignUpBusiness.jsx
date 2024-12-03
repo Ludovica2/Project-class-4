@@ -7,13 +7,15 @@ import SliderLogin from "../components/shared/SliderLogin";
 const SignUpBusiness = () => {
     const navigate = useNavigate();
     const [form, setForm] = useState({
+        company_name: "",
+        vat_number: "",
         first_name: "",
         last_name: "",
         email: "",
         password: "",
         conf_password: "",
         is_terms_accepted: "",
-        role: "user"
+        role: "business"
     });
 
     const handleInput = (e) => {
@@ -26,16 +28,16 @@ const SignUpBusiness = () => {
         e.preventDefault();
 
         if (form.password !== form.conf_password) {
-            toast.error("Le due password no ncorrispondono");
+            toast.error("Le due password non corrispondono");
             return;
         }
 
         try {
-            const { conf_password, ...payload } = form;
+            const { conf_password, vat_number, company_name, ...payload } = form;
 
-            await SDK.auth.register(payload);
+            await SDK.auth.registerBusiness({...payload, metadata: {vat_number, company_name}});
             toast.success("Utente registrato, puoi accedere al tuo nuovo account");
-            navigate("/");
+            navigate("/login-business");
         } catch (error) {
             console.log(error)
             toast.error(error.message);
@@ -64,11 +66,11 @@ const SignUpBusiness = () => {
                             <form onSubmit={handleSignIn}>
                                 <div className="flex flex-col">
                                     <label htmlFor="company_name" className="font-semibold mt-1">Ragione Sociale</label>
-                                    <input type="text" name="company_name" id="company_name" onInput={handleInput} value={form.first_name} placeholder="Azienda Srl" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                    <input type="text" name="company_name" id="company_name" onInput={handleInput} value={form.company_name} placeholder="Azienda Srl" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label htmlFor="VAT_number" className="font-semibold mt-1">Partita IVA</label>
-                                    <input type="text" name="VAT_number" id="VAT_number" onInput={handleInput} value={form.last_name} placeholder="45638679023" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                    <label htmlFor="vat_number" className="font-semibold mt-1">Partita IVA</label>
+                                    <input type="text" name="vat_number" id="vat_number" onInput={handleInput} value={form.vat_number} placeholder="45638679023" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                 </div>
                                 <div className="my-4 p-3 border border-gray-200 rounded-md relative">
                                     <span className="absolute left-4 -top-[11px] px-1 bg-white text-sm text-gray-400">Referente</span>
@@ -82,10 +84,10 @@ const SignUpBusiness = () => {
                                             <input type="text" name="last_name" id="last_name" onInput={handleInput} value={form.last_name} placeholder="Rossi" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
                                         </div>
                                     </div>
-                                    <div className="flex flex-col">
+                                   {/*  <div className="flex flex-col">
                                         <label htmlFor="birthday" className="font-semibold mt-1">Data Nascita</label>
                                         <input type="date" name="birthday" id="birthday" onInput={handleInput} value={form.last_name} className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="flex flex-col">
                                     <label htmlFor="email" className="font-semibold mt-1">Indirizzo Email</label>

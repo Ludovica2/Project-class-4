@@ -16,3 +16,12 @@
     height: 90vh;
     margin-top: 4vh;
 }
+
+.swiper-button-prev, .swiper-button-next {
+    color: #A6B1E1;
+    font-weight: bold;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #A6B1E1;
+}

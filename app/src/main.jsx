@@ -8,13 +8,16 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider as ReduxProvider } from 'react-redux'
 import store from './store/index.js'
 import { ToastContainer } from 'react-toastify';
+import { RoleProvider } from './provider/Role.jsx';
  
 
 createRoot(document.getElementById('root')).render(
     <ReduxProvider store={store}>
         <BrowserRouter>
-            <App />
-            <ToastContainer />
+            <RoleProvider>
+                <App />
+                <ToastContainer />
+            </RoleProvider>
         </BrowserRouter>
     </ReduxProvider>
 )

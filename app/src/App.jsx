@@ -17,14 +17,20 @@ import ForgotPassword from "./pages/ForgotPassword"
 import LoginBusiness from "./pages/LoginBusiness"
 import SignUpBusiness from "./pages/SignUpBusiness"
 import EditProfile from "./pages/app/EditProfile"
+import { useLastRole } from "./hooks/useLastRole"
+import SettingsProfile from "./pages/app/SettingsProfile"
 
 
 const ProtectedRoute = ({ children }) => {
     const auth = useSelector((state) => state.auth);
+    const [lastRole, setLastRole] = useLastRole();
 
-    if (auth.token) return children;
+    if (auth.token) {
+        if (!lastRole) setLastRole(auth.user.role);
+        return children;
+    }
 
-    return <Navigate to="/" />
+    return <Navigate to={lastRole == "user" ? "/" : "/login-business"} />
 }
 
 const App = () => {
@@ -47,14 +53,12 @@ const App = () => {
                     <Route path="/app/feed" element={<Feed />} />
                     <Route path="/app/profile" element={<Profile />} />
                     <Route path="/app/profile/editprofile" element={<EditProfile />} />
+                    <Route path="/app/profile/settingsprofile" element={<SettingsProfile />} />
                     <Route path="/app/groups" element={<Groups />} />
                     <Route path="/app/calendar" element={<Calendar />} />
                     <Route path="/app/favorites" element={<Favorites />} />
+                    <Route path="/app/chat" element={<Chat />} />
                 </Route>
-                <Route path="/app/chat" element={
-                    <ProtectedRoute>
-                        <Chat />
-                    </ProtectedRoute>} />
             </Routes>
         </>
     )
