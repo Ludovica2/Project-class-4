@@ -11,7 +11,7 @@ const Navbar = () => {
       {
         (
           !title &&
-            <nav className="flex justify-center p-2">
+            <nav className="flex justify-center p-2 dark:bg-container_dark dark:text-white">
                 <img src="/images/FoundLogoFull.png" alt="logo" className="logo-login" />
             </nav>
         )

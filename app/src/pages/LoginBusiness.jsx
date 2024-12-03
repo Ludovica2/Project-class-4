@@ -57,11 +57,11 @@ const LoginBusiness = () => {
                             <form onSubmit={handleSubmit}>
                                 <div className="flex flex-col">
                                     <label htmlFor="email" className="font-semibold mt-1">Indirizzo Email</label>
-                                    <input type="email" name="email" id="email" value={form.email} onInput={handleInput} placeholder="Inserisci Email" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                    <input type="email" name="email" id="email" value={form.email} onInput={handleInput} placeholder="Inserisci Email" className="my-2 p-2 input_field" />
                                 </div>
                                 <div className="flex flex-col">
                                     <label htmlFor="password" className="font-semibold mt-2">Password</label>
-                                    <input type="password" name="password" id="password" value={form.password} onInput={handleInput} placeholder="Password" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                    <input type="password" name="password" id="password" value={form.password} onInput={handleInput} placeholder="Password" className="my-2 p-2 input_field" />
                                 </div>
                                 <div className="flex justify-between my-4">
                                     <div>

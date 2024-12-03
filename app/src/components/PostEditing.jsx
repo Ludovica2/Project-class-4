@@ -12,15 +12,15 @@ const PostEditing = () => {
 
     return (
         <>
-            <div className="m-5 rounded-lg bg-white w-full shadow">
+            <div className="m-5 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600">
                 <div className="rounded-t-lg">
-                    <h3 className="p-4">Aggiungi un post</h3>
+                    <h3 className="p-4 dark:text-slate-100">Aggiungi un post</h3>
                     <div className="w-full h-[1px] mb-5 bg-slate-100"></div>
                 </div>
                 <div className="m-4 p-1 h-16">
-                    <ContentEditable onChange={handleChange} disabled={false} html={field} className="border-none outline-none" />
+                    <ContentEditable onChange={handleChange} disabled={false} html={field} className="border-none outline-none dark:text-dark" />
                 </div>
-                <div className="flex justify-between mt-6 p-4 bg-slate-100 rounded-b-lg">
+                <div className="flex justify-between mt-6 p-4 bg-slate-100 rounded-b-lg dark:bg-bg_dark">
                     <div className="flex relative">
                         <motion.button className="p-2 mr-2 relative btn-tooltip"
                             whileHover={{ scale: 1.1 }}

@@ -28,21 +28,21 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
 
     return (
         <>
-            <div className="m-5 p-4 rounded-lg bg-white w-full shadow">
+            <div className="m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600">
                 <div className='flex'>
                     <div>
                         <img className='imgProfile-post' src={imgProfile} alt="Profile" />
                     </div>
                     <div className="rounded-t-lg flex flex-col flex-1 justify-center ml-4">
-                        <h3 className="">{profile}</h3>
-                        <span className='textSmall-gray'>{dataPost}</span>
+                        <h3 className="dark:text-white">{profile}</h3>
+                        <span className='textSmall-gray dark:text-slate-300'>{dataPost}</span>
                     </div>
                     <div className='flex'>
                         <div className="p-2 mr-2 justify-center relative cursor-pointer" onClick={toggleOptionsPost}>
-                            <i className="fa-solid fa-ellipsis"></i>
+                            <i className="fa-solid fa-ellipsis dark:text-gray-500"></i>
                             {
                                 isOpenOptionsMenu && (
-                                    <motion.div ref={optionsRef} className="flex flex-col absolute top-9 -left-3 px-2 w-64 bg-white border border-slate-100 z-10"
+                                    <motion.div ref={optionsRef} className="flex flex-col absolute top-9 -left-3 px-2 w-64 bg-white border border-slate-100 z-10 dark:bg-elements_dark dark:border-slate-600"
                                         initial={{ y: -8 }}
                                         animate={{ y: "calc(0vw + 5%)" }}
                                     >
@@ -51,8 +51,8 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                                 <i className="fa-regular fa-circle-xmark text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                             </div>
                                             <div className='flex flex-col ml-2'>
-                                                <h3 className='text-sm font-semibold text-start'>Nascondi Post</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor group-hover:text-secondaryColor_Hover'>Mostra meno post come questo.</span>
+                                                <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Nascondi Post</h3>
+                                                <span className='mb-2 text-xs text-text_secondaryColor group-hover:text-secondaryColor_Hover dark:text-dark'>Mostra meno post come questo.</span>
                                             </div>
                                         </button>
                                         <button className='flex mt-2 border-b border-b-slate-100 group'>
@@ -60,17 +60,17 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                                 <i className="fa-solid fa-user-minus text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                             </div>
                                             <div className='flex flex-col ml-2'>
-                                                <h3 className='text-sm font-semibold text-start'>Non seguire più</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover'>Non vedrai più i post di questo utente.</span>
+                                                <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Non seguire più</h3>
+                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover dark:text-dark'>Non vedrai più i post di questo utente.</span>
                                             </div>
                                         </button>
-                                        <button className='flex mt-2 border-b border-b-slate-100 group'>
+                                        <button className='flex mt-2 group'>
                                             <div>
                                                 <i className="fa-solid fa-bell text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                             </div>
                                             <div className='flex flex-col ml-2'>
-                                                <h3 className='text-sm font-semibold text-start'>Attiva Notifiche</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover'>Riceverai notifiche per i nuovi post di questo utente.</span>
+                                                <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Attiva Notifiche</h3>
+                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover dark:text-dark'>Riceverai notifiche per i nuovi post di questo utente.</span>
                                             </div>
                                         </button>
                                     </motion.div>
@@ -114,7 +114,7 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                 <img className='img-LikesProf' src="https://images.pexels.com/photos/6617683/pexels-photo-6617683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Sara Gialli" />
                             </li>
                         </ul>
-                        <span className='font-bold text-sm mr-1 mt-2'>Mario Rossi </span> <span className='mt-2 textSmall-gray'> e altri 99 hanno messo Mi Piace</span>
+                        <span className='font-bold text-sm mr-1 mt-2 dark:text-dark'>Mario Rossi </span> <span className='mt-2 textSmall-gray'> e altri 99 hanno messo Mi Piace</span>
                     </div>
                 </div>
                 <div className="flex flex-col mt-5 pt-3 border-t border-slate-100 rounded-b-lg">
@@ -145,12 +145,12 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                     <div className='flex'>
                                         <img className='img-CommentsProf' src={"https://images.pexels.com/photos/2287129/pexels-photo-2287129.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} alt="Profile" />
                                         <div className="rounded-t-lg flex ml-4 items-center">
-                                            <h3 className="">Alex Bryan</h3>
+                                            <h3 className="dark:text-slate-300">Alex Bryan</h3>
                                             <span className='textSmall-gray ml-2'>2 minuti fa</span>
                                         </div>
                                     </div>
-                                    <div className=' mt-2 ml-4 p-2 text-sm bg-slate-100 rounded-b-lg'>
-                                        <p>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi repellat aliquid, explicabo ipsa adipisci molestias illo temporibus id, cupiditate tempore magnam suscipit! Aut illo veritatis quo. Id dolor explicabo temporibus."</p>
+                                    <div className=' mt-2 ml-4 p-2 text-sm bg-slate-100 rounded-b-lg dark:bg-elements_dark'>
+                                        <p className='dark:text-dark'>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi repellat aliquid, explicabo ipsa adipisci molestias illo temporibus id, cupiditate tempore magnam suscipit! Aut illo veritatis quo. Id dolor explicabo temporibus."</p>
                                         <div className='ml-3 mt-2'>
                                             <button className='relative btn-reactions group'>
                                                 <div className="absolute -top-3 left-[15px] opacity-0 flex bg-white p-1 rounded-md invisible" id='reactions'>

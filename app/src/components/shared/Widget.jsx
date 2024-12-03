@@ -4,8 +4,8 @@ import WidgetItem from './app/WidgetItem'
 const Widget = () => {
   return (
     <>
-      <div className="m-5 rounded-lg bg-white w-full shadow p-4">
-        <h2>Eventi Suggeriti</h2>
+      <div className="m-5 rounded-lg bg-white w-full shadow p-4 dark:bg-elements_dark dark:shadow-slate-600">
+        <h2 className='dark:text-slate-100'>Eventi Suggeriti</h2>
         <div className='mt-4 flex flex-col gap-3'>
           <WidgetItem
             to=''

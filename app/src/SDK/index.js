@@ -105,5 +105,49 @@ export default {
                 },
             })).data;
         }
-    }
+    },
+    profile: {
+        update: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl("/users/profile"),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        }
+    },
+    account: {
+        updatePassword: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl("/users/password"),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+        updateEmail: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl("/users/email"),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+        updateNickname: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl("/users/nickname"),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        }
+    },
 }

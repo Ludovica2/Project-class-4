@@ -25,7 +25,7 @@ function ForgotPassword() {
                     <form onSubmit={handleReset}>
                         <div className="flex flex-col">
                             <label htmlFor="email" className="font-semibold mt-1">Indirizzo Email</label>
-                            <input type="email" name="email" id="email" onInput={handleInput} placeholder="Inserisci Email" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                            <input type="email" name="email" id="email" onInput={handleInput} placeholder="Inserisci Email" className="my-2 p-2 input_field" />
                         </div>
                         <div>
                             <button type="submit" className="my-3 p-2 border bg-primayColor text-white rounded-md  hover:bg-primayColor_Hover hover:border hover:border-primayColor_Border_Hover">Reset Password</button>

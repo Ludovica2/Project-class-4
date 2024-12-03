@@ -9,9 +9,9 @@ const WidgetItem = ({to = "", img, alt, text}) => {
                     <img src={img} alt={alt} className='rounded-full max-w-[45px]' />
                 </Link>
             </div>
-            <div className='flex gap-2'>
+            <div className='flex gap-3'>
                 <Link to={to}>
-                    <p className='text-sm'>{text}</p>
+                    <p className='text-sm text-dark'>{text}</p>
                 </Link>
                 <button>
                     <i className="fa-solid fa-suitcase-rolling text-primayColor "></i>

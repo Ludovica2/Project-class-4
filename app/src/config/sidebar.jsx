@@ -93,7 +93,7 @@ export const renderSidebarItem = (item, index) => {
     switch (item.type) {
         case "title":
             return (
-                <h2 key={`side-item-${index}`}>{item.label}</h2>
+                <h2 key={`side-item-${index}`} className="dark:text-white">{item.label}</h2>
             )
         case "item":
             return (
@@ -101,7 +101,7 @@ export const renderSidebarItem = (item, index) => {
                     <div className='w-5 mr-1'>
                         <i className={item.iconClassName}></i>
                     </div>
-                    <span>{item.label}</span>
+                    <span className="dark:text-slate-500">{item.label}</span>
                 </SidebarItem>
             )
         case "separator":
