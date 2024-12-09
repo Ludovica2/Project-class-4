@@ -15,7 +15,7 @@ app.post("/", authUser(), async (req, res, next) => {
     const from = req.user;
 
     const schema = Joi.object().keys({
-        user: Joi.string().optional(),
+        user: Joi.string().valid(null).optional(),
         content: Joi.string().required(),
         images: Joi.array().items(Joi.any()).optional(),
     });
@@ -40,9 +40,11 @@ app.post("/", authUser(), async (req, res, next) => {
     const post = req.post;
 
     try {
-        post.images = [...post.images, ...req.files.map(file => file.path)];
-
-        await Post.updateOne({ _id: post._id }, { images: post.images });
+        if (req.files) {
+            post.images = [...post.images, ...req.files.map(file => file.path)];
+    
+            await Post.updateOne({ _id: post._id }, { images: post.images });
+        }
 
         return res.status(201).json({ post });
     } catch (error) {

@@ -60,6 +60,7 @@ const App = () => {
                     <Route path="/app/profile" element={<Profile />} />
                     <Route path="/app/profile/editprofile" element={<EditProfile />} />
                     <Route path="/app/profile/settingsprofile" element={<SettingsProfile />} />
+                    <Route path="/app/profile/:nickname" element={<Profile isExternal={true} />} />
                     <Route path="/app/groups" element={<Groups />} />
                     <Route path="/app/calendar" element={<FoundCalendar />} />
                     <Route path="/app/favorites" element={<Favorites />} />

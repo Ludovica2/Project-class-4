@@ -150,4 +150,16 @@ export default {
             })).data;
         }
     },
+    post: {
+        create: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl(`/posts`),
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+    }
 }

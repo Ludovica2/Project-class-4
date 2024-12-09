@@ -6,8 +6,7 @@ import { Link } from "react-router-dom";
 import ImageModal from "../../components/shared/ImageModal";
 import { useSelector } from "react-redux";
 
-const Profile = () => {
-
+const Profile = ({ isExternal = false }) => {
     const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
@@ -35,6 +34,9 @@ const Profile = () => {
                             <div className="flex flex-col">
                                 <h2 className="text-xl dark:text-slate-100">{`${user.first_name} ${user.last_name}`}</h2>
                                 <span className="ml-1  mb-2 text-sm font-bold dark:text-slate-300">@{user.nickname}</span>
+                                {
+                                    isExternal && <button>Follow</button>
+                                }
                                 <div className="flex">
                                     <ul className="flex justify-center w-full">
                                         <li className="border-r border-r-slate-100 px-8 py-4">

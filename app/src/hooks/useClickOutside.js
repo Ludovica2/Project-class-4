@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 
-export const useClickOutside = (initialState = false) => {
+export const useClickOutside = (initialState = false, options = { mouseEvent: "mouseup" }) => {
+    options = { mouseEvent: "mouseup", ...options };
+
     const [active, setActive] = useState(initialState);
     const elRef = useRef();
 
@@ -9,9 +11,9 @@ export const useClickOutside = (initialState = false) => {
             if(elRef.current && !elRef.current.contains(e.target) && active) setActive(false)
         }
 
-        document.addEventListener("mouseup", handleClickOutside)
+        document.addEventListener(options.mouseEvent, handleClickOutside)
         return () => {
-            document.removeEventListener("mouseup", handleClickOutside)
+            document.removeEventListener(options.mouseEvent, handleClickOutside)
         }
     }, [active])
 

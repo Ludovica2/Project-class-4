@@ -1,14 +1,44 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ContentEditable from "react-contenteditable";
 import { motion } from "framer-motion"
 import { Tooltip } from "flowbite-react";
+import { useClickOutside } from "../hooks/useClickOutside";
+import { toast } from "react-toastify";
+import SDK from "../SDK";
+import { useSelector } from "react-redux";
 
-const PostEditing = () => {
+const PostEditing = ({ user = null }) => {
+    const { token } = useSelector((state) => state.auth);
     const [field, setField] = useState("Crea il tuo post...");
+    const { active: isPlaceholderVisible, setActive: setIsPlaceholderVisible, elRef: contentRef } = useClickOutside(false, { mouseEvent: "mousedown" });
 
     const handleChange = (event) => {
+        console.log(event)
         setField(event.target.value);
     }
+
+    const handleClick = () => {
+        setIsPlaceholderVisible(true);
+    }
+
+    const handleCreatePost = async () => {
+        if (isPlaceholderVisible) return;
+
+        try {
+            await SDK.post.create({ content: btoa(field), user }, token);
+            toast.success("Post created");
+            setField("Crea il tuo post...");
+            setIsPlaceholderVisible(true);
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    }
+
+    useEffect(() => {
+        if (isPlaceholderVisible && (field == "Crea il tuo post...")) setField("");
+        else if(!isPlaceholderVisible && field == "") setField("Crea il tuo post...");
+    }, [isPlaceholderVisible]);
 
     return (
         <>
@@ -17,8 +47,10 @@ const PostEditing = () => {
                     <h3 className="p-4 dark:text-slate-100">Aggiungi un post</h3>
                     <div className="w-full h-[1px] mb-5 bg-slate-100"></div>
                 </div>
-                <div className="m-4 p-1 h-16">
-                    <ContentEditable onChange={handleChange} disabled={false} html={field} className="border-none outline-none dark:text-dark" />
+                <div className="m-4 p-1 h-16" ref={contentRef}>
+                    <div>
+                        <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none dark:text-dark" />
+                    </div>
                 </div>
                 <div className="flex justify-between mt-6 p-4 bg-slate-100 rounded-b-lg dark:bg-bg_dark">
                     <div className="flex relative">
@@ -53,7 +85,7 @@ const PostEditing = () => {
                             </div>
                         </motion.button>
                     </div>
-                    <motion.button className="btn"
+                    <motion.button className="btn" onClick={handleCreatePost}
                         whileTap={{ scale: 0.95 }}
                     >
                         Invia
