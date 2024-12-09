@@ -13,27 +13,26 @@ const Navbar = () => {
     const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef } = useClickOutside(false)
 
     const toggleProfileMenu = () => {
-        setIsOpenMenu(true);
+        setIsOpenMenu(prev => !prev);
         setIsOpenNotify(false);
         setIsOpenMessage(false);
     }
 
     const toggleNotify = () => {
         setIsOpenMenu(false);
-        setIsOpenNotify(true);
+        setIsOpenNotify(prev => !prev);
         setIsOpenMessage(false);
     }
 
     const toggleMessage = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(false);
-        setIsOpenMessage(true);
+        setIsOpenMessage(prev => !prev);
     }
 
     const handleLogout = () => {
         dispatch(logout());
     }
-
 
     return (
         <nav className="flex justify-between items-center h-[65px] pr-[20px] dark:bg-elements_dark">
@@ -54,7 +53,7 @@ const Navbar = () => {
                 </div>
             </form>
             <div className="flex justify-center items-center gap-2">
-                <div>
+                <div ref={messageRef}>
                     <button onClick={toggleMessage}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
@@ -62,7 +61,7 @@ const Navbar = () => {
                             </div>
                             {
                                 isOpenMessage && (
-                                    <motion.div ref={messageRef} className="top-12 right-7 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
+                                    <motion.div className="top-12 right-7 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >
@@ -81,7 +80,7 @@ const Navbar = () => {
                     </button>
                 </div>
 
-                <div>
+                <div ref={notifyRef}>
                     <button onClick={toggleNotify}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
@@ -89,7 +88,7 @@ const Navbar = () => {
                             </div>
                             {
                                 isOpenNotify && (
-                                    <motion.div ref={notifyRef} className="top-12 right-6 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
+                                    <motion.div className="top-12 right-6 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >
@@ -109,7 +108,7 @@ const Navbar = () => {
                 </div>
 
 
-                <div>
+                <div ref={menuRef}>
                     <button onClick={toggleProfileMenu}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
@@ -127,7 +126,7 @@ const Navbar = () => {
                             </div>
                             {
                                 isOpenMenu && (
-                                    <motion.div ref={menuRef} className="top-12 right-5 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
+                                    <motion.div className="top-12 right-5 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >

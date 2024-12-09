@@ -16,31 +16,34 @@ const connect = (app) => {
     });
 
     io.use((socket, next) => {
-        const { token } = socket.request.headers;
+        const { token: bearerToken } = socket.request.headers;
 
-        if (!token) {
+        if (!bearerToken) {
             return next(new Error("Authentication error"));
         }
 
+        const token = bearerToken.split(" ")[1];
+        
         try {
             const decoded = verifyToken(token);
             socket.user = decoded;
             return next();
         } catch (error) {
+            console.log(error);
             return next(new Error("Authentication error"));   
         }
     });
     
     io.on('connection', async (socket) => {
         // Join to personal room of the user by the user's id
-        socket.join(socket.user._id);
+        socket.join(socket.user.id);
         // Set online status
-        await User.updateOne({ _id: socket.user._id }, { chat_status: "online" });
+        await User.updateOne({ _id: socket.user.id }, { chat_status: "online" });
         
         // A new chat message is received
         socket.on('new-chat-message', async ({ room, to, message }) => {
             try {
-                const newMessage = (await new Message({ room, from: socket.user._id, to, message }).save()).toObject();
+                const newMessage = (await new Message({ room, from: socket.user.id, to, message }).save()).toObject();
 
                 io.emit('new-chat-message', { ...newMessage });
             } catch (error) {
@@ -52,7 +55,7 @@ const connect = (app) => {
         // A new notification is received
         socket.on('new-notification', async ({ image, title, content, from, link }) => {
             try {
-                const newNotification = (await new Notification({ user: socket.user._id, image, title, content, from, link }).save()).toObject();
+                const newNotification = (await new Notification({ user: socket.user.id, image, title, content, from, link }).save()).toObject();
 
                 io.emit('new-notification', { ...newNotification });
             } catch (error) {
@@ -63,9 +66,9 @@ const connect = (app) => {
 
         socket.on('disconnect', async () => {
             // Leave the room
-            socket.leave(socket.user._id);
+            socket.leave(socket.user.id);
             // Set offline status
-            await User.updateOne({ _id: socket.user._id }, { chat_status: "offline" });
+            await User.updateOne({ _id: socket.user.id }, { chat_status: "offline" });
         });
     });
     
@@ -75,6 +78,8 @@ const connect = (app) => {
         req.io = io;
         next();
     });
+
+    console.log(`Socket server up and running on port ${process.env.SOCKET_PORT || 3031}`);
 }
 
 module.exports = {

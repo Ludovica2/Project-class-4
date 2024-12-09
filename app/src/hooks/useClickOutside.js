@@ -9,9 +9,9 @@ export const useClickOutside = (initialState = false) => {
             if(elRef.current && !elRef.current.contains(e.target) && active) setActive(false)
         }
 
-        document.addEventListener("mousedown", handleClickOutside)
+        document.addEventListener("mouseup", handleClickOutside)
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside)
+            document.removeEventListener("mouseup", handleClickOutside)
         }
     }, [active])
 
