@@ -104,12 +104,6 @@ const PostEditing = () => {
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
-                <div className="m-4 p-1 h-16" ref={contentRef}>
-                    <div>
-                        <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none dark:text-dark" />
-                    </div>
-=======
                 <div className="w-full h-[1px] mb-5 bg-slate-100"></div>
                 <div className="m-4 p-1 min-h-16">
                     {
@@ -170,7 +164,6 @@ const PostEditing = () => {
                             </div>
                         )
                     }
->>>>>>> 2142c5352d8141f4f11a219c837d0b364f39e3af
                 </div>
                 <div className="flex justify-between mt-6 p-4 bg-slate-100 rounded-b-lg dark:bg-bg_dark">
                     <div className="flex relative">
@@ -205,11 +198,7 @@ const PostEditing = () => {
                             </div>
                         </motion.button>
                     </div>
-<<<<<<< HEAD
                     <motion.button className="btn" onClick={handleCreatePost}
-=======
-                    <motion.button onClick={pushPost} className="btn" 
->>>>>>> 2142c5352d8141f4f11a219c837d0b364f39e3af
                         whileTap={{ scale: 0.95 }}
                     >
                         Invia
