@@ -3,6 +3,7 @@ import ContentEditable from "react-contenteditable";
 import { motion } from "framer-motion"
 import { FileInput, Label } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 
 const postType = {
@@ -17,6 +18,7 @@ const PostEditing = () => {
     const { user } = useSelector((state) => state.auth);
     const [field, setField] = useState("Crea il tuo post...");
     const [isOpenDragDdrop, setIsOpenDragDdrop] = useState(false);
+    const { active: isPlaceholderVisible, setActive: setIsPlaceholderVisible, elRef: contentRef } = useClickOutside(false);
     const [post, setPost] = useState({
         userId: user._id,
         date: "",
@@ -117,7 +119,9 @@ const PostEditing = () => {
                             </div>
                         )
                     }
-                    <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" />
+                    <div ref={contentRef}>
+                        <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" />
+                    </div>
                     {
                         isOpenDragDdrop && (
                             <div className="flex w-full items-center justify-center">
