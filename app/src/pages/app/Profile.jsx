@@ -14,11 +14,7 @@ const widget = {
     review: "review"
 }
 
-<<<<<<< HEAD
 const Profile = ({ isExternal = false }) => {
-=======
-const Profile = () => {
->>>>>>> 2142c5352d8141f4f11a219c837d0b364f39e3af
     const { user } = useSelector((state) => state.auth);
     const { social } = useSelector((state) => state.settings);
 
