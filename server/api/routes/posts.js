@@ -3,27 +3,21 @@ const app = express.Router();
 
 const Joi = require("joi");
 const { parsePostContent } = require("../../utilities/parse");
+const { authUser } = require("../../middleware/auth");
+const { uploadPostImages } = require("../../middleware/users");
+const { Post } = require("../../db");
 
 /**
  * @path /api/posts
  * @method POST
  */
-app.post("/", async (req, res) => {
+app.post("/", authUser(), async (req, res, next) => {
+    const from = req.user;
+
     const schema = Joi.object().keys({
+        user: Joi.string().required(),
         content: Joi.string().required(),
-        /* tags: Joi.array().items(Joi.string()).optional(),
-        mentions: Joi.array().items(Joi.string()).optional(),
-        images: Joi.array().items(Joi.string()).optional(),
-        videos: Joi.array().items(Joi.string()).optional(),
-        map: Joi.object().keys({
-            pins: Joi.array().items(Joi.object().keys({
-                user: Joi.string().required(),
-                label: Joi.string().required(),
-                lat: Joi.number().required(),
-                lon: Joi.number().required(),
-            })).optional(),
-            address: Joi.string(),
-        }).optional(), */
+        images: Joi.array().items(Joi.any()).optional(),
     });
 
     try {
@@ -31,11 +25,46 @@ app.post("/", async (req, res) => {
 
         const parsedData = parsePostContent(atob(data.content));
 
-        return res.status(200).json({ post: parsedData });
+        // parsedData.images = [...parsedData.images, ...req.files.map(file => file.path)];
+
+        const post = (await new Post({ ...parsedData, from: from._id }).save()).toObject();
+
+        req.post = post;
+        return next();
 
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" })
+    }
+}, uploadPostImages, async (req, res) => {
+    const post = req.post;
+
+    try {
+        post.images = [...post.images, ...req.files.map(file => file.path)];
+
+        await Post.updateOne({ _id: post._id }, { images: post.images });
+
+        return res.status(201).json({ post });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+/**
+ * @path /api/posts
+ * @method GET
+ */
+app.get("/", authUser(), async (req, res) => {
+    const user = req.user;
+
+    try {
+        const posts = await Post.find({ user: user._id }, null, { lean: true, sort: { createdAt: -1 } }).populate({ path: "from", select: "first_name last_name avatar" });
+
+        return res.json(posts);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 });
 

@@ -26,6 +26,9 @@ const models = {
     Event: require("./models/Event"),
     Post: require("./models/Post"),
     User: require("./models/User"),
+    Room: require("./models/Room"),
+    Message: require("./models/Message"),
+    Notification: require("./models/Notification"),
 }
 
 module.exports = {

@@ -23,6 +23,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    avatar: {
+        type: String,
+        default: null,
+    },
     birth_date: {
         type: Date,
         default: null,
@@ -63,6 +67,11 @@ const UserSchema = new Schema({
     is_verified: {
         type: Boolean,
         default: true,
+    },
+    chat_status: {
+        type: String,
+        enum: ["online", "offline"],
+        default: "offline",
     },
 }, { strict: true, timestamps: true, versionKey: false });
 

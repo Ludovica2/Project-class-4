@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express.Router();
 
+const fs = require("fs");
+const path = require("path");
 const Joi = require("joi");
 const { hashPassword, comparePassword } = require("../../utilities/auth");
 const { User } = require("../../db");
 const { authUser } = require("../../middleware/auth");
+const { uploadAvatar } = require("../../middleware/users");
 
 /**
  * @path /api/users
@@ -30,6 +33,15 @@ app.post("/", async (req, res) => {
 
         const user = (await new User(data).save()).toObject();
 
+        // if directory uploads/${user._id} does not exist, create it with inside avatar and posts directories
+        const userDir = path.join(__dirname, "../../uploads/", user._id);
+
+        if (!fs.existsSync(userDir)) {
+            fs.mkdirSync(userDir);
+            fs.mkdirSync(path.join(userDir, "avatar"));
+            fs.mkdirSync(path.join(userDir, "posts"));
+        }
+
         return res.status(201).json({ user });
     } catch (error) {
         console.log(error);
@@ -41,11 +53,12 @@ app.post("/", async (req, res) => {
  * @path /api/users/profile
  * @method PUT
  */
-app.put("/profile", authUser(["user"]), async (req, res) => {
+app.put("/profile", authUser(["user"]), uploadAvatar, async (req, res) => {
     const _id = req.user._id;
     const schema = Joi.object().keys({
         first_name: Joi.string().required(),
         last_name: Joi.string().required(),
+        avatatar: Joi.any().optional(),
         tel: Joi.string().optional(),
         birth_date: Joi.string().optional(),
         nation: Joi.string().optional(),

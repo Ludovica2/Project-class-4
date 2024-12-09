@@ -26,4 +26,19 @@ app.use("/business", require("./routes/business"));
  */
 app.use("/events", require("./routes/events"));
 
+/**
+ * @path /api/rooms
+ */
+app.use("/rooms", require("./routes/rooms"));
+
+/**
+ * @path /api/messages
+ */
+app.use("/messages", require("./routes/messages"));
+
+/**
+ * @path /api/notifications
+ */
+app.use("/notifications", require("./routes/notifications"));
+
 module.exports = app;
