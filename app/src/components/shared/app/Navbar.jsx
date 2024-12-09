@@ -36,7 +36,7 @@ const Navbar = () => {
 
 
     return (
-        <nav className="flex justify-between items-center h-[65px] pr-[20px]">
+        <nav className="flex justify-between items-center h-[65px] pr-[20px] dark:bg-elements_dark">
             <div className="pl-4">
                 {
                     user.role == "user" ? (
@@ -48,9 +48,9 @@ const Navbar = () => {
             </div>
 
             <form className="w-96 mx-auto">
-                <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1">
-                    <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50" placeholder="Searched and Found!" required />
-                    <button type="submit" className="btn">Search</button>
+                <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1  dark:bg-bg_dark dark:border-gray-500">
+                    <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50 input_field dark:bg-elements_dark dark:border-gray-500 dark:focus:bg-gray-800 dark:focus:border-gray-400" placeholder="Searched and Found!" required />
+                    <button type="submit" className="btn dark:border-gray-500">Search</button>
                 </div>
             </form>
             <div className="flex justify-center items-center gap-2">
@@ -118,7 +118,7 @@ const Navbar = () => {
                                 </div>
                                 {
                                     user.role == "user" ? (
-                                        <p>{user.first_name} {user.last_name}</p>
+                                        <p className="dark:text-white">{user.first_name} {user.last_name}</p>
                                     ) : (
                                         <p>{user.metadata.company_name}</p>
                                     )

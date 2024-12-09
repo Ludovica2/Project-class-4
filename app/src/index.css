@@ -17,12 +17,29 @@
         @apply text-sm text-text_secondaryColor;
     }
 
+    .text-dark {
+        @apply dark:text-slate-400;
+    }
+
     .icon {
         @apply textSmall-gray mr-1;
     }
 
     .icon-text {
         @apply mr-3 text-text_secondaryColor text-xs hover:text-primayColor_Hover;
+    }
+
+    .input_field {
+        @apply border border-slate-200 rounded-md outline-none focus:ring-transparent focus:border-primayColor  dark:bg-zinc-600 dark:border-zinc-400 dark:text-slate-300;
+    }
+
+    .input_readOnly {
+        @apply input_field read-only:bg-slate-100 read-only:border-slate-200 dark:read-only:bg-bg_dark dark:read-only:border-gray-700;
+    }
+
+    .chk {
+        color: #40798C !important;
+        @apply  focus:ring-transparent;
     }
 }
 
@@ -35,8 +52,10 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
 }
 
-input[type=checkbox] {
-    accent-color: #40798C;
+
+
+option:hover {
+    background-color: #40798C;
 }
 
 /* Login */

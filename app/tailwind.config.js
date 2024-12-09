@@ -7,7 +7,7 @@ export default {
         "./src/**/*.{js,ts,jsx,tsx}",
         flowbite.content(),
     ],
-    darkMode: 'media',
+    darkMode: 'class',
     theme: {
         extend: {
             colors: {
@@ -18,6 +18,8 @@ export default {
                 secondaryColor_Hover: 'rgb(141 151 192)',
                 text_primaryColor: '#111827',
                 text_secondaryColor: '#8a92a0',
+                elements_dark: 'rgb(41 42 45)',
+                bg_dark: 'rgb(32 33 36)'
             },
             width: {
                 w_450: '450px',

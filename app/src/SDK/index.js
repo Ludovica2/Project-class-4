@@ -65,5 +65,89 @@ export default {
                 data: payload,
             })).data;
         },
-    }
+    },
+    events: {
+        getAll: async (token) => {
+            return (await axios({
+                url: buildApiUrl("/events"),
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })).data;
+        },
+        create: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl(`/events`),
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+        update: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl(`/events/${payload._id}`),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+        delete: async (_id, token) => {
+            return (await axios({
+                url: buildApiUrl(`/events/${_id}`),
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })).data;
+        }
+    },
+    profile: {
+        update: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl("/users/profile"),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        }
+    },
+    account: {
+        updatePassword: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl("/users/password"),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+        updateEmail: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl("/users/email"),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+        updateNickname: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl("/users/nickname"),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        }
+    },
 }

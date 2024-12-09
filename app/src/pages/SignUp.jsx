@@ -55,27 +55,27 @@ function SignUp() {
                         <form onSubmit={handleSignIn}>
                             <div className="flex flex-col">
                                 <label htmlFor="first_name" className="font-semibold mt-1">Nome</label>
-                                <input type="text" name="first_name" id="first_name" onInput={handleInput} value={form.first_name} placeholder="Mario" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <input type="text" name="first_name" id="first_name" onInput={handleInput} value={form.first_name} placeholder="Mario" className="my-2 p-2 input_field" />
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="last_name" className="font-semibold mt-1">Cognome</label>
-                                <input type="text" name="last_name" id="last_name" onInput={handleInput} value={form.last_name} placeholder="Rossi" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <input type="text" name="last_name" id="last_name" onInput={handleInput} value={form.last_name} placeholder="Rossi" className="my-2 p-2 input_field" />
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="email" className="font-semibold mt-1">Indirizzo Email</label>
-                                <input type="email" name="email" id="email" onInput={handleInput} value={form.email} placeholder="mario.rossi@example.com" className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <input type="email" name="email" id="email" onInput={handleInput} value={form.email} placeholder="mario.rossi@example.com" className="my-2 p-2 input_field" />
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="password" className="font-semibold mt-2">Password</label>
-                                <input type="password" name="password" id="password" onInput={handleInput} value={form.password} placeholder="...." className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <input type="password" name="password" id="password" onInput={handleInput} value={form.password} placeholder="...." className="my-2 p-2 input_field" />
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="conf_password" className="font-semibold mt-2">Conferma Password</label>
-                                <input type="password" name="conf_password" id="conf_password" onInput={handleInput} value={form.conf_password} placeholder="...." className="my-2 p-2 border border-gray-200 rounded-md focus:outline-none focus:border-primayColor" />
+                                <input type="password" name="conf_password" id="conf_password" onInput={handleInput} value={form.conf_password} placeholder="...." className="my-2 p-2 input_field" />
                             </div>
                             <div className="flex my-4">
                                 <div>
-                                    <input type="checkbox" name="is_terms_accepted" id="is_terms_accepted" value={form.is_terms_accepted} onChange={handleInput} required />
+                                    <input type="checkbox" name="is_terms_accepted" id="is_terms_accepted" value={form.is_terms_accepted} onChange={handleInput} className="chk" required />
                                     <label htmlFor="accept" className="mt-1"> Accetto i <span className="link">Termini & Condizioni</span> </label>
                                 </div>
                             </div>

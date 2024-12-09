@@ -4,7 +4,7 @@ import Home from "./pages/Home"
 import Feed from "./pages/app/Feed"
 import Profile from "./pages/app/Profile"
 import Groups from "./pages/app/Groups"
-import Calendar from "./pages/app/Calendar"
+import FoundCalendar from "./pages/app/FoundCalendar"
 import Favorites from "./pages/app/Favorites"
 import Chat from "./pages/app/Chat"
 
@@ -19,6 +19,7 @@ import SignUpBusiness from "./pages/SignUpBusiness"
 import EditProfile from "./pages/app/EditProfile"
 import { useLastRole } from "./hooks/useLastRole"
 import SettingsProfile from "./pages/app/SettingsProfile"
+import { useEffect } from "react"
 
 
 const ProtectedRoute = ({ children }) => {
@@ -34,6 +35,11 @@ const ProtectedRoute = ({ children }) => {
 }
 
 const App = () => {
+    const { darkMode } = useSelector((state) => state.settings);
+
+    useEffect(() => {
+        document.body.classList[darkMode ? "add" : "remove"]("dark");
+    }, [darkMode]);
 
     return (
         <>
@@ -55,7 +61,7 @@ const App = () => {
                     <Route path="/app/profile/editprofile" element={<EditProfile />} />
                     <Route path="/app/profile/settingsprofile" element={<SettingsProfile />} />
                     <Route path="/app/groups" element={<Groups />} />
-                    <Route path="/app/calendar" element={<Calendar />} />
+                    <Route path="/app/calendar" element={<FoundCalendar />} />
                     <Route path="/app/favorites" element={<Favorites />} />
                     <Route path="/app/chat" element={<Chat />} />
                 </Route>
