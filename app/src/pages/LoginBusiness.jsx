@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import SliderLogin from "../components/shared/SliderLogin";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ import { useLastRole } from "../hooks/useLastRole";
 const LoginBusiness = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { darkMode} = useSelector((state) => state.settings);
     const [_, setLastRole] = useLastRole();
     const [form, setForm] = useState({
         email: "giovanni.barbarossa@gmail.com",
@@ -51,16 +52,16 @@ const LoginBusiness = () => {
                 </div>
                 <div className="flex items-center justify-center w-1/2 pt-9 pb-11 max-h-full">
                     <div className="flex justify-center">
-                        <div className="flex flex-col w-w_450 2xl:w-w_500 min-w-96 mt-4 p-4 bg-white border border-gray-300 rounded-md">
-                            <img src="/images/FoundLogoBusiness.png" alt="logo-business" className="logo-login flex self-center mb-3" />
-                            <p className="mx-4 mt-3 mb-8 px-4 text-center text-gray-600">Benvenuto su Found!Business, la piattaforma ideale per promuovere la tua impresa</p>
+                        <div className="flex flex-col w-w_450 2xl:w-w_500 min-w-96 mt-4 p-4 bg-white border border-gray-300 rounded-md dark:bg-elements_dark">
+                            <img src={ darkMode? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="logo-business" className="logo-login flex self-center mb-3" />
+                            <p className="mx-4 mt-3 mb-8 px-4 text-center text-gray-600 text-dark">Benvenuto su Found!Business, la piattaforma ideale per promuovere la tua impresa</p>
                             <form onSubmit={handleSubmit}>
                                 <div className="flex flex-col">
-                                    <label htmlFor="email" className="font-semibold mt-1">Indirizzo Email</label>
+                                    <label htmlFor="email" className="font-semibold mt-1 dark:text-slate-300">Indirizzo Email</label>
                                     <input type="email" name="email" id="email" value={form.email} onInput={handleInput} placeholder="Inserisci Email" className="my-2 p-2 input_field" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label htmlFor="password" className="font-semibold mt-2">Password</label>
+                                    <label htmlFor="password" className="font-semibold mt-2 dark:text-slate-300">Password</label>
                                     <input type="password" name="password" id="password" value={form.password} onInput={handleInput} placeholder="Password" className="my-2 p-2 input_field" />
                                 </div>
                                 <div className="flex justify-between my-4">
@@ -73,15 +74,15 @@ const LoginBusiness = () => {
                                 </div>
                             </form>
                             <div className="mt-5 mb-4 text-center">
-                                <p>Non hai ancora un Account? Prova il nostro <Link to={"/signup-business"} className="link">Found! Business</Link></p>
+                                <p className="text-dark">Non hai ancora un Account? Prova il nostro <Link to={"/signup-business"} className="link">Found! Business</Link></p>
                             </div>
                             <div className="mt-6 mx-5">
                                 <span className="block h-px mb-4 bg-gray-300"></span>
-                                <p className="font-semibold mb-1">Non sei un'azienda? </p>
+                                <p className="font-semibold mb-1 dark:text-slate-300">Non sei un'azienda? </p>
                                 <p className="mb-2">
                                     <Link to={"/"} className="link">Accedi</Link>
                                 </p>
-                                <p className="font-semibold mb-1">Hai bisogno di aiuto? </p>
+                                <p className="font-semibold mb-1 dark:text-slate-300">Hai bisogno di aiuto? </p>
                                 <p className="mb-2">
                                     <Link className="link">Contattaci</Link>
                                 </p>

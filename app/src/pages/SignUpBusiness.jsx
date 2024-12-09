@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import SDK from "../SDK";
 import SliderLogin from "../components/shared/SliderLogin";
+import { useSelector } from "react-redux";
 
 const SignUpBusiness = () => {
     const navigate = useNavigate();
+    const { darkMode} = useSelector((state) => state.settings);
     const [form, setForm] = useState({
         company_name: "",
         vat_number: "",
@@ -58,53 +60,49 @@ const SignUpBusiness = () => {
                         <SliderLogin/>
                     </div>
                 </div>
-                <div className="flex items-center justify-center w-1/2 pt-9 pb-11 max-h-full overflow-y-scroll">
+                <div className="flex items-center justify-center w-1/2 pt-9 pb-11 max-h-full">
                     <div className="flex justify-center">
-                        <div className="flex flex-col w-w_450 2xl:w-w_500 min-w-96 mt-4 p-4 bg-white border border-gray-300 rounded-md">
-                            <img src="/images/FoundLogoBusiness.png" alt="logo-business" className="logo-login flex self-center mb-3" />
-                            <p className="mx-4 mt-3 mb-8 px-4 text-center text-gray-600">Benvenuto su Found!Business, la piattaforma ideale per promuovere la tua impresa</p>
+                        <div className="flex flex-col w-w_450 2xl:w-w_500 min-w-96 mt-4 p-4 bg-white border border-gray-300 rounded-md dark:bg-elements_dark">
+                            <img src={ darkMode? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="logo-business" className="logo-login flex self-center mb-3" />
+                            <p className="mx-4 mt-3 mb-8 px-4 text-center text-gray-600 text-dark">Benvenuto su Found!Business, la piattaforma ideale per promuovere la tua impresa</p>
                             <form onSubmit={handleSignIn}>
                                 <div className="flex flex-col">
-                                    <label htmlFor="company_name" className="font-semibold mt-1">Ragione Sociale</label>
+                                    <label htmlFor="company_name" className="font-semibold mt-1     dark:text-slate-300">Ragione Sociale</label>
                                     <input type="text" name="company_name" id="company_name" onInput={handleInput} value={form.company_name} placeholder="Azienda Srl" className="my-2 p-2 input_field" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label htmlFor="vat_number" className="font-semibold mt-1">Partita IVA</label>
+                                    <label htmlFor="vat_number" className="font-semibold mt-1     dark:text-slate-300">Partita IVA</label>
                                     <input type="text" name="vat_number" id="vat_number" onInput={handleInput} value={form.vat_number} placeholder="45638679023" className="my-2 p-2 input_field" />
                                 </div>
                                 <div className="my-4 p-3 border border-gray-200 rounded-md relative">
-                                    <span className="absolute left-4 -top-[11px] px-1 bg-white text-sm text-gray-400">Referente</span>
+                                    <span className="absolute left-4 -top-[11px] px-1 bg-white text-sm text-gray-400 dark:bg-elements_dark">Referente</span>
                                     <div className="flex justify-between">
                                         <div className="flex flex-col max-w-[48%]">
-                                            <label htmlFor="first_name" className="font-semibold mt-1">Nome</label>
+                                            <label htmlFor="first_name" className="font-semibold mt-1     dark:text-slate-300">Nome</label>
                                             <input type="text" name="first_name" id="first_name" onInput={handleInput} value={form.first_name} placeholder="Mario" className="my-2 p-2 input_field" />
                                         </div>
                                         <div className="flex flex-col max-w-[48%]">
-                                            <label htmlFor="last_name" className="font-semibold mt-1">Cognome</label>
+                                            <label htmlFor="last_name" className="font-semibold mt-1     dark:text-slate-300">Cognome</label>
                                             <input type="text" name="last_name" id="last_name" onInput={handleInput} value={form.last_name} placeholder="Rossi" className="my-2 p-2 input_field" />
                                         </div>
                                     </div>
-                                   {/*  <div className="flex flex-col">
-                                        <label htmlFor="birthday" className="font-semibold mt-1">Data Nascita</label>
-                                        <input type="date" name="birthday" id="birthday" onInput={handleInput} value={form.last_name} className="my-2 p-2 input_field" />
-                                    </div> */}
                                 </div>
                                 <div className="flex flex-col">
-                                    <label htmlFor="email" className="font-semibold mt-1">Indirizzo Email</label>
+                                    <label htmlFor="email" className="font-semibold mt-1     dark:text-slate-300">Indirizzo Email</label>
                                     <input type="email" name="email" id="email" onInput={handleInput} value={form.email} placeholder="mario.rossi@example.com" className="my-2 p-2 input_field" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label htmlFor="password" className="font-semibold mt-2">Password</label>
+                                    <label htmlFor="password" className="font-semibold mt-2     dark:text-slate-300">Password</label>
                                     <input type="password" name="password" id="password" onInput={handleInput} value={form.password} placeholder="...." className="my-2 p-2 input_field" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label htmlFor="conf_password" className="font-semibold mt-2">Conferma Password</label>
+                                    <label htmlFor="conf_password" className="font-semibold mt-2     dark:text-slate-300">Conferma Password</label>
                                     <input type="password" name="conf_password" id="conf_password" onInput={handleInput} value={form.conf_password} placeholder="...." className="my-2 p-2 input_field" />
                                 </div>
                                 <div className="flex my-4">
                                     <div>
                                         <input type="checkbox" name="is_terms_accepted" id="is_terms_accepted" value={form.is_terms_accepted} onChange={handleInput} className="chk" required />
-                                        <label htmlFor="accept" className="mt-1"> Accetto i <span className="link">Termini & Condizioni</span> </label>
+                                        <label htmlFor="accept" className="mt-1 text-dark"> Accetto i <span className="link">Termini & Condizioni</span> </label>
                                     </div>
                                 </div>
                                 <div>
@@ -112,7 +110,7 @@ const SignUpBusiness = () => {
                                 </div>
                             </form>
                             <div className="mt-5 mb-4 text-center">
-                                <p>Hai già un Account Business? <Link to="/login-business" className="link">Login</Link></p>
+                                <p className="text-dark">Hai già un Account Business? <Link to="/login-business" className="link">Login</Link></p>
                             </div>
                         </div>
                     </div>

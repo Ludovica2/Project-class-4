@@ -5,9 +5,24 @@ import { motion } from "framer-motion"
 import { Link } from "react-router-dom";
 import ImageModal from "../../components/shared/ImageModal";
 import { useSelector } from "react-redux";
+import CustomActiveSocial from "../../components/shared/CustomActiveSocial";
+import { getSocialActive } from "../../utilities/settings";
 
+const widget = {
+    events: "events",
+    city: "city",
+    review: "review"
+}
+
+<<<<<<< HEAD
 const Profile = ({ isExternal = false }) => {
+=======
+const Profile = () => {
+>>>>>>> 2142c5352d8141f4f11a219c837d0b364f39e3af
     const { user } = useSelector((state) => state.auth);
+    const { social } = useSelector((state) => state.settings);
+
+    const socialActive = getSocialActive(social);
 
     useEffect(() => {
         document.title = "Profile - Found!";
@@ -32,7 +47,13 @@ const Profile = ({ isExternal = false }) => {
                     <div className="flex flex-col w-full ">
                         <div className="flex justify-between ml-32 p-3">
                             <div className="flex flex-col">
-                                <h2 className="text-xl dark:text-slate-100">{`${user.first_name} ${user.last_name}`}</h2>
+                                {
+                                    user.role == "user" ? (
+                                        <h2 className="text-xl dark:text-slate-100">{`${user.first_name} ${user.last_name}`}</h2>
+                                    ) : (
+                                        <h2 className="text-xl dark:text-slate-100">{user.metadata.company_name}</h2>
+                                    )
+                                }
                                 <span className="ml-1  mb-2 text-sm font-bold dark:text-slate-300">@{user.nickname}</span>
                                 {
                                     isExternal && <button>Follow</button>
@@ -47,26 +68,26 @@ const Profile = ({ isExternal = false }) => {
                                         </li>
                                         <li className="border-r border-r-slate-100 px-8 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold dark:text-slate-300">Città</span>
-                                                <span className="text-center text-dark">9</span>
-                                            </div>
-                                        </li>
-                                        <li className="border-r border-r-slate-100 px-8 py-4">
-                                            <div className="flex flex-col">
                                                 <span className="font-bold dark:text-slate-300">Eventi</span>
                                                 <span className="text-center text-dark">5</span>
                                             </div>
                                         </li>
                                         <li className="border-r border-r-slate-100 px-8 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold dark:text-slate-300">Amici</span>
+                                                <span className="font-bold dark:text-slate-300">Follow</span>
                                                 <span className="text-center text-dark">50</span>
                                             </div>
                                         </li>
-                                        <li className="px-8 py-4">
+                                        <li className="border-r border-r-slate-100 px-8 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold dark:text-slate-300">Attrazioni</span>
-                                                <span className="text-center text-dark">22</span>
+                                                <span className="font-bold dark:text-slate-300">Seguiti</span>
+                                                <span className="text-center text-dark">50</span>
+                                            </div>
+                                        </li>
+                                        <li className=" px-8 py-4">
+                                            <div className="flex flex-col">
+                                                <span className="font-bold dark:text-slate-300">Luoghi</span>
+                                                <span className="text-center text-dark">9</span>
                                             </div>
                                         </li>
                                     </ul>
@@ -78,9 +99,9 @@ const Profile = ({ isExternal = false }) => {
                                         <Link to="/app/profile/editprofile">
                                             <button className="relative btn-tooltip">
                                                 <i className="fa-solid fa-user-pen text-text_primaryColor dark:text-gray-500"></i>
-                                                <div className="tooltip-container tooltip-bottom">
+                                                <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
                                                     Modifica Profilo
-                                                    <div className="arrow-tooltip arrow-tlt-bottom"></div>
+                                                    <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
                                                 </div>
                                             </button>
                                         </Link>
@@ -89,9 +110,9 @@ const Profile = ({ isExternal = false }) => {
                                         <Link to="/app/profile/settingsprofile">
                                             <button className="relative btn-tooltip">
                                                 <i className="fa-solid fa-gear text-text_primaryColor dark:text-gray-500"></i>
-                                                <div className="tooltip-container tooltip-bottom">
+                                                <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
                                                     Impostazioni
-                                                    <div className="arrow-tooltip arrow-tlt-bottom"></div>
+                                                    <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
                                                 </div>
                                             </button>
                                         </Link>
@@ -100,7 +121,14 @@ const Profile = ({ isExternal = false }) => {
                                 <div className="">
                                     <p className="m-2 dark:text-slate-100">Altri Social</p>
                                     <div className="flex gap-1">
-                                        <motion.button className="w-5 h-5 relative btn-tooltip"
+                                        {
+                                            socialActive && (
+                                                socialActive.map(({ image, title, content }) => (
+                                                    <CustomActiveSocial key={title} src={image} title={title} content={content} />
+                                                ))
+                                            )
+                                        }
+                                        {/* <motion.button className="w-5 h-5 relative btn-tooltip"
                                             whileHover={{ scale: 1.2 }}
                                         >
                                             <img src="/images/instagram.png" alt="instagram" />
@@ -157,21 +185,12 @@ const Profile = ({ isExternal = false }) => {
                                         <motion.button className="w-5 h-5 relative btn-tooltip"
                                             whileHover={{ scale: 1.2 }}
                                         >
-                                            <img src="/images/twitter.png" alt="twitter" />
-                                            <div className="tooltip-container tooltip-bottom">
-                                                Twitter
-                                                <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                            </div>
-                                        </motion.button>
-                                        <motion.button className="w-5 h-5 relative btn-tooltip"
-                                            whileHover={{ scale: 1.2 }}
-                                        >
                                             <img src="/images/linkedin.png" alt="linkedin" />
                                             <div className="tooltip-container tooltip-bottom">
                                                 Linkedin
                                                 <div className="arrow-tooltip arrow-tlt-bottom"></div>
                                             </div>
-                                        </motion.button>
+                                        </motion.button> */}
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +198,7 @@ const Profile = ({ isExternal = false }) => {
                         {
                             user.bio && (
                                 <div className="flex flex-col w-full">
-                                    <hr className="mx-6 border-slate-100"/>
+                                    <hr className="mx-6 border-slate-100" />
                                     <div className="py-6 px-10 text-dark">
                                         {user.bio}
                                     </div>
@@ -191,10 +210,21 @@ const Profile = ({ isExternal = false }) => {
                 <div className="flex"></div>
                 <div className="flex gap-4">
                     <div className="w-1/4">
-                        <Widget />
+                        <Widget title={"Eventi in Programma"} wgt={widget.events} role={user.role}/>
+                        {
+                                    user.role == "user" ? (
+                                        <Widget title={"Luoghi Visitati"} wgt={widget.city}/>
+                                    ) : (
+                                        <Widget title={"Recensioni"} wgt={widget.review} role={user.role} val_review={
+                                            <span>4,5 <i className="fa-solid fa-star text-yellow-300"></i></span> 
+                                        }/>
+                                    )
+                                }
                     </div>
-                    <div className="flex justify-center flex-1">
-                        <PostEditing />
+                    <div className="w-full">
+                        <div className="flex justify-center flex-1">
+                            <PostEditing />
+                        </div>
                     </div>
                 </div>
             </div>

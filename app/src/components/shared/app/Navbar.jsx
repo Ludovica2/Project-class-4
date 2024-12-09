@@ -3,11 +3,13 @@ import { logout } from "../../../store/slices/authSlice";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react"
 import { useClickOutside } from "../../../hooks/useClickOutside";
+import { toggleDarkMode } from "../../../store/slices/settingsSlice";
 
 
 const Navbar = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
+    const { darkMode} = useSelector((state) => state.settings);
     const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef } = useClickOutside(false)
     const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef } = useClickOutside(false)
     const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef } = useClickOutside(false)
@@ -34,14 +36,18 @@ const Navbar = () => {
         dispatch(logout());
     }
 
+    const toggleSwitchDark = () => {
+        dispatch(toggleDarkMode());
+    };
+
     return (
         <nav className="flex justify-between items-center h-[65px] pr-[20px] dark:bg-elements_dark">
             <div className="pl-4">
                 {
                     user.role == "user" ? (
-                        <img src="/images/FoundLogoFull.png" alt="Logo Found" className="h-[40px] w-auto" />
+                        <img src={ darkMode? "/images/LogoFullDark.png" : "/images/FoundLogoFull.png"} alt="Logo Found" className="h-[40px] w-auto" />
                     ) : (
-                        <img src="/images/FoundLogoBusiness.png" alt="Logo Business" className="h-[40px] w-auto" />
+                        <img src={ darkMode? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="Logo Business" className="h-[40px] w-auto" />
                     )
                 }
             </div>
@@ -65,12 +71,14 @@ const Navbar = () => {
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >
-                                        <div className="mb-4"><h4>Messaggi</h4></div>
+                                        <div className="mb-4">
+                                            <h4 className="dark:text-slate-100">Messaggi</h4>
+                                        </div>
                                         <div className="flex flex-col gap-3 items-start">
                                             <ul>
-                                                <li>messaggio</li>
-                                                <li>messaggio</li>
-                                                <li>messaggio</li>
+                                                <li className="dark:text-dark">messaggio</li>
+                                                <li className="dark:text-dark">messaggio</li>
+                                                <li className="dark:text-dark">messaggio</li>
                                             </ul>
                                         </div>
                                     </motion.div>
@@ -92,12 +100,14 @@ const Navbar = () => {
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >
-                                        <div className="mb-4"><h4>Notifiche</h4></div>
+                                        <div className="mb-4">
+                                            <h4 className="dark:text-slate-100">Notifiche</h4>
+                                        </div>
                                         <div className="flex flex-col gap-3 items-start">
                                             <ul>
-                                                <li>notifica</li>
-                                                <li>notifica</li>
-                                                <li>notifica</li>
+                                                <li className="dark:text-dark">notifica</li>
+                                                <li className="dark:text-dark">notifica</li>
+                                                <li className="dark:text-dark">notifica</li>
                                             </ul>
                                         </div>
                                     </motion.div>
@@ -119,10 +129,10 @@ const Navbar = () => {
                                     user.role == "user" ? (
                                         <p className="dark:text-white">{user.first_name} {user.last_name}</p>
                                     ) : (
-                                        <p>{user.metadata.company_name}</p>
+                                        <p className="dark:text-white">{user.metadata.company_name}</p>
                                     )
                                 }
-                                
+
                             </div>
                             {
                                 isOpenMenu && (
@@ -130,42 +140,45 @@ const Navbar = () => {
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >
-                                        <div className="mb-4"><h4>Ciao {user.first_name}</h4></div>
+                                        <div className="mb-4">
+                                            <h4 className="dark:text-slate-100">Ciao {user.first_name}</h4>
+                                        </div>
                                         <div className="flex flex-col gap-3 items-start">
                                             <div>
                                                 <Link to={"/app/profile"} className="flex">
                                                     <div className='w-5 mr-1'>
-                                                        <i className="fa-solid fa-passport"></i>
-                                                    </div> 
-                                                    <span>Profilo</span>
+                                                        <i className="fa-solid fa-passport dark:text-gray-500"></i>
+                                                    </div>
+                                                    <span className="dark:text-dark">Profilo</span>
                                                 </Link>
                                             </div>
                                             <div>
                                                 <Link to={"/app/profile/editprofile"} className="flex">
                                                     <div className='w-5 mr-1'>
-                                                        <i className="fa-solid fa-user-pen text-sm"></i>
-                                                    </div> 
-                                                    <span>Modifica Profilo</span>
+                                                        <i className="fa-solid fa-user-pen text-sm dark:text-gray-500"></i>
+                                                    </div>
+                                                    <span className="dark:text-dark">Modifica Profilo</span>
                                                 </Link>
                                             </div>
                                             <div>
                                                 <Link to={"/app/profile/settingsprofile"} className="flex">
                                                     <div className='w-5 mr-1'>
-                                                        <i className="fa-solid fa-gear"></i>
-                                                    </div> 
-                                                    <span>Impostazioni</span>
+                                                        <i className="fa-solid fa-gear dark:text-gray-500"></i>
+                                                    </div>
+                                                    <span className="dark:text-dark">Impostazioni</span>
                                                 </Link>
                                             </div>
                                             <div>
                                                 <Link className="flex">
                                                     <div className='w-5 mr-1'>
-                                                        <i className="fa-solid fa-shield-halved"></i>
-                                                    </div> 
-                                                    <span>Privacy</span>
+                                                        <i className="fa-solid fa-shield-halved dark:text-gray-500"></i>
+                                                    </div>
+                                                    <span className="dark:text-dark">Privacy</span>
                                                 </Link>
                                             </div>
                                             <div>
-                                                <span onClick={handleLogout}>Esci</span></div>
+                                                <span onClick={handleLogout} className="dark:text-slate-300">Esci</span>
+                                            </div>
                                         </div>
                                     </motion.div>
                                 )
