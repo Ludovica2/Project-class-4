@@ -15,7 +15,7 @@ app.post("/", authUser(), async (req, res, next) => {
     const from = req.user;
 
     const schema = Joi.object().keys({
-        user: Joi.string().required(),
+        user: Joi.string().optional(),
         content: Joi.string().required(),
         images: Joi.array().items(Joi.any()).optional(),
     });

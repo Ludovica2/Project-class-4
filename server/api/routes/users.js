@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const Joi = require("joi");
 const { hashPassword, comparePassword } = require("../../utilities/auth");
-const { User } = require("../../db");
+const { User, UserFollow } = require("../../db");
 const { authUser } = require("../../middleware/auth");
 const { uploadAvatar } = require("../../middleware/users");
 
@@ -43,6 +43,34 @@ app.post("/", async (req, res) => {
         }
 
         return res.status(201).json({ user });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" })
+    }
+});
+
+/**
+ * @path /api/users/follow
+ * @method PUT
+ */
+app.put("/follow", authUser(), async (req, res) => {
+    const follower = req.user._id;
+    const schema = Joi.object().keys({
+        user: Joi.string().required(),
+    });
+
+    try {
+        const data = await schema.validateAsync(req.body);
+
+        const follow = await UserFollow.countDocuments({ follower, user: data.user });
+
+        if (follow >= 1) {
+            await UserFollow.deleteOne({ follower, user: data.user });
+        } else {
+            await new UserFollow({ follower, user: data.user }).save();
+        }
+
+        return res.status(follow >= 1 ? 200 : 201).json({ message: follow >= 1 ? "User unfollowed" : "User followed" });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" })

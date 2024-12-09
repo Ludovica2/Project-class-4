@@ -29,6 +29,7 @@ const models = {
     Room: require("./models/Room"),
     Message: require("./models/Message"),
     Notification: require("./models/Notification"),
+    UserFollow: require("./models/UserFollow"),
 }
 
 module.exports = {
