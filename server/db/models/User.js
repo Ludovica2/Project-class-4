@@ -43,6 +43,10 @@ const UserSchema = new Schema({
         type: String,
         default: null,
     },
+    image_user: {
+        type: String,
+        default: null
+    },
     metadata: {
         type: Object,
         default: {}

@@ -1,6 +1,11 @@
 const { Schema, model } = require("mongoose");
 
 const PostSchema = new Schema({
+    type: {
+        type: Schema.Types.ObjectId,
+        ref: "TypePost",
+        required: true,
+    },
     content: {
         type: String,
         required: true,

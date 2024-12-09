@@ -150,4 +150,13 @@ export default {
             })).data;
         }
     },
+    post: {
+        addPost: async (payload) => {
+            return (await axios({
+                url: buildApiUrl("/post"),
+                method: "POST",
+                data: payload,
+            })).data;
+        }
+    }
 }

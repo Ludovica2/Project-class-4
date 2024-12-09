@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { updateUser } from "../../store/slices/authSlice";
 import { Link, useSearchParams } from "react-router-dom";
 import ButtonBack from "../../components/ButtonBack";
+import PopUpModal from "../../components/shared/PopUpModal";
+import { FileInput, Label } from "flowbite-react";
 
 const activeTab = {
     personalInfo: "personal",
@@ -127,16 +129,70 @@ const EditProfile = () => {
                                         <div className="flex justify-center items-center min-w-32 h-32 relative bg-white rounded-[50%] shadow my-14 ml-14 mr-16 dark:bg-elements_dark dark:shadow-slate-400">
                                             <img className='imgProfile' src="https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile" />
                                             <div className="relative">
-                                                <div className="flex justify-center items-center absolute w-10 h-10 -bottom-16 right-1 cursor-pointer bg-primayColor rounded-[50%] btn-tooltip">
-                                                    <i className="fa-solid fa-pen text-white"></i>
-                                                    <div className="tooltip-container tooltip-bottom">
-                                                        Modifica
-                                                        <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                                    </div>
-                                                </div>
+                                                {
+                                                    <PopUpModal title={"Modifica Immagine Profilo"} sizeModal={"md"}
+                                                        showBtn={(openModal) => {
+                                                            return <div onClick={() => openModal(true)} className="flex justify-center items-center absolute w-10 h-10 -bottom-16 right-1 cursor-pointer bg-primayColor rounded-[50%] btn-tooltip">
+                                                                <i className="fa-solid fa-pen text-white"></i>
+                                                                <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
+                                                                    Modifica
+                                                                    <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
+                                                                </div>
+                                                            </div>;
+                                                        }}
+                                                    >
+                                                        {
+                                                            <>
+                                                                <div className="flex w-full items-center justify-center">
+                                                                    <Label
+                                                                        htmlFor="dropzone-file"
+                                                                        className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                                                    >
+                                                                        <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                                                                            <svg
+                                                                                className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                                                                                aria-hidden="true"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                fill="none"
+                                                                                viewBox="0 0 20 16"
+                                                                            >
+                                                                                <path
+                                                                                    stroke="currentColor"
+                                                                                    strokeLinecap="round"
+                                                                                    strokeLinejoin="round"
+                                                                                    strokeWidth="2"
+                                                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                                                />
+                                                                            </svg>
+                                                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                                                <span className="font-semibold">Click to upload</span> or drag and drop
+                                                                            </p>
+                                                                            <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                        </div>
+                                                                        <FileInput id="dropzone-file" className="hidden" />
+                                                                    </Label>
+                                                                </div>
+                                                            </>
+                                                        }
+                                                    </PopUpModal>
+                                                }
                                             </div>
                                         </div>
                                         <div className="flex flex-wrap justify-around">
+                                            {
+                                                user.role == "business" && (
+                                                    <>
+                                                        <div className="flex flex-col w-2/5">
+                                                            <label htmlFor="company_name" className="font-semibold mt-1 dark:text-slate-300">Ragione Sociale</label>
+                                                            <input type="text" name="company_name" id="company_name" onInput={handleInput} value={form.personal.company_name} className="my-2 p-2 input_field" />
+                                                        </div>
+                                                        <div className="flex flex-col w-2/5">
+                                                            <label htmlFor="vat_number" className="font-semibold mt-1 dark:text-slate-300">Partita IVA</label>
+                                                            <input type="text" name="vat_number" id="vat_number" onInput={handleInput} value={form.personal.vat_numbere} className="my-2 p-2 input_field" />
+                                                        </div>
+                                                    </>
+                                                )
+                                            }
                                             <div className="flex flex-col w-2/5">
                                                 <label htmlFor="first_name" className="font-semibold mt-1 dark:text-slate-300">Nome</label>
                                                 <input type="text" name="first_name" id="first_name" onInput={handleInput} value={form.personal.first_name} className="my-2 p-2 input_field" />

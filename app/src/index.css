@@ -52,8 +52,6 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
 }
 
-
-
 option:hover {
     background-color: #40798C;
 }
@@ -193,7 +191,6 @@ option:hover {
   .switch[data-isOn="true"] {
     justify-content: flex-end;
   }
-
 
 /* Modal Images */
 

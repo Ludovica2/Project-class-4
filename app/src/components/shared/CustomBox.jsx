@@ -3,12 +3,13 @@ import ContentEditable from "react-contenteditable";
 import { motion } from "framer-motion"
 import ImageModal from './ImageModal';
 import { useClickOutside } from '../../hooks/useClickOutside';
+import PopUpModal from './PopUpModal';
 
-const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", dataPost = "" }) => {
+const CustomBox = ({ children, profile = "", imgProfile = "", dataPost = "", nickname= ""}) => {
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
     const [replyComments, setReplyComments] = useState(false);
-    const { active: isOpenOptionsMenu, setActive: setIsOpenOptionsMenu, elRef: optionsRef} = useClickOutside(false)
+    const { active: isOpenOptionsMenu, setActive: setIsOpenOptionsMenu, elRef: optionsRef } = useClickOutside(false)
 
     const handleChange = (event) => {
         setField(event.target.value);
@@ -34,7 +35,10 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                         <img className='imgProfile-post' src={imgProfile} alt="Profile" />
                     </div>
                     <div className="rounded-t-lg flex flex-col flex-1 justify-center ml-4">
-                        <h3 className="dark:text-white">{profile}</h3>
+                        <div className='flex'>
+                            <h3 className="dark:text-white">{profile} -</h3>
+                            <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @{nickname}</span>
+                        </div>
                         <span className='textSmall-gray dark:text-slate-300'>{dataPost}</span>
                     </div>
                     <div className='flex'>
@@ -42,7 +46,7 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                             <i className="fa-solid fa-ellipsis dark:text-gray-500"></i>
                             {
                                 isOpenOptionsMenu && (
-                                    <motion.div ref={optionsRef} className="flex flex-col absolute top-9 -left-3 px-2 w-64 bg-white border border-slate-100 z-10 dark:bg-elements_dark dark:border-slate-600"
+                                    <motion.div ref={optionsRef} className="flex flex-col absolute top-9 -left-3 px-2 w-64 bg-white border border-slate-100 z-10 dark:bg-elements_dark  dark:shadow dark:shadow-slate-400 dark:border-none"
                                         initial={{ y: -8 }}
                                         animate={{ y: "calc(0vw + 5%)" }}
                                     >
@@ -52,7 +56,7 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                             </div>
                                             <div className='flex flex-col ml-2'>
                                                 <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Nascondi Post</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor group-hover:text-secondaryColor_Hover dark:text-dark'>Mostra meno post come questo.</span>
+                                                <span className='mb-2 text-xs text-text_secondaryColor group-hover:text-secondaryColor_Hover text-dark'>Mostra meno post come questo.</span>
                                             </div>
                                         </button>
                                         <button className='flex mt-2 border-b border-b-slate-100 group'>
@@ -61,7 +65,7 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                             </div>
                                             <div className='flex flex-col ml-2'>
                                                 <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Non seguire più</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover dark:text-dark'>Non vedrai più i post di questo utente.</span>
+                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover text-dark'>Non vedrai più i post di questo utente.</span>
                                             </div>
                                         </button>
                                         <button className='flex mt-2 group'>
@@ -70,7 +74,7 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                             </div>
                                             <div className='flex flex-col ml-2'>
                                                 <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Attiva Notifiche</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover dark:text-dark'>Riceverai notifiche per i nuovi post di questo utente.</span>
+                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover text-dark'>Riceverai notifiche per i nuovi post di questo utente.</span>
                                             </div>
                                         </button>
                                     </motion.div>
@@ -84,11 +88,10 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                     <div>
                         {children}
                     </div>
-
                     {/* Modal */}
                     <div>
                         {
-                            <ImageModal images={["https://images.pexels.com/photos/12893376/pexels-photo-12893376.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/8219320/pexels-photo-8219320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/6617683/pexels-photo-6617683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"]}> 
+                            <ImageModal images={["https://images.pexels.com/photos/12893376/pexels-photo-12893376.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/8219320/pexels-photo-8219320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/6617683/pexels-photo-6617683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"]}>
                                 {
                                     (setIsShowModal) => {
                                         return <button onClick={() => setIsShowModal(true)}>Images</button>;
@@ -96,9 +99,7 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                 }
                             </ImageModal>
                         }
-                        
                     </div>
-
                     <div className='flex mt-4'>
                         <ul className='flex mr-1'>
                             <li>
@@ -114,7 +115,7 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                 <img className='img-LikesProf' src="https://images.pexels.com/photos/6617683/pexels-photo-6617683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Sara Gialli" />
                             </li>
                         </ul>
-                        <span className='font-bold text-sm mr-1 mt-2 dark:text-dark'>Mario Rossi </span> <span className='mt-2 textSmall-gray'> e altri 99 hanno messo Mi Piace</span>
+                        <span className='font-bold text-sm mr-1 mt-2 text-dark'>Mario Rossi </span> <span className='mt-2 textSmall-gray'> e altri 99 hanno messo Mi Piace</span>
                     </div>
                 </div>
                 <div className="flex flex-col mt-5 pt-3 border-t border-slate-100 rounded-b-lg">
@@ -129,13 +130,53 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                 <span className='icon-text group-hover:text-primayColor'>20 Commenti</span>
                             </button>
                             <button className='group'>
+                                <i className="fa-regular fa-calendar-days icon group-hover:text-primayColor"></i>
+                                <span className='icon-text group-hover:text-primayColor'>Aggiungi</span>
+                            </button>
+                            <button className='group'>
                                 <i className="fa-solid fa-suitcase-rolling icon group-hover:text-primayColor"></i>
                                 <span className='icon-text group-hover:text-primayColor'>Salva</span>
                             </button>
-                            <button className='group'>
-                                <i className="fa-solid fa-share-nodes icon group-hover:text-primayColor"></i>
-                                <span className='icon-text group-hover:text-primayColor'>Condividi</span>
-                            </button>
+                            {
+                                <PopUpModal title={"Condividi"} sizeModal={"md"}
+                                    showBtn={(openModal) => {
+                                        return <button className='group' onClick={() => openModal(true)}>
+                                            <i className="fa-solid fa-share-nodes icon group-hover:text-primayColor"></i>
+                                            <span className='icon-text group-hover:text-primayColor'>Condividi</span>
+                                        </button>;
+                                    }}
+                                >
+                                    {
+                                        <>
+                                            <div className="flex items-center w-full mb-8 gap-5">
+                                                <div className='w-12 h-12 cursor-pointer'>
+                                                    <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=000000" alt="whatsApp" />
+                                                </div>
+                                                <div className='w-12 h-12 cursor-pointer'>
+                                                    <img src="https://img.icons8.com/color/48/telegram-app--v1.png" alt="telegram" />
+                                                </div>
+                                                <div className='w-12 h-12 cursor-pointer'>
+                                                    <img src="https://img.icons8.com/color/48/instagram-new--v1.png" alt="instagram" />
+                                                </div>
+                                                <div className='w-12 h-12 cursor-pointer'>
+                                                    <img src="https://img.icons8.com/color/48/facebook-new.png" alt="facebook" />
+                                                </div>
+                                                <div className='w-12 h-12 cursor-pointer'>
+                                                    <img src="https://img.icons8.com/color/48/pinterest--v1.png" alt="pinterest" />
+                                                </div>
+                                                <div className='w-12 h-12 cursor-pointer flex items-center'>
+                                                    <i className="fa-solid fa-ellipsis text-3xl dark:text-gray-500"></i>
+                                                </div>
+                                            </div>
+                                            <div className='relative'>
+                                                <input type="text" value={`www.Found!/Post/${profile}`} className="w-full input_field h-14" readOnly />
+                                                <button className="btn absolute bottom-2 right-2">Copia</button>
+                                            </div>
+                                        </>
+                                    }
+                                </PopUpModal>
+
+                            }
                         </div>
                     </div>
                     {
@@ -150,10 +191,10 @@ const CustomBox = ({ children, divider = false, profile = "", imgProfile = "", d
                                         </div>
                                     </div>
                                     <div className=' mt-2 ml-4 p-2 text-sm bg-slate-100 rounded-b-lg dark:bg-elements_dark'>
-                                        <p className='dark:text-dark'>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi repellat aliquid, explicabo ipsa adipisci molestias illo temporibus id, cupiditate tempore magnam suscipit! Aut illo veritatis quo. Id dolor explicabo temporibus."</p>
+                                        <p className='text-dark'>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi repellat aliquid, explicabo ipsa adipisci molestias illo temporibus id, cupiditate tempore magnam suscipit! Aut illo veritatis quo. Id dolor explicabo temporibus."</p>
                                         <div className='ml-3 mt-2'>
                                             <button className='relative btn-reactions group'>
-                                                <div className="absolute -top-3 left-[15px] opacity-0 flex bg-white p-1 rounded-md invisible" id='reactions'>
+                                                <div className="absolute -top-3 left-[15px] opacity-0 flex bg-white p-1 rounded-md invisible dark:bg-elements_dark dark:shadow dark:shadow-slate-400" id='reactions'>
                                                     <motion.i className="fa-solid fa-heart m-1" style={{ color: '#f31212' }}
                                                         whileHover={{ scale: 1.2 }}
                                                     >
