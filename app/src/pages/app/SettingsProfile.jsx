@@ -43,10 +43,6 @@ const SettingsProfile = () => {
         setpopupIsOpen((popupIsOpen) => !popupIsOpen);
     }
 
-    useEffect(() => {
-        console.log(socialSettings)
-    }, [socialSettings])
-
     return (
         <>
             <div className="flex flex-col w-full max-w-[1280px] lg:max-w-[1320px]">
@@ -187,8 +183,8 @@ const SettingsProfile = () => {
                             <div className="w-11/12">
                                 <h2 className="text-lg mt-1 mb-6 dark:text-slate-100">Altri Social:</h2>
                                 {
-                                    Object.entries(socialSettings).map(([name, { title, image }]) => (
-                                        <CustomSlideInput key={name} name={name} title={title} image={image} onChange={handleSocialSettingsChange} social={true} />
+                                    Object.entries(socialSettings).map(([name, props]) => (
+                                        <CustomSlideInput key={name} name={name} {...props} onChange={handleSocialSettingsChange} social={true} />
                                     ))
                                 }
                             </div>

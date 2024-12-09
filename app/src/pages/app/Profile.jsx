@@ -116,8 +116,8 @@ const Profile = () => {
                                     <div className="flex gap-1">
                                         {
                                             socialActive && (
-                                                socialActive.map(({ image, title }) => (
-                                                    <CustomActiveSocial key={title} src={image} title={title} />
+                                                socialActive.map(({ image, title, content }) => (
+                                                    <CustomActiveSocial key={title} src={image} title={title} content={content} />
                                                 ))
                                             )
                                         }
