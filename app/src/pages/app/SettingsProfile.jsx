@@ -7,7 +7,7 @@ import PopUpModal from "../../components/shared/PopUpModal";
 import SupportTicket from "../../components/SupportTicket";
 import ButtonBack from "../../components/ButtonBack";
 import { useDispatch, useSelector } from "react-redux";
-import { changeSocialSettings, toggleDarkMode } from "../../store/slices/settingsSlice";
+import { changeDeviceSettings, changeSocialSettings, toggleDarkMode, toggleNotify } from "../../store/slices/settingsSlice";
 import CustomSlideInput from "../../components/shared/CustomSlideInput";
 
 const spring = {
@@ -18,32 +18,25 @@ const spring = {
 
 const SettingsProfile = () => {
     const dispatch = useDispatch();
-    const { darkMode, social: socialSettings } = useSelector((state) => state.settings);
-
-    const [isOnNotify, setIsOnNotify] = useState(false);
+    const { darkMode, notify, social: socialSettings, device: deviceSettings } = useSelector((state) => state.settings);
     const [popupIsOpen, setpopupIsOpen] = useState(false);
-    const [isOnCamera, setIsOnCamera] = useState(false);
-    const [isOnContact, setIsOnContact] = useState(false);
-    const [isOnPosition, setIsOnPosition] = useState(false);
-    const [isOnMicro, setIsOnMicro] = useState(false);
-    const [isOnGallery, setIsOnGallery] = useState(false);
-
-    /* Social */
 
     const handleSocialSettingsChange = (payload) => {
+        console.log(payload)
         dispatch(changeSocialSettings(payload));
+    };
+
+    const handleDeviceSettingsChange = (payload) => {
+        dispatch(changeDeviceSettings(payload));
     };
 
     const toggleSwitchDark = () => {
         dispatch(toggleDarkMode());
     };
 
-    const toggleSwitchNotify = () => setIsOnNotify(!isOnNotify);
-    const toggleSwitchCamera = () => setIsOnCamera(!isOnCamera);
-    const toggleSwitchContact = () => setIsOnContact(!isOnContact);
-    const toggleSwitchPosition = () => setIsOnPosition(!isOnPosition);
-    const toggleSwitchMicro = () => setIsOnMicro(!isOnMicro);
-    const toggleSwitchGallery = () => setIsOnGallery(!isOnGallery);
+    const toggleSwitchNotify = () => {
+        dispatch(toggleNotify());
+    };
 
     const openPopup = (event) => {
         event.preventDefault();
@@ -80,8 +73,8 @@ const SettingsProfile = () => {
                                 </div>
                                 <div className="flex items-center w-3/4 justify-between mb-8">
                                     <span className="text-dark"> Notifiche </span>
-                                    <div className="switch dark:bg-zinc-600" data-ison={isOnNotify} onClick={toggleSwitchNotify}>
-                                        <motion.div className={"w-5 h-5 rounded-[40px]" + (isOnNotify ? " bg-primayColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
+                                    <div className="switch dark:bg-zinc-600" data-ison={notify} onClick={toggleSwitchNotify}>
+                                        <motion.div className={"w-5 h-5 rounded-[40px]" + (notify ? " bg-primayColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
                                     </div>
                                 </div>
                                 <div className="flex w-3/4 justify-between mb-8">
@@ -97,36 +90,11 @@ const SettingsProfile = () => {
                                             >
                                                 {
                                                     <>
-                                                        <div className="flex items-center w-full justify-between mb-8">
-                                                            <span className="text-dark"> Fotocamera </span>
-                                                            <div className="switch dark:bg-zinc-600" data-ison={isOnCamera} onClick={toggleSwitchCamera}>
-                                                                <motion.div className={"w-5 h-5 rounded-[40px]" + (isOnCamera ? " bg-secondaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex items-center w-full justify-between mb-8">
-                                                            <span className="text-dark"> Contatti </span>
-                                                            <div className="switch dark:bg-zinc-600" data-ison={isOnContact} onClick={toggleSwitchContact}>
-                                                                <motion.div className={"w-5 h-5 rounded-[40px]" + (isOnContact ? " bg-secondaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex items-center w-full justify-between mb-8">
-                                                            <span className="text-dark"> Posizione </span>
-                                                            <div className="switch dark:bg-zinc-600" data-ison={isOnPosition} onClick={toggleSwitchPosition}>
-                                                                <motion.div className={"w-5 h-5 rounded-[40px]" + (isOnPosition ? " bg-secondaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex items-center w-full justify-between mb-8">
-                                                            <span className="text-dark"> Microfono </span>
-                                                            <div className="switch dark:bg-zinc-600" data-ison={isOnMicro} onClick={toggleSwitchMicro}>
-                                                                <motion.div className={"w-5 h-5 rounded-[40px]" + (isOnMicro ? " bg-secondaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex items-center w-full justify-between mb-8">
-                                                            <span className="text-dark"> Galleria </span>
-                                                            <div className="switch dark:bg-zinc-600" data-ison={isOnGallery} onClick={toggleSwitchGallery}>
-                                                                <motion.div className={"w-5 h-5 rounded-[40px]" + (isOnGallery ? " bg-secondaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
-                                                            </div>
-                                                        </div>
+                                                        {
+                                                            Object.entries(deviceSettings).map(([name, props]) => (
+                                                                <CustomSlideInput key={name} {...props} onChange={handleDeviceSettingsChange} social={false} />
+                                                            ))
+                                                        }
                                                     </>
                                                 }
                                             </PopUpModal>
@@ -215,8 +183,8 @@ const SettingsProfile = () => {
                             <div className="w-11/12">
                                 <h2 className="text-lg mt-1 mb-6 dark:text-slate-100">Altri Social:</h2>
                                 {
-                                    Object.entries(socialSettings).map(([name, { title }]) => (
-                                        <CustomSlideInput key={name} name={name} title={title} onChange={handleSocialSettingsChange} />
+                                    Object.entries(socialSettings).map(([name, props]) => (
+                                        <CustomSlideInput key={name} name={name} {...props} onChange={handleSocialSettingsChange} social={true} />
                                     ))
                                 }
                             </div>

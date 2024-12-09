@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <>
-      <footer className="flex flex-col items-center w-full">
+      <footer className="flex flex-col items-center w-full dark:bg-bg_dark">
         <div className="w-full h-1 mb-5 bg-gradient-to-r from-white via-slate-500 to-white">
         </div>
         <div className="flex flex-col text-xs">
@@ -11,9 +11,9 @@ const Footer = () => {
             <span className="link">Aiuto</span>
             <span className="link">Informativa sui Cookie</span>
           </div>
-          <div className="text-center mt-3">
-              <i className="fa-regular fa-copyright"></i>
-              <span className="ml-1 pb-2">Ilaria Mammana & Ludovica Spinelli By Mia Tech Academy</span>
+          <div className="text-center mt-3 pb-2 dark:pb-5">
+              <i className="fa-regular fa-copyright text-dark"></i>
+              <span className="ml-1 text-dark">Ilaria Mammana & Ludovica Spinelli By Mia Tech Academy</span>
           </div>
         </div>
       </footer>
