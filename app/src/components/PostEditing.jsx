@@ -47,19 +47,6 @@ const PostEditing = () => {
         setPost((post) => ({ ...post, val_review: value }));
     }
 
-    const pushPost = async () => {
-        const payload = post;
-
-        try {
-            await SDK.post.addPost(payload);
-            toast.success("Post generato correttamente");
-            navigate("/feed");
-        } catch (error) {
-            console.log(error)
-            toast.error(error.message);
-        }
-    }
-
     const handleClick = () => {
         setIsPlaceholderVisible(true);
     }
@@ -130,7 +117,7 @@ const PostEditing = () => {
                             </div>
                         )
                     }
-                    <ContentEditable onChange={handleChange} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" />
+                    <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" />
                     {
                         isOpenDragDdrop && (
                             <div className="flex w-full items-center justify-center">
