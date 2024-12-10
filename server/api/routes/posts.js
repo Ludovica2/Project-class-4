@@ -58,10 +58,30 @@ app.post("/", authUser(), async (req, res, next) => {
  * @method GET
  */
 app.get("/", authUser(), async (req, res) => {
-    const user = req.user;
-
     try {
-        const posts = await Post.find({ user: user._id }, null, { lean: true, sort: { createdAt: -1 } }).populate({ path: "from", select: "first_name last_name avatar" });
+        const posts = await Post.find({}, null, { lean: true, sort: { createdAt: -1 } })
+            .populate({ path: "from", select: "first_name last_name avatar" })
+            .populate({ path: "post_likes" })
+            .populate({ path: "post_comments", populate: ["reply_to", "reactions"] });
+
+        return res.json(posts);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+/**
+ * @path /api/posts/:user_id
+ * @method GET
+ */
+app.get("/:user_id", authUser(), async (req, res) => {
+    const user = req.params.user_id;
+    try {
+        const posts = await Post.find({ $or: [{ user }, { from: user }] }, null, { lean: true, sort: { createdAt: -1 } })
+            .populate({ path: "from", select: "first_name last_name avatar" })
+            .populate({ path: "post_likes" })
+            .populate({ path: "post_comments", populate: ["reply_to", "reactions"] });
 
         return res.json(posts);
     } catch (error) {

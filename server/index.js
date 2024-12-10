@@ -6,6 +6,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const db = require("./db");
 const socket = require("./utilities/socket");
+const { parsePostContent } = require("./utilities/parse");
 
 app.use(cors());
 app.use(helmet());
@@ -15,6 +16,12 @@ app.use(express.json());
 
 app.use("/api", require("./api"));
 app.use("/auth", require("./auth"));
+
+app.post("/post", (req, res) => {
+    const post = parsePostContent(req.body.content);
+
+    return res.status(201).json({ post });
+});
 
 const { SERVER_PORT } = process.env;
 

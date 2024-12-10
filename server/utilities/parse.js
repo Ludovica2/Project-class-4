@@ -20,17 +20,31 @@ const parsePostContent = (content) => {
 
     urls = urls ? urls.filter((url) => !images.includes(url) && !videos.includes(url)) : null;
 
+    urls = urls ? urls.map(u => {
+        if ([".", ",", ":", ";"].includes(u.charAt(u.length - 1))) {
+            return u.substring(0, u.length - 1); 
+        }
+
+        return u;
+    }) : null;
+
     let html = content;
+
+    if (images) {
+        images.forEach(m => {
+            html = html.replace(m, `<a href="${m}">${m}</a>`);
+        });
+    }
 
     if (mentions) {
         mentions.forEach(m => {
-            html = html.replace(m, `<a href="http://localhost:5173/app/mentions/${m}">${m}</a>`)
+            html = html.replace(m, `<a href="${process.env.CLIENT_HOST}/app/profile/${m.replace("@", "")}">${m}</a>`);
         });
     }
     
     if (tags) {
         tags.forEach(m => {
-            html = html.replace(m, `<a href="http://localhost:5173/app/feed?tag=${m}">${m}</a>`)
+            html = html.replace(m, `<a href="${process.env.CLIENT_HOST}/app/feed?tag=${m.replace("#", "")}">${m}</a>`);
         });
     }
 
@@ -40,21 +54,14 @@ const parsePostContent = (content) => {
         });
     }
 
-    if (images) {
-        images.forEach(m => {
-            console.log(m);
-            html = html.replace(m, `<img src="${m}" alt="..." />`)
-        });
-    }
-
-    if (videos) {
-        videos.forEach(m => {
-            html = html.replace(m, `<video src="${m}"></video>`)
-        });
-    }
-
     return {
-        content, mentions, tags, urls, images, videos, html
+        content, 
+        mentions, 
+        tags, 
+        urls, 
+        images, 
+        videos, 
+        html
     }
 }
 

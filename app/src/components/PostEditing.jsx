@@ -4,7 +4,8 @@ import { motion } from "framer-motion"
 import { FileInput, Label } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../hooks/useClickOutside";
-
+import { toast } from "react-toastify";
+import SDK from "../SDK";
 
 const postType = {
     basicType: "basic",
@@ -12,11 +13,10 @@ const postType = {
     eventType: "event"
 }
 
-const PostEditing = () => {
-    const { user } = useSelector((state) => state.auth);
-    const [field, setField] = useState("Crea il tuo post...");
+const PostEditing = ({ onNewPost }) => {
+    const { user, token } = useSelector((state) => state.auth);
+    const [field, setField] = useState("");
     const [isOpenDragDdrop, setIsOpenDragDdrop] = useState(false);
-    const { active: isPlaceholderVisible, setActive: setIsPlaceholderVisible, elRef: contentRef } = useClickOutside(false);
     const [review1, setReview1] = useState(false);
     const [review2, setReview2] = useState(false);
     const [review3, setReview3] = useState(false);
@@ -82,28 +82,17 @@ const PostEditing = () => {
         setPost((post) => ({ ...post, val_review: value }));
     }
 
-    const handleClick = () => {
-        setIsPlaceholderVisible(true);
-    }
-
     const handleCreatePost = async () => {
-        if (isPlaceholderVisible) return;
-
         try {
-            await SDK.post.create({ content: btoa(field), user }, token);
+            await SDK.post.create({ content: btoa(field) }, token);
             toast.success("Post created");
             setField("Crea il tuo post...");
-            setIsPlaceholderVisible(true);
+            onNewPost();
         } catch (error) {
             console.log(error);
             toast.error(error.message);
         }
     }
-
-    useEffect(() => {
-        if (isPlaceholderVisible && (field == "Crea il tuo post...")) setField("");
-        else if(!isPlaceholderVisible && field == "") setField("Crea il tuo post...");
-    }, [isPlaceholderVisible]);
 
     return (
         <>
@@ -147,8 +136,9 @@ const PostEditing = () => {
                             </div>
                         )
                     }
-                    <div ref={contentRef}>
-                        <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" />
+                    <div>
+                        { /* <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" /> */ }
+                        <textarea className="w-full border-none outline-none focus:ring-0 focus:outline-none active:outline-none" onChange={handleChange} value={field} placeholder="Crea il tuo post..."></textarea>
                     </div>
                     {
                         isOpenDragDdrop && (

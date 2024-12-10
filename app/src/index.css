@@ -56,6 +56,16 @@ option:hover {
     background-color: #40798C;
 }
 
+.post-p a {
+    display: inline;
+    color: #40798C;
+}
+
+.post-p a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 /* Login */
 
 .logo-login {
