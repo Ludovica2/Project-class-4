@@ -9,7 +9,7 @@ import { toggleDarkMode } from "../../../store/slices/settingsSlice";
 const Navbar = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
-    const { darkMode} = useSelector((state) => state.settings);
+    const { darkMode } = useSelector((state) => state.settings);
     const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef } = useClickOutside(false)
     const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef } = useClickOutside(false)
     const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef } = useClickOutside(false)
@@ -45,9 +45,9 @@ const Navbar = () => {
             <div className="pl-4">
                 {
                     user.role == "user" ? (
-                        <img src={ darkMode? "/images/LogoFullDark.png" : "/images/FoundLogoFull.png"} alt="Logo Found" className="h-[40px] w-auto" />
+                        <img src={darkMode ? "/images/LogoFullDark.png" : "/images/FoundLogoFull.png"} alt="Logo Found" className="h-[40px] w-auto" />
                     ) : (
-                        <img src={ darkMode? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="Logo Business" className="h-[40px] w-auto" />
+                        <img src={darkMode ? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="Logo Business" className="h-[40px] w-auto" />
                     )
                 }
             </div>
@@ -59,6 +59,11 @@ const Navbar = () => {
                 </div>
             </form>
             <div className="flex justify-center items-center gap-2">
+                <button onClick={toggleSwitchDark} className="mr-1">
+                    {
+                        darkMode ? <i className="fa-solid fa-moon text-slate-100"></i> : <i className="fa-solid fa-sun text-yellow-400"></i>
+                    }
+                </button>
                 <div ref={messageRef}>
                     <button onClick={toggleMessage}>
                         <div className="flex justify-center items-center">
@@ -67,7 +72,7 @@ const Navbar = () => {
                             </div>
                             {
                                 isOpenMessage && (
-                                    <motion.div className="top-12 right-7 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
+                                    <motion.div className="top-12 right-7 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >
@@ -96,7 +101,7 @@ const Navbar = () => {
                             </div>
                             {
                                 isOpenNotify && (
-                                    <motion.div className="top-12 right-6 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
+                                    <motion.div className="top-12 right-6 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >
@@ -136,7 +141,7 @@ const Navbar = () => {
                             </div>
                             {
                                 isOpenMenu && (
-                                    <motion.div className="top-12 right-5 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
+                                    <motion.div className="top-12 right-5 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >

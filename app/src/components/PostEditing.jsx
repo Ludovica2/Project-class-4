@@ -13,12 +13,15 @@ const postType = {
 }
 
 const PostEditing = () => {
-/*     const dispatch = useDispatch();
-    const { type: typeP } = useSelector((state) => state.post); */
     const { user } = useSelector((state) => state.auth);
     const [field, setField] = useState("Crea il tuo post...");
     const [isOpenDragDdrop, setIsOpenDragDdrop] = useState(false);
     const { active: isPlaceholderVisible, setActive: setIsPlaceholderVisible, elRef: contentRef } = useClickOutside(false);
+    const [review1, setReview1] = useState(false);
+    const [review2, setReview2] = useState(false);
+    const [review3, setReview3] = useState(false);
+    const [review4, setReview4] = useState(false);
+    const [review5, setReview5] = useState(false);
     const [post, setPost] = useState({
         userId: user._id,
         date: "",
@@ -29,6 +32,36 @@ const PostEditing = () => {
         luogo: "",
         val_review: null
     });
+
+    const handleReview1 = () => {
+        setReview1(true);
+    };
+
+    const handleReview2 = () => {
+        setReview1(true);
+        setReview2(true);
+    };
+
+    const handleReview3 = () => {
+        setReview1(true);
+        setReview2(true);
+        setReview3(true);
+    };
+
+    const handleReview4 = () => {
+        setReview1(true);
+        setReview2(true);
+        setReview3(true);
+        setReview4(true);
+    };
+
+    const handleReview5 = () => {
+        setReview1(true);
+        setReview2(true);
+        setReview3(true);
+        setReview4(true);
+        setReview5(true);
+    };
 
     const handleChange = (event) => {
         console.log(event)
@@ -81,11 +114,6 @@ const PostEditing = () => {
                         <label htmlFor="typePost" className="mr-1 self-center dark:text-dark"> Tipologia </label>
                         <div>
                             <select id="typePost" onChange={handleTypePost} className="input_field">
-                                {/* {
-                                    typeP.map((item) => {
-                                        return <option key={item.key} value={item.key} className=" dark:text-slate-300">{item.value}</option>
-                                    })
-                                } */}
                                 <option value={postType.basicType} className=" dark:text-slate-300">Base</option>
                                 <option value={postType.reviewType} className=" dark:text-slate-300">Recensione</option>
                                 <option value={postType.eventType} className=" dark:text-slate-300">Evento</option>
@@ -100,20 +128,20 @@ const PostEditing = () => {
                             <div className="flex mb-3">
                                 <span className="mr-2">Valutazione</span>
                                 <div className="">
-                                    <button className="cursor-default" id="v1" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
+                                    <button className="cursor-default" id="v1" onClick={handleReview1}>
+                                        <i className={"fa-solid fa-star text-text_secondaryColor hover:text-yellow-300" + (review1 ? " text-yellow-300" : "")}></i>
                                     </button>
-                                    <button className="cursor-default" id="v2" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
+                                    <button className="cursor-default" id="v2" onClick={handleReview2}>
+                                        <i className={"fa-solid fa-star text-text_secondaryColor hover:text-yellow-300" + (review2 ? " text-yellow-300" : "")}></i>
                                     </button>
-                                    <button className="cursor-default" id="v3" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
+                                    <button className="cursor-default" id="v3" onClick={handleReview3}>
+                                        <i className={"fa-solid fa-star text-text_secondaryColor hover:text-yellow-300" + (review3 ? " text-yellow-300" : "")}></i>
                                     </button>
-                                    <button className="cursor-default" id="v4" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
+                                    <button className="cursor-default" id="v4" onClick={handleReview4}>
+                                        <i className={"fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"  + (review4 ? " text-yellow-300" : "")}></i>
                                     </button>
-                                    <button className="cursor-default" id="v5" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
+                                    <button className="cursor-default" id="v5" onClick={handleReview5}>
+                                        <i className={"fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"  + (review5 ? " text-yellow-300" : "")}></i>
                                     </button>
                                 </div>
                             </div>

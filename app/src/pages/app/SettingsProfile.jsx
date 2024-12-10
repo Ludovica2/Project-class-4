@@ -20,9 +20,9 @@ const SettingsProfile = () => {
     const dispatch = useDispatch();
     const { darkMode, notify, social: socialSettings, device: deviceSettings } = useSelector((state) => state.settings);
     const [popupIsOpen, setpopupIsOpen] = useState(false);
+    console.log(deviceSettings)
 
     const handleSocialSettingsChange = (payload) => {
-        console.log(payload)
         dispatch(changeSocialSettings(payload));
     };
 
@@ -92,7 +92,7 @@ const SettingsProfile = () => {
                                                     <>
                                                         {
                                                             Object.entries(deviceSettings).map(([name, props]) => (
-                                                                <CustomSlideInput key={name} {...props} onChange={handleDeviceSettingsChange} social={false} />
+                                                                <CustomSlideInput key={name} name={name} {...props} onChange={handleDeviceSettingsChange} social={false} />
                                                             ))
                                                         }
                                                     </>

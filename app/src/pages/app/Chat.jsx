@@ -109,7 +109,7 @@ function Chat() {
                 </div>
                 <div className='p-4 flex'>
                     <input className='flex-1 border p-2 rounded-lg focus:outline-none' type='text' placeholder='Scrivi un messaggio...' />
-                    <button className='ml-2 bg-primayColor px-4 rounded-lg'><i class="fa-regular fa-paper-plane  text-white"></i></button>
+                    <button className='ml-2 bg-primayColor px-4 rounded-lg'><i className="fa-regular fa-paper-plane  text-white"></i></button>
                 </div>
             </div>
         </div>
