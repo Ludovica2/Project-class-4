@@ -11,7 +11,33 @@ const PostSchema = new Schema({
         ref: "User",
         required: true,
     },
+    post_likes: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "PostLike",
+            required: false,
+        }]
+    },
+    post_likes_count: {
+        type: Number,
+        default: 0,
+    },
+    post_comments: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "PostComment",
+            required: false,
+        }]
+    },
+    post_comments_count: {
+        type: Number,
+        default: 0,
+    },
     content: {
+        type: String,
+        required: true,
+    },
+    html: {
         type: String,
         required: true,
     },

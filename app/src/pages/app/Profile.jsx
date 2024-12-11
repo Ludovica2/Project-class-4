@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import PostEditing from "../../components/PostEditing";
 import Widget from "../../components/shared/Widget";
 import { motion } from "framer-motion"
@@ -14,15 +14,22 @@ const widget = {
     review: "review"
 }
 
-<<<<<<< HEAD
 const Profile = ({ isExternal = false }) => {
-=======
-const Profile = () => {
->>>>>>> 2142c5352d8141f4f11a219c837d0b364f39e3af
     const { user } = useSelector((state) => state.auth);
     const { social } = useSelector((state) => state.settings);
+    const [follow, setFollow] = useState(false);
+    const [blockUser, setBlockUser] = useState(false);
 
     const socialActive = getSocialActive(social);
+
+    const handleFollow = () => {
+        setFollow((follow) => !follow);
+    }
+
+    const handleBlockUser = () => {
+        setBlockUser((blockUser) => !blockUser);
+        setFollow(false);
+    }
 
     useEffect(() => {
         document.title = "Profile - Found!";
@@ -45,7 +52,7 @@ const Profile = () => {
                         }
                     </div>
                     <div className="flex flex-col w-full ">
-                        <div className="flex justify-between ml-32 p-3">
+                        <div className="flex justify-between flex-1 ml-32 p-3">
                             <div className="flex flex-col">
                                 {
                                     user.role == "user" ? (
@@ -55,9 +62,6 @@ const Profile = () => {
                                     )
                                 }
                                 <span className="ml-1  mb-2 text-sm font-bold dark:text-slate-300">@{user.nickname}</span>
-                                {
-                                    isExternal && <button>Follow</button>
-                                }
                                 <div className="flex">
                                     <ul className="flex justify-center w-full">
                                         <li className="border-r border-r-slate-100 px-8 py-4">
@@ -74,7 +78,7 @@ const Profile = () => {
                                         </li>
                                         <li className="border-r border-r-slate-100 px-8 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold dark:text-slate-300">Follow</span>
+                                                <span className="font-bold dark:text-slate-300">Follower</span>
                                                 <span className="text-center text-dark">50</span>
                                             </div>
                                         </li>
@@ -92,31 +96,78 @@ const Profile = () => {
                                         </li>
                                     </ul>
                                 </div>
+                                {
+                                    isExternal && (
+                                        <div className=" flex my-3">
+                                            <button onClick={handleFollow} className="btn w-2/3" disabled={blockUser}>
+                                                {
+                                                    follow ? <>
+                                                        <i className="fa-solid fa-user-minus text-white mr-2"></i>
+                                                        <span className="text-white">Non seguire più</span>
+                                                    </> : <>
+                                                        <i className="fa-solid fa-user-plus text-white mr-2"></i>
+                                                        <span className="text-white">Segui</span>
+                                                    </>
+                                                }
+                                            </button>
+                                            <Link to={"/app/chat"} className="w-2/3">
+                                                <button className="w-full px-4 py-2 end-2.5 bottom-2.5 font-medium border border-slate-300 rounded-lg text-[#767d89] hover:bg-slate-100 ml-3 dark:text-slate-300 dark:bg-zinc-600 dark:hover:bg-zinc-700 dark:hover:border-none">
+                                                    <i className="fa-solid fa-comments mr-2 text-secondaryColor"></i>
+                                                    Messaggio</button>
+                                            </Link>
+                                        </div>
+                                    )
+                                }
                             </div>
                             <div className="flex flex-col">
                                 <div className="flex gap-1 justify-end">
-                                    <div className=" mr-2">
-                                        <Link to="/app/profile/editprofile">
-                                            <button className="relative btn-tooltip">
-                                                <i className="fa-solid fa-user-pen text-text_primaryColor dark:text-gray-500"></i>
-                                                <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
-                                                    Modifica Profilo
-                                                    <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
-                                                </div>
+                                    {
+                                        isExternal ? <div className=" mr-2">
+
+                                            <button className="relative btn-tooltip" onClick={handleBlockUser}>
+                                                {
+                                                    blockUser ? <>
+                                                        <i className="fa-solid fa-user-check text-text_primaryColor dark:text-gray-500"></i>
+                                                        <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
+                                                            Sblocca Utente
+                                                            <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
+                                                        </div>
+                                                    </> : <>
+                                                        <i className="fa-solid fa-user-xmark text-text_primaryColor dark:text-gray-500"></i>
+                                                        <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
+                                                            Blocca Utente
+                                                            <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
+                                                        </div>
+                                                    </>
+                                                }
+
                                             </button>
-                                        </Link>
-                                    </div>
-                                    <div className="mr-2">
-                                        <Link to="/app/profile/settingsprofile">
-                                            <button className="relative btn-tooltip">
-                                                <i className="fa-solid fa-gear text-text_primaryColor dark:text-gray-500"></i>
-                                                <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
-                                                    Impostazioni
-                                                    <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
-                                                </div>
-                                            </button>
-                                        </Link>
-                                    </div>
+
+                                        </div> : <>
+                                            <div className=" mr-2">
+                                                <Link to="/app/profile/editprofile">
+                                                    <button className="relative btn-tooltip">
+                                                        <i className="fa-solid fa-user-pen text-text_primaryColor dark:text-gray-500"></i>
+                                                        <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
+                                                            Modifica Profilo
+                                                            <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
+                                                        </div>
+                                                    </button>
+                                                </Link>
+                                            </div>
+                                            <div className="mr-2">
+                                                <Link to="/app/profile/settingsprofile">
+                                                    <button className="relative btn-tooltip">
+                                                        <i className="fa-solid fa-gear text-text_primaryColor dark:text-gray-500"></i>
+                                                        <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
+                                                            Impostazioni
+                                                            <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
+                                                        </div>
+                                                    </button>
+                                                </Link>
+                                            </div>
+                                        </>
+                                    }
                                 </div>
                                 <div className="">
                                     <p className="m-2 dark:text-slate-100">Altri Social</p>
@@ -128,69 +179,6 @@ const Profile = () => {
                                                 ))
                                             )
                                         }
-                                        {/* <motion.button className="w-5 h-5 relative btn-tooltip"
-                                            whileHover={{ scale: 1.2 }}
-                                        >
-                                            <img src="/images/instagram.png" alt="instagram" />
-                                            <div className="tooltip-container tooltip-bottom">
-                                                Instagram
-                                                <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                            </div>
-                                        </motion.button>
-                                        <motion.button className="w-5 h-5 relative btn-tooltip"
-                                            whileHover={{ scale: 1.2 }}
-                                        >
-                                            <img src="/images/facebook.png" alt="facebook" />
-                                            <div className="tooltip-container tooltip-bottom">
-                                                Facebook
-                                                <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                            </div>
-                                        </motion.button>
-                                        <motion.button className="w-5 h-5 relative btn-tooltip"
-                                            whileHover={{ scale: 1.2 }}
-                                        >
-                                            <img src="/images/tiktok.png" alt="tiktok" />
-                                            <div className="tooltip-container tooltip-bottom">
-                                                TikTok
-                                                <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                            </div>
-                                        </motion.button>
-                                        <motion.button className="w-5 h-5 relative btn-tooltip"
-                                            whileHover={{ scale: 1.2 }}
-                                        >
-                                            <img src="/images/threads.png" alt="threads" />
-                                            <div className="tooltip-container tooltip-bottom">
-                                                Threads
-                                                <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                            </div>
-                                        </motion.button>
-                                        <motion.button className="w-5 h-5 relative btn-tooltip"
-                                            whileHover={{ scale: 1.2 }}
-                                        >
-                                            <img src="/images/youtube.png" alt="youtube" />
-                                            <div className="tooltip-container tooltip-bottom">
-                                                YouTube
-                                                <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                            </div>
-                                        </motion.button>
-                                        <motion.button className="w-5 h-5 relative btn-tooltip"
-                                            whileHover={{ scale: 1.2 }}
-                                        >
-                                            <img src="/images/pinterest.png" alt="pinterest" />
-                                            <div className="tooltip-container tooltip-bottom">
-                                                Pinterest
-                                                <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                            </div>
-                                        </motion.button>
-                                        <motion.button className="w-5 h-5 relative btn-tooltip"
-                                            whileHover={{ scale: 1.2 }}
-                                        >
-                                            <img src="/images/linkedin.png" alt="linkedin" />
-                                            <div className="tooltip-container tooltip-bottom">
-                                                Linkedin
-                                                <div className="arrow-tooltip arrow-tlt-bottom"></div>
-                                            </div>
-                                        </motion.button> */}
                                     </div>
                                 </div>
                             </div>
@@ -207,25 +195,30 @@ const Profile = () => {
                         }
                     </div>
                 </div>
-                <div className="flex"></div>
                 <div className="flex gap-4">
-                    <div className="w-1/4">
-                        <Widget title={"Eventi in Programma"} wgt={widget.events} role={user.role}/>
-                        {
+                    {
+                        blockUser ? <div className="w-full h-24 flex justify-center items-center text-2xl bg-white rounded-lg shadow m-5 dark:bg-elements_dark dark:shadow-slate-600">
+                            <span className="text-slate-600">Sblocca questo utente per vedere i suoi contenuti</span>
+                        </div> : <>
+                            <div className="w-1/4">
+                                <Widget title={"Eventi in Programma"} wgt={widget.events} role={user.role} />
+                                {
                                     user.role == "user" ? (
-                                        <Widget title={"Luoghi Visitati"} wgt={widget.city}/>
+                                        <Widget title={"Luoghi Visitati"} wgt={widget.city} />
                                     ) : (
                                         <Widget title={"Recensioni"} wgt={widget.review} role={user.role} val_review={
-                                            <span>4,5 <i className="fa-solid fa-star text-yellow-300"></i></span> 
-                                        }/>
+                                            <span>4,5 <i className="fa-solid fa-star text-yellow-300"></i></span>
+                                        } />
                                     )
                                 }
-                    </div>
-                    <div className="w-full">
-                        <div className="flex justify-center flex-1">
-                            <PostEditing />
-                        </div>
-                    </div>
+                            </div>
+                            <div className="w-full">
+                                <div className="flex justify-center flex-1">
+                                    <PostEditing />
+                                </div>
+                            </div>
+                        </>
+                    }
                 </div>
             </div>
         </>

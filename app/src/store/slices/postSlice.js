@@ -3,18 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 const postSlice = createSlice({
     name: "post",
     initialState: {
-        type: {
-            basic: "Base", 
-            review: "Recensione",
-            event: "Evento"
-        },
+        all: [],
+        currentProfile: [],
     },
     reducers: {
-        addPost: (state, { payload }) => { 
-
-        }
+        setAllPosts: (state, { payload }) => { 
+            state.all = payload;
+        },
+        setAllProfilePosts: (state, { payload }) => { 
+            state.currentProfile = payload;
+        },
     }
 });
 
-export const { addPost } = postSlice.actions;
+export const { setAllPosts, setAllProfilePosts } = postSlice.actions;
+
 export default postSlice.reducer;

@@ -9,27 +9,38 @@ import { toggleDarkMode } from "../../../store/slices/settingsSlice";
 const Navbar = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
-    const { darkMode} = useSelector((state) => state.settings);
-    const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef } = useClickOutside(false)
-    const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef } = useClickOutside(false)
-    const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef } = useClickOutside(false)
+    const { darkMode } = useSelector((state) => state.settings);
+    const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef } = useClickOutside(false);
+    const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef } = useClickOutside(false);
+    const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef } = useClickOutside(false);
+    const { active: isOpenSearch, setActive: setIsOpenSearch, elRef: serachRef } = useClickOutside(false);
 
     const toggleProfileMenu = () => {
         setIsOpenMenu(prev => !prev);
         setIsOpenNotify(false);
         setIsOpenMessage(false);
+        setIsOpenSearch(false);
     }
 
     const toggleNotify = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(prev => !prev);
         setIsOpenMessage(false);
+        setIsOpenSearch(false);
     }
 
     /* const toggleMessage = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(false);
         setIsOpenMessage(prev => !prev);
+        setIsOpenSearch(false);
+    }
+
+    const togglesearch = () => {
+        setIsOpenMenu(false);
+        setIsOpenNotify(false);
+        setIsOpenMessage(false);
+        setIsOpenSearch(prev => !prev);
     }
  */
     const handleLogout = () => {
@@ -45,22 +56,55 @@ const Navbar = () => {
             <div className="pl-4">
                 {
                     user.role == "user" ? (
-                        <img src={ darkMode? "/images/LogoFullDark.png" : "/images/FoundLogoFull.png"} alt="Logo Found" className="h-[40px] w-auto" />
+                        <>
+                            <img src={darkMode ? "/images/LogoFullDark.png" : "/images/FoundLogoFull.png"} alt="Logo Found" className="h-[40px] w-auto" />
+                        </>
                     ) : (
-                        <img src={ darkMode? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="Logo Business" className="h-[40px] w-auto" />
+                        <>
+                            <img src={darkMode ? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="Logo Business" className="h-[40px] w-auto" />
+                        </>
                     )
                 }
             </div>
 
-            <form className="w-96 mx-auto">
+            <form className="w-96 mx-auto sm:hidden">
                 <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1  dark:bg-bg_dark dark:border-gray-500">
                     <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50 input_field dark:bg-elements_dark dark:border-gray-500 dark:focus:bg-gray-800 dark:focus:border-gray-400" placeholder="Searched and Found!" required />
                     <button type="submit" className="btn dark:border-gray-500">Search</button>
                 </div>
             </form>
+
+            <div ref={serachRef} className="md:hidden">
+                <button onClick={togglesearch}>
+                    <div className="flex justify-center items-center">
+                        <i className="fa-solid fa-magnifying-glass text-primayColor"></i>
+                        {
+                            isOpenSearch && (
+                                <motion.div className="top-11 right-0 flex flex-col p-4 w-full bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
+                                    initial={{ y: 30 }}
+                                    animate={{ y: "calc(0vw + 10%)" }}
+                                >
+                                    <form className="w-96 mx-auto">
+                                        <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1  dark:bg-bg_dark dark:border-gray-500">
+                                            <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50 input_field dark:bg-elements_dark dark:border-gray-500 dark:focus:bg-gray-800 dark:focus:border-gray-400" placeholder="Searched and Found!" required />
+                                            <button type="submit" className="btn dark:border-gray-500">Search</button>
+                                        </div>
+                                    </form>
+                                </motion.div>
+                            )
+                        }
+                    </div>
+                </button>
+            </div>
+
             <div className="flex justify-center items-center gap-2">
-                <div>
-                    <button /* onClick={toggleMessage} */>
+                <button onClick={toggleSwitchDark} className="mr-1">
+                    {
+                        darkMode ? <i className="fa-solid fa-moon text-slate-100"></i> : <i className="fa-solid fa-sun text-yellow-400"></i>
+                    }
+                </button>
+                <div ref={messageRef}>
+                    <button onClick={toggleMessage}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
                                 <i className="fa-solid fa-envelope text-primayColor hover:opacity-70"></i>
@@ -77,7 +121,7 @@ const Navbar = () => {
                             </div>
                             {
                                 isOpenNotify && (
-                                    <motion.div className="top-12 right-6 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
+                                    <motion.div className="top-12 right-6 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >
@@ -110,14 +154,14 @@ const Navbar = () => {
                                     user.role == "user" ? (
                                         <p className="dark:text-white hover:opacity-70">{user.first_name} {user.last_name}</p>
                                     ) : (
-                                        <p className="dark:text-white">{user.metadata.company_name}</p>
+                                        <p className="dark:text-white sm:hidden">{user.metadata.company_name}</p>
                                     )
                                 }
 
                             </div>
                             {
                                 isOpenMenu && (
-                                    <motion.div className="top-12 right-5 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
+                                    <motion.div className="top-12 right-5 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
                                         initial={{ y: 100 }}
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >

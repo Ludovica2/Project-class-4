@@ -30,6 +30,9 @@ const models = {
     Message: require("./models/Message"),
     Notification: require("./models/Notification"),
     UserFollow: require("./models/UserFollow"),
+    PostLike: require("./models/PostLike"),
+    PostComment: require("./models/PostComment"),
+    PostCommentReaction: require("./models/PostCommentReaction"),
 }
 
 module.exports = {

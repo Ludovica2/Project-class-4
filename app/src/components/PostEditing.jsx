@@ -3,7 +3,9 @@ import ContentEditable from "react-contenteditable";
 import { motion } from "framer-motion"
 import { FileInput, Label } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useClickOutside } from "../hooks/useClickOutside";
+import { toast } from "react-toastify";
+import SDK from "../SDK";
 
 const postType = {
     basicType: "basic",
@@ -11,12 +13,11 @@ const postType = {
     eventType: "event"
 }
 
-const PostEditing = () => {
-/*     const dispatch = useDispatch();
-    const { type: typeP } = useSelector((state) => state.post); */
-    const { user } = useSelector((state) => state.auth);
-    const [field, setField] = useState("Crea il tuo post...");
+const PostEditing = ({ onNewPost }) => {
+    const { user, token } = useSelector((state) => state.auth);
+    const [field, setField] = useState("");
     const [isOpenDragDdrop, setIsOpenDragDdrop] = useState(false);
+    const [valueReview, setValueReview] = useState(0);
     const [post, setPost] = useState({
         userId: user._id,
         date: "",
@@ -27,6 +28,14 @@ const PostEditing = () => {
         luogo: "",
         val_review: null
     });
+
+    const reviews = [1, 2, 3, 4, 5];
+
+    const handleReview = (value) => {
+        setValueReview(value);
+        setPost((post) => ({ ...post, val_review: value }));
+    };
+
 
     const handleChange = (event) => {
         console.log(event)
@@ -43,45 +52,17 @@ const PostEditing = () => {
         setPost((post) => ({ ...post, type: event.target.value }));
     }
 
-    const handleValueReview = (value) => {
-        setPost((post) => ({ ...post, val_review: value }));
-    }
-
-    const pushPost = async () => {
-        const payload = post;
-
-        try {
-            await SDK.post.addPost(payload);
-            toast.success("Post generato correttamente");
-            navigate("/feed");
-        } catch (error) {
-            console.log(error)
-            toast.error(error.message);
-        }
-    }
-
-    const handleClick = () => {
-        setIsPlaceholderVisible(true);
-    }
-
     const handleCreatePost = async () => {
-        if (isPlaceholderVisible) return;
-
         try {
-            await SDK.post.create({ content: btoa(field), user }, token);
+            await SDK.post.create({ content: btoa(field) }, token);
             toast.success("Post created");
             setField("Crea il tuo post...");
-            setIsPlaceholderVisible(true);
+            onNewPost();
         } catch (error) {
             console.log(error);
             toast.error(error.message);
         }
     }
-
-    useEffect(() => {
-        if (isPlaceholderVisible && (field == "Crea il tuo post...")) setField("");
-        else if(!isPlaceholderVisible && field == "") setField("Crea il tuo post...");
-    }, [isPlaceholderVisible]);
 
     return (
         <>
@@ -92,11 +73,6 @@ const PostEditing = () => {
                         <label htmlFor="typePost" className="mr-1 self-center dark:text-dark"> Tipologia </label>
                         <div>
                             <select id="typePost" onChange={handleTypePost} className="input_field">
-                                {/* {
-                                    typeP.map((item) => {
-                                        return <option key={item.key} value={item.key} className=" dark:text-slate-300">{item.value}</option>
-                                    })
-                                } */}
                                 <option value={postType.basicType} className=" dark:text-slate-300">Base</option>
                                 <option value={postType.reviewType} className=" dark:text-slate-300">Recensione</option>
                                 <option value={postType.eventType} className=" dark:text-slate-300">Evento</option>
@@ -111,26 +87,21 @@ const PostEditing = () => {
                             <div className="flex mb-3">
                                 <span className="mr-2">Valutazione</span>
                                 <div className="">
-                                    <button className="cursor-default" id="v1" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
-                                    </button>
-                                    <button className="cursor-default" id="v2" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
-                                    </button>
-                                    <button className="cursor-default" id="v3" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
-                                    </button>
-                                    <button className="cursor-default" id="v4" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
-                                    </button>
-                                    <button className="cursor-default" id="v5" onClick={() => handleValueReview(1)}>
-                                        <i className="fa-solid fa-star text-text_secondaryColor hover:text-yellow-300"></i>
-                                    </button>
+                                    {
+                                        reviews.map((star, index) => (
+                                            <button className="cursor-default" onClick={() => handleReview(index)}>
+                                            <i className={"fa-solid fa-star text-text_secondaryColor hover:text-yellow-300" + (index <= valueReview ? " text-yellow-300" : "")}></i>
+                                        </button>
+                                        ))
+                                    }
                                 </div>
                             </div>
                         )
                     }
-                    <ContentEditable onChange={handleChange} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" />
+                    <div>
+                        { /* <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" /> */ }
+                        <textarea className="w-full border-none outline-none focus:ring-0 focus:outline-none active:outline-none" onChange={handleChange} value={field} placeholder="Crea il tuo post..."></textarea>
+                    </div>
                     {
                         isOpenDragDdrop && (
                             <div className="flex w-full items-center justify-center">
