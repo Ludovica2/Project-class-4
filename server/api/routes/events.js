@@ -54,7 +54,7 @@ app.get("/", authUser(), async (req, res) => {
  * @path /api/events/:id
  * @method PUT
  */
-app.post("/:id", authUser(), async (req, res) => {
+app.put("/:id", authUser(), async (req, res) => {
     const user = req.user;
     const _id = req.params.id;
     const schema = Joi.object().keys({
@@ -80,7 +80,7 @@ app.post("/:id", authUser(), async (req, res) => {
  * @path /api/events/:id
  * @method DELETE
  */
-app.post("/:id", authUser(), async (req, res) => {
+app.delete("/:id", authUser(), async (req, res) => {
     const user = req.user;
     const _id = req.params.id;
 

@@ -86,9 +86,9 @@ export default {
                 data: payload,
             })).data;
         },
-        update: async (payload, token) => {
+        update: async (_id, payload, token) => {
             return (await axios({
-                url: buildApiUrl(`/events/${payload._id}`),
+                url: buildApiUrl(`/events/${_id}`),
                 method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${token}`

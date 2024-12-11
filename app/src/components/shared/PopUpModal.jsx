@@ -14,11 +14,11 @@ const PopUpModal = ({ children, title, showBtn, sizeModal }) => {
     return (
         <>
             {
-                showBtn(setModalIsOpen)
+                showBtn(setModalIsOpen) 
             }
             {
                 modalIsOpen && (
-                    <Modal dismissible size={sizeModal} show={modalIsOpen} onClose={openModal}>
+                    <Modal dismissible size={sizeModal} show={modalIsOpen/* show */} onClose={openModal/* onClose */}>
                         <Modal.Header className="dark:text-slate-100">{title}</Modal.Header>
                         <Modal.Body>
                             <div className="flex flex-col justify-between">
@@ -39,4 +39,4 @@ const PopUpModal = ({ children, title, showBtn, sizeModal }) => {
     )
 }
 
-export default PopUpModal
+export default PopUpModal;

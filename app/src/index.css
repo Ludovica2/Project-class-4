@@ -233,6 +233,34 @@ option:hover {
     transition: 0.3s;
   }
 
+  /* Calendar */
+.rbc-calendar .dark {
+    color: white;
+}
+  
+  /* Cambia il colore di sfondo dei giorni */
+.rbc-header {
+    background-color: #40798C;
+    color: white;
+  }
+  
+  /* Cambia il colore dei giorni selezionati */
+  .rbc-selected {
+    background-color: red
+  }
+  
+  /* Cambia il colore del giorno corrente */
+  .rbc-today {
+    background-color: rgb(241, 241, 241);
+  }
+  
+  /* Cambia il colore degli eventi */
+  .rbc-event {
+    background-color: #A6B1E1;
+    color: white;
+  }
+
+
   @-webkit-keyframes zoom {
     from {-webkit-transform:scale(0)} 
     to {-webkit-transform:scale(1)}
