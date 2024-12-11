@@ -1,9 +1,13 @@
-import { createContext, useState } from "react";
+import { createContext, useRef } from "react";
 
 export const RoleContext = createContext();
 
 export const RoleProvider = ({children}) => {
-    const [lastRole, setLastRole] = useState(null);
+    const lastRole = useRef(null);
+
+    const setLastRole = (newValue) => {
+        lastRole.current = newValue;
+    }
 
     return (
         <RoleContext.Provider value={[lastRole, setLastRole]}>

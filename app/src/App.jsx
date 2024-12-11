@@ -36,7 +36,7 @@ const ProtectedRoute = ({ children }) => {
 
 const App = () => {
     const { darkMode } = useSelector((state) => state.settings);
-
+    
     useEffect(() => {
         document.body.classList[darkMode ? "add" : "remove"]("dark");
     }, [darkMode]);

@@ -38,19 +38,19 @@ const parsePostContent = (content) => {
 
     if (mentions) {
         mentions.forEach(m => {
-            html = html.replace(m, `<a href="${process.env.CLIENT_HOST}/app/profile/${m.replace("@", "")}">${m}</a>`);
+            html = html.replace(new RegExp(m, "g"), `<a href="${process.env.CLIENT_HOST}/app/profile/${m.replace("@", "")}">${m}</a>`);
         });
     }
     
     if (tags) {
         tags.forEach(m => {
-            html = html.replace(m, `<a href="${process.env.CLIENT_HOST}/app/feed?tag=${m.replace("#", "")}">${m}</a>`);
+            html = html.replace(new RegExp(m, "g"), `<a href="${process.env.CLIENT_HOST}/app/feed?tag=${m.replace("#", "")}">${m}</a>`);
         });
     }
 
     if (urls) {
         urls.forEach(m => {
-            html = html.replace(m, `<a href="${m}">${m}</a>`)
+            html = html.replace(new RegExp(m, "g"), `<a href="${m}">${m}</a>`)
         });
     }
 

@@ -36,18 +36,17 @@ const Feed = () => {
             <div className="flex gap-6">
                 <div className="w-full md:max-w-[640px] xl:max-w-[660px] 2xl:max-w-[830px]">
                     <PostEditing onNewPost={fetchAllPosts} />
-                    <CustomBox profile="Ludovica Spinelli" imgProfile="https://images.pexels.com/photos/12421204/pexels-photo-12421204.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" nickname="_luvi_" dataPost="5 minuti fa">
-                        <p className="dark:text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum minus delectus, sed magni nemo debitis ipsam blanditiis saepe impedit veritatis maiores quaerat reiciendis eligendi nam quam error, tenetur accusantium officiis.</p>
-                    </CustomBox>
                     {
                         allPosts.map(post => (
-                            <CustomBox 
+                            <CustomBox
+                                key={post._id}
                                 profile={post.from.first_name + " " + post.from.last_name} 
                                 imgProfile="https://images.pexels.com/photos/12421204/pexels-photo-12421204.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
-                                nickname="_luvi_" 
+                                nickname={post.from.nickname} 
                                 dataPost="5 minuti fa"
+                                post={post}
                             >
-                                <p className="dark:text-dark w-full break-all post-p" dangerouslySetInnerHTML={{ __html: post.html }}></p>
+                                <p className="dark:text-dark w-full post-p" dangerouslySetInnerHTML={{ __html: post.html }}></p>
                             </CustomBox>
                         ))
                     }

@@ -4,8 +4,9 @@ import { motion } from "framer-motion"
 import ImageModal from './ImageModal';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import PopUpModal from './PopUpModal';
+import { Link } from 'react-router-dom';
 
-const CustomBox = ({ children, profile = "", imgProfile = "", dataPost = "", nickname= ""}) => {
+const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "", nickname= ""}) => {
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
     const [replyComments, setReplyComments] = useState(false);
@@ -37,7 +38,7 @@ const CustomBox = ({ children, profile = "", imgProfile = "", dataPost = "", nic
                     <div className="rounded-t-lg flex flex-col flex-1 justify-center ml-4">
                         <div className='flex'>
                             <h3 className="dark:text-white">{profile} -</h3>
-                            <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @{nickname}</span>
+                            <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @<Link to={`/app/profile/${nickname.replace("@", "")}`}>{nickname}</Link></span>
                         </div>
                         <span className='textSmall-gray dark:text-slate-300'>{dataPost}</span>
                     </div>
@@ -87,18 +88,87 @@ const CustomBox = ({ children, profile = "", imgProfile = "", dataPost = "", nic
                 <div className="m-4 rounded-b-lg">
                     <div>
                         {children}
-                    </div>
-                    {/* Modal */}
-                    <div>
-                        {
-                            <ImageModal images={["https://images.pexels.com/photos/12893376/pexels-photo-12893376.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/8219320/pexels-photo-8219320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/6617683/pexels-photo-6617683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"]}>
-                                {
-                                    (setIsShowModal) => {
-                                        return <button onClick={() => setIsShowModal(true)}>Images</button>;
-                                    }
-                                }
-                            </ImageModal>
-                        }
+                        <div className="w-full my-4">
+                            {
+                                // IMAGES
+                                Array.isArray(post?.images) && post?.images.length > 0 && (
+                                    <ImageModal images={post.images}>
+                                        {
+                                            (setIsShowModal) => {
+                                                if (post.images.length == 1) {
+                                                    return (
+                                                        <div className="w-full h-auto max-h-[350px] flex justify-center items-center overflow-hidden">
+                                                            <img className="w-full h-auto cursor-pointer" src={post.images[0]} alt="Post image" onClick={() => setIsShowModal(true)} />
+                                                        </div>
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <div className="w-full h-auto flex-wrap flex gap-[1%]">
+                                                            {
+                                                                post.images.slice(0, 3).map((img, i) => {
+                                                                    if (post.images.length <= 3) {
+                                                                        return (
+                                                                            <div 
+                                                                                key={img} 
+                                                                                style={{ 
+                                                                                    width: `${(100 / post.images.slice(0, 3).length) - 1}%`,
+                                                                                    backgroundImage: `url(${img})`,
+                                                                                    backgroundRepeat: "no-repete",
+                                                                                    backgroundSize: "cover",
+                                                                                    backgroundPosition: "center center"
+                                                                                }} 
+                                                                                className={`h-auto min-h-[250px] cursor-pointer`} 
+                                                                                onClick={() => setIsShowModal(true)} 
+                                                                            />
+                                                                        )
+                                                                    } else {
+                                                                        if (i < 2) {
+                                                                            return (
+                                                                                <div 
+                                                                                    key={img} 
+                                                                                    style={{ 
+                                                                                        width: `${(100 / post.images.slice(0, 3).length) - 1}%`,
+                                                                                        backgroundImage: `url(${img})`,
+                                                                                        backgroundRepeat: "no-repete",
+                                                                                        backgroundSize: "cover",
+                                                                                        backgroundPosition: "center center"
+                                                                                    }} 
+                                                                                    className={`h-auto min-h-[250px] cursor-pointer`} 
+                                                                                    onClick={() => setIsShowModal(true)} 
+                                                                                />
+                                                                            )
+                                                                        } else {
+                                                                            return (
+                                                                                <div 
+                                                                                    key={img} 
+                                                                                    style={{ 
+                                                                                        width: `${(100 / post.images.slice(0, 3).length) - 1}%`,
+                                                                                        backgroundImage: `url(${img})`,
+                                                                                        backgroundRepeat: "no-repete",
+                                                                                        backgroundSize: "cover",
+                                                                                        backgroundPosition: "center center"
+                                                                                    }} 
+                                                                                    className={`h-auto min-h-[250px] cursor-pointer relative`} 
+                                                                                    onClick={() => setIsShowModal(true)} 
+                                                                                >
+                                                                                    <div className="w-full h-full absolute bg-black bg-opacity-70 flex justify-center items-center text-white font-extrabold text-3xl top-0 left-0">
+                                                                                        +{post.images.length - 2}
+                                                                                    </div>
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                    }
+                                                                })
+                                                            }
+                                                        </div>
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    </ImageModal>
+                                )
+                            }
+                        </div>
                     </div>
                     <div className='flex mt-4'>
                         <ul className='flex mr-1'>

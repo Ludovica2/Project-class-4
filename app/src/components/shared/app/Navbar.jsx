@@ -29,20 +29,20 @@ const Navbar = () => {
         setIsOpenSearch(false);
     }
 
-    /* const toggleMessage = () => {
+    const toggleMessage = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(false);
         setIsOpenMessage(prev => !prev);
         setIsOpenSearch(false);
     }
 
-    const togglesearch = () => {
+    const toggleSearch = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(false);
         setIsOpenMessage(false);
         setIsOpenSearch(prev => !prev);
     }
- */
+ 
     const handleLogout = () => {
         dispatch(logout());
     }
@@ -75,7 +75,7 @@ const Navbar = () => {
             </form>
 
             <div ref={serachRef} className="md:hidden">
-                <button onClick={togglesearch}>
+                <button onClick={toggleSearch}>
                     <div className="flex justify-center items-center">
                         <i className="fa-solid fa-magnifying-glass text-primayColor"></i>
                         {
