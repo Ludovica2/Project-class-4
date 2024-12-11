@@ -78,7 +78,7 @@ const Profile = ({ isExternal = false }) => {
                                         </li>
                                         <li className="border-r border-r-slate-100 px-8 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold dark:text-slate-300">Follow</span>
+                                                <span className="font-bold dark:text-slate-300">Follower</span>
                                                 <span className="text-center text-dark">50</span>
                                             </div>
                                         </li>
