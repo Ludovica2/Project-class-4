@@ -16,11 +16,7 @@ const localizer = momentLocalizer(moment);
 
 const FoundCalendar = () => {
     const dispatch = useDispatch();
-    const events = useSelector((state) => state.event.all.map(p => ({
-        ...p, 
-        start: new Date(p.start),
-        end: new Date(p.end),
-    })));
+    const events = useSelector((state) => state.event.all);
     
     const { token } = useSelector((state) => state.auth);
 
@@ -60,8 +56,7 @@ const FoundCalendar = () => {
         if (payload.title) {
             try {
                 if (selectedEvent) {
-                    const updatedEvent = await SDK.events.update(selectedEvent._id, payload, token);
-                    console.log(updateEvent);
+                    await SDK.events.update(selectedEvent._id, payload, token);
                     
                     dispatch(updateEvent({ _id: selectedEvent._id, values: payload }));
                 } else {
@@ -92,7 +87,7 @@ const FoundCalendar = () => {
     const fetchData = async () => {
         try {
             let data = await SDK.events.getAll(token);
-            data = data.map((item) => ({ ...item, start: new Date(item.start), end: new Date(item.end) }));
+            data = data.map((item) => ({ ...item }));
             dispatch(setAllEvents(data));
         } catch (error) {
             console.log(error);
@@ -114,7 +109,11 @@ const FoundCalendar = () => {
                 <div className="overflow-auto">
                     <Calendar
                         localizer={localizer}
-                        events={events}
+                        events={events.map(p => ({
+                            ...p, 
+                            start: new Date(p.start),
+                            end: new Date(p.end),
+                        }))}
                         startAccessor="start"
                         endAccessor="end"
                         style={{ height: '80vh' }}

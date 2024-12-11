@@ -7,13 +7,6 @@ const eventSlice = createSlice({
     },
     reducers: {
         setAllEvents: (state, {payload}) => {
-            payload = payload.map(p => ({
-                ...p, 
-                start: p.start instanceof Date ? p.start.toLocaleString() : p.start,
-                end: p.end instanceof Date ? p.end.toLocaleString() : p.end,
-            }))
-            console.log(payload);
-            
             state.all = payload
         },
         createNewEvent: (state, {payload}) => {
