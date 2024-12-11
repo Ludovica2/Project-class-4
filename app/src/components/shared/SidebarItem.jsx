@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom"
 
-const SidebarItem = ({children, to}) => {
+const SidebarItem = ({children, to, label}) => {
     const location = useLocation();
     
     const formatClassName = () => {
@@ -10,9 +10,9 @@ const SidebarItem = ({children, to}) => {
     return (
         <>
             <div className={formatClassName()}>
-                <Link to={to} className='flex hover:opacity-70'>
+            {label == "Chat" ? <a href="/app/chat" target="_blank" className="flex hover:opacity-70">{children}</a> :  <Link to={to} className='flex hover:opacity-70'>
                     {children}
-                </Link>
+                </Link>}
             </div>
         </>
     )

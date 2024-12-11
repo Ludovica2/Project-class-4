@@ -14,6 +14,8 @@ const eventSlice = createSlice({
         },
         updateEvent: (state, {payload}) => { /* {_id, values} */
             const index = state.all.findIndex((e) => e._id == payload._id);
+            console.log(payload);
+            
             state.all[index] = {...state.all[index], ...payload.values};
         },
         deleteEvent: (state, {payload}) => { /* _id */

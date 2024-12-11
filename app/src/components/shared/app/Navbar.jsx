@@ -26,12 +26,12 @@ const Navbar = () => {
         setIsOpenMessage(false);
     }
 
-    const toggleMessage = () => {
+    /* const toggleMessage = () => {
         setIsOpenMenu(false);
         setIsOpenNotify(false);
         setIsOpenMessage(prev => !prev);
     }
-
+ */
     const handleLogout = () => {
         dispatch(logout());
     }
@@ -59,31 +59,12 @@ const Navbar = () => {
                 </div>
             </form>
             <div className="flex justify-center items-center gap-2">
-                <div ref={messageRef}>
-                    <button onClick={toggleMessage}>
+                <div>
+                    <button /* onClick={toggleMessage} */>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
-                                <i className="fa-solid fa-envelope text-primayColor"></i>
+                                <i className="fa-solid fa-envelope text-primayColor hover:opacity-70"></i>
                             </div>
-                            {
-                                isOpenMessage && (
-                                    <motion.div className="top-12 right-7 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow"
-                                        initial={{ y: 100 }}
-                                        animate={{ y: "calc(0vw + 10%)" }}
-                                    >
-                                        <div className="mb-4">
-                                            <h4 className="dark:text-slate-100">Messaggi</h4>
-                                        </div>
-                                        <div className="flex flex-col gap-3 items-start">
-                                            <ul>
-                                                <li className="dark:text-dark">messaggio</li>
-                                                <li className="dark:text-dark">messaggio</li>
-                                                <li className="dark:text-dark">messaggio</li>
-                                            </ul>
-                                        </div>
-                                    </motion.div>
-                                )
-                            }
                         </div>
                     </button>
                 </div>
@@ -92,7 +73,7 @@ const Navbar = () => {
                     <button onClick={toggleNotify}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
-                                <i className="fa-solid fa-bell-concierge text-primayColor"></i>
+                                <i className="fa-solid fa-bell-concierge text-primayColor hover:opacity-70"></i>
                             </div>
                             {
                                 isOpenNotify && (
@@ -127,7 +108,7 @@ const Navbar = () => {
                                 </div>
                                 {
                                     user.role == "user" ? (
-                                        <p className="dark:text-white">{user.first_name} {user.last_name}</p>
+                                        <p className="dark:text-white hover:opacity-70">{user.first_name} {user.last_name}</p>
                                     ) : (
                                         <p className="dark:text-white">{user.metadata.company_name}</p>
                                     )

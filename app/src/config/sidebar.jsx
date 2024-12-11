@@ -97,7 +97,7 @@ export const renderSidebarItem = (item, index) => {
             )
         case "item":
             return (
-                <SidebarItem key={`side-item-${index}`} to={item.to}>
+                <SidebarItem key={`side-item-${index}`} to={item.to} label={item.label}>
                     <div className='w-5 mr-1'>
                         <i className={item.iconClassName}></i>
                     </div>

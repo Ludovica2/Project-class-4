@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 const Sidebar = ({ children, navbar }) => {
     const [isOpenSidebar, setIsOpenSidebar] = useState(true);
-    const {user} = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.auth);
 
     const toggleSidebar = () => {
         setIsOpenSidebar((isOpen) => !isOpen);
@@ -32,7 +32,13 @@ const Sidebar = ({ children, navbar }) => {
                         )
                     }
                     <span className='relative'>
-                        <button onClick={toggleSidebar}><i className="fa-regular fa-square-caret-down fa-rotate-90 text-lg text-primayColor"></i></button>
+                        <button onClick={toggleSidebar}>
+                            {isOpenSidebar ? (
+                                <i className="fa-solid fa-chevron-left text-lg dark:text-white dark:hover:opacity-70 text-primayColor hover:opacity-70 p-2"></i>
+                            ) : (
+                                <i className="fa-solid fa-chevron-right text-lg dark:text-white dark:hover:opacity-70 text-primayColor hover:opacity-70 p-2"></i>
+                            )}
+                        </button>
                     </span>
                     <div className="bg-slate-50 flex-grow h-[calc(100vh-65px)] overflow-y-auto dark:bg-bg_dark">
                         {children}
