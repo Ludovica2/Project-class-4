@@ -45,12 +45,13 @@ const Login = () => {
         <>
             <div className="relative mt-6 lg:mt-20">
                 {
-                    !darkMode && (
-                        <img src="/images/FlyngAirplane.gif" alt="plane" className="gif-airplane max-w-w_1400 w-full -z-10" />
-                    )
+                    darkMode ? 
+                        <img src="/images/FoundPlaneDark.gif" alt="plane" className="gif-airplane max-w-w_1400 w-full -z-10 max-xs:hidden" />
+                    : 
+                        <img src="/images/FlyngAirplane.gif" alt="plane" className="gif-airplane max-w-w_1400 w-full -z-10 max-xs:hidden" />
                 }
                 <div className="flex justify-center">
-                    <div className="flex flex-col w-w_450 2xl:w-w_500 min-w-96 mt-4 p-4 bg-white border border-gray-300 rounded-md dark:bg-elements_dark">
+                    <div className="flex flex-col w-w_450 2xl:w-w_500 mt-4 p-4 bg-white border border-gray-300 rounded-md dark:bg-elements_dark max-xs:w-80 max-xxs:border-none">
                         <p className="mx-4 mt-3 mb-8 px-4 text-center text-gray-600 text-dark">Benvenuto su Found!, la piattaforma ideale per programmare al meglio i tuoi viaggi</p>
                         <form onSubmit={handleSubmit}>
                             <div className="flex flex-col">

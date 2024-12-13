@@ -5,6 +5,7 @@ const settingsSlice = createSlice({
     initialState: {
         darkMode: false,
         notify: false,
+        lastUserRole: "user",
         social: {
             instagram: {
                 title: "Instagram",
@@ -79,14 +80,17 @@ const settingsSlice = createSlice({
         toggleNotify: (state) => {
             state.notify = !state.notify;
         }, 
-        changeSocialSettings: (state, {payload}) => {
+        changeSocialSettings: (state, { payload }) => {
             state.social = {...state.social, [payload.name]: payload.value};
         },
-        changeDeviceSettings: (state, {payload}) => {
+        changeDeviceSettings: (state, { payload }) => {
             state.device = {...state.device, [payload.name]: payload.value};
+        },
+        changeLastUserRole: (state, { payload }) => {
+            state.lastUserRole = payload;
         }
     }
 });
 
-export const { toggleDarkMode, toggleNotify, changeSocialSettings, changeDeviceSettings } = settingsSlice.actions;
+export const { toggleDarkMode, toggleNotify, changeSocialSettings, changeDeviceSettings, changeLastUserRole } = settingsSlice.actions;
 export default settingsSlice.reducer;

@@ -17,15 +17,17 @@ const PostEditing = ({ onNewPost }) => {
     const { user, token } = useSelector((state) => state.auth);
     const [field, setField] = useState("");
     const [isOpenDragDdrop, setIsOpenDragDdrop] = useState(false);
+    const [showLocality, setShowLocality] = useState(false);
     const [valueReview, setValueReview] = useState(0);
+    const [imagesPreview, setImagesPreview] = useState([]);
     const [post, setPost] = useState({
         userId: user._id,
         date: "",
         type: "",
         content: "",
-        photo: [],
         video: [],
-        luogo: "",
+        images: [],
+        locality: "",
         val_review: null
     });
 
@@ -36,7 +38,6 @@ const PostEditing = ({ onNewPost }) => {
         setPost((post) => ({ ...post, val_review: value }));
     };
 
-
     const handleChange = (event) => {
         console.log(event)
         setField(event.target.value);
@@ -45,24 +46,58 @@ const PostEditing = ({ onNewPost }) => {
     }
 
     const handleDragDrop = () => {
-        setIsOpenDragDdrop(true);
+        setIsOpenDragDdrop((isOpenDragDdrop) => !isOpenDragDdrop);
     }
 
     const handleTypePost = (event) => {
         setPost((post) => ({ ...post, type: event.target.value }));
     }
 
+    const handleLocalityPost = (event) => {
+        setPost((post) => ({ ...post, locality: event.target.value }));
+    }
+
+    const handleShowLocality = () => {
+        setShowLocality((showLocality) => !showLocality);
+    }
+
+    const handleChangeImages = (event) => {
+        for (let i = 0; i < event.target.files.length; i++) {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                setImagesPreview((f) => ([
+                    ...f, 
+                    { 
+                        id: `image-preview-${i}-${new Date().getTime()}`, 
+                        name: `image-${i}-${new Date().getTime()}.${reader.result.split(":")[1].split("/")[1].replace(";base64,", "")}`,
+                        src: reader.result 
+                    }
+                ]));
+            }, false);
+            reader.readAsDataURL(event.target.files[i]);
+        }
+    }
+
+    const handleDeleteImages = (id) => {
+        setImagesPreview((i) => ([...i.filter((_) => _.id != id)]));
+    }
+
     const handleCreatePost = async () => {
         try {
-            await SDK.post.create({ content: btoa(field) }, token);
+            await SDK.post.create({ content: btoa(field), images: post.images }, token);
+            setImagesPreview([]);
             toast.success("Post created");
-            setField("Crea il tuo post...");
+            setField("");
             onNewPost();
         } catch (error) {
             console.log(error);
             toast.error(error.message);
         }
     }
+
+    useEffect(() => {
+        setPost((p) => ({ ...p, images: imagesPreview }));
+    }, [imagesPreview])
 
     return (
         <>
@@ -85,26 +120,52 @@ const PostEditing = ({ onNewPost }) => {
                     {
                         post.type == postType.reviewType && (
                             <div className="flex mb-3">
-                                <span className="mr-2">Valutazione</span>
+                                <span className="mr-2 text-dark">Valutazione</span>
                                 <div className="">
                                     {
                                         reviews.map((star, index) => (
                                             <button className="cursor-default" onClick={() => handleReview(index)}>
-                                            <i className={"fa-solid fa-star text-text_secondaryColor hover:text-yellow-300" + (index <= valueReview ? " text-yellow-300" : "")}></i>
-                                        </button>
+                                                <i className={"fa-solid fa-star text-text_secondaryColor hover:text-yellow-300" + (index <= valueReview ? " text-yellow-300" : "")}></i>
+                                            </button>
                                         ))
                                     }
                                 </div>
                             </div>
                         )
                     }
+                    {
+                        showLocality && (
+                            <div className="flex mb-3 items-center">
+                                <label className="mr-4 text-dark">Dove sei stato?</label>
+                                <input type="text" className="input_field" onChange={handleLocalityPost} />
+                            </div>
+                        )
+                    }
                     <div>
-                        { /* <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" /> */ }
-                        <textarea className="w-full border-none outline-none focus:ring-0 focus:outline-none active:outline-none" onChange={handleChange} value={field} placeholder="Crea il tuo post..."></textarea>
+                        { /* <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" /> */}
+                        <textarea className="w-full border-none outline-none focus:ring-0 focus:outline-none active:outline-none dark:bg-elements_dark" onChange={handleChange} value={field} placeholder="Crea il tuo post..."></textarea>
                     </div>
                     {
+                        imagesPreview.length > 0 && (
+                            <div className="flex flex-wrap gap-[2%] my-2">
+                                {
+                                    imagesPreview.map(({ id, src }) => (
+                                        <div key={id} className="relative w-[31.33%]">
+                                            <span 
+                                                onClick={() => handleDeleteImages(id)} 
+                                                className="absolute cursor-pointer right-[-12.5px] top-[-12.5px] h-[25px] w-[25px] bg-slate-100 text-slate-500 rounded-full flex justify-center items-center border-2 border-slate-300">
+                                                x
+                                            </span>
+                                            <img src={src} className="w-full" />
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        )
+                    }
+                    {
                         isOpenDragDdrop && (
-                            <div className="flex w-full items-center justify-center">
+                            <div className="flex w-full items-center flex-col justify-center">
                                 <Label
                                     htmlFor="dropzone-file"
                                     className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -130,7 +191,7 @@ const PostEditing = ({ onNewPost }) => {
                                         </p>
                                         <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                     </div>
-                                    <FileInput id="dropzone-file" className="hidden" />
+                                    <FileInput id="dropzone-file" multiple={true} name="images" onChange={handleChangeImages} className="hidden" />
                                 </Label>
                             </div>
                         )
@@ -158,7 +219,7 @@ const PostEditing = ({ onNewPost }) => {
                                 <div className="arrow-tooltip arrow-tlt-top dark:bg-elements_dark dark:text-elements_dark"></div>
                             </div>
                         </motion.button>
-                        <motion.button className="p-2 mr-2 relative btn-tooltip"
+                        <motion.button onClick={handleShowLocality} className="p-2 mr-2 relative btn-tooltip"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
                         >

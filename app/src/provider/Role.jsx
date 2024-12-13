@@ -1,12 +1,15 @@
 import { createContext, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeLastUserRole } from "../store/slices/settingsSlice";
 
 export const RoleContext = createContext();
 
 export const RoleProvider = ({children}) => {
-    const lastRole = useRef(null);
+    const dispatch = useDispatch();
+    const lastRole = useSelector((state) => state.settings.lastUserRole);
 
     const setLastRole = (newValue) => {
-        lastRole.current = newValue;
+        dispatch(changeLastUserRole(newValue));
     }
 
     return (

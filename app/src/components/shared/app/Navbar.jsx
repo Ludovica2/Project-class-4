@@ -8,7 +8,7 @@ import { toggleDarkMode } from "../../../store/slices/settingsSlice";
 
 const Navbar = () => {
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.auth);
+    const { user, token } = useSelector((state) => state.auth);
     const { darkMode } = useSelector((state) => state.settings);
     const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef } = useClickOutside(false);
     const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef } = useClickOutside(false);
@@ -57,23 +57,23 @@ const Navbar = () => {
                 {
                     user.role == "user" ? (
                         <>
-                            <img src={darkMode ? "/images/LogoFullDark.png" : "/images/FoundLogoFull.png"} alt="Logo Found" className="h-[40px] w-auto" />
+                            <img src={darkMode ? "/images/LogoFullDark.png" : "/images/FoundLogoFull.png"} alt="Logo Found" className="h-[40px] w-auto max-xs:hidden" />
+                            <img src={darkMode ? "/images/LogoDark.png" : "/images/FoundLogoBasic.png"} alt="Logo Found" className="h-[40px] w-auto xs:hidden" />
                         </>
                     ) : (
                         <>
-                            <img src={darkMode ? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="Logo Business" className="h-[40px] w-auto" />
+                            <img src={darkMode ? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="Logo Business" className="h-[40px] w-auto max-xs:hidden" />
+                            <img src={darkMode ? "/images/LogoBDark.png" : "/images/FoundLogoB.png"} alt="Logo Business" className="h-[40px] w-auto xs:hidden" />
                         </>
                     )
                 }
             </div>
-
-            <form className="w-96 mx-auto sm:hidden">
+            <form className="w-96 mx-auto max-md:hidden">
                 <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1  dark:bg-bg_dark dark:border-gray-500">
                     <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50 input_field dark:bg-elements_dark dark:border-gray-500 dark:focus:bg-gray-800 dark:focus:border-gray-400" placeholder="Searched and Found!" required />
                     <button type="submit" className="btn dark:border-gray-500">Search</button>
                 </div>
             </form>
-
             <div ref={serachRef} className="md:hidden">
                 <button onClick={toggleSearch}>
                     <div className="flex justify-center items-center">
@@ -82,9 +82,9 @@ const Navbar = () => {
                             isOpenSearch && (
                                 <motion.div className="top-11 right-0 flex flex-col p-4 w-full bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
                                     initial={{ y: 30 }}
-                                    animate={{ y: "calc(0vw + 10%)" }}
+                                    animate={{ y: "calc(0vw + 15%)" }}
                                 >
-                                    <form className="w-96 mx-auto">
+                                    <form className="w-96 mx-auto max-xs:w-80">
                                         <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1  dark:bg-bg_dark dark:border-gray-500">
                                             <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50 input_field dark:bg-elements_dark dark:border-gray-500 dark:focus:bg-gray-800 dark:focus:border-gray-400" placeholder="Searched and Found!" required />
                                             <button type="submit" className="btn dark:border-gray-500">Search</button>
@@ -97,7 +97,7 @@ const Navbar = () => {
                 </button>
             </div>
 
-            <div className="flex justify-center items-center gap-2">
+            <div className="flex justify-center items-center gap-4">
                 <button onClick={toggleSwitchDark} className="mr-1">
                     {
                         darkMode ? <i className="fa-solid fa-moon text-slate-100"></i> : <i className="fa-solid fa-sun text-yellow-400"></i>
@@ -141,20 +141,18 @@ const Navbar = () => {
                         </div>
                     </button>
                 </div>
-
-
                 <div ref={menuRef}>
                     <button onClick={toggleProfileMenu}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
                                 <div className="bg-slate-300 p-1 flex items-center justify-center rounded-full text-slate-800 text-sm">
-                                    <i className="fa-regular fa-user"></i>
+                                    <img className='w-10 h-10 rounded-full max-xs:w-8 max-xs:h-8' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
                                 </div>
                                 {
                                     user.role == "user" ? (
-                                        <p className="dark:text-white hover:opacity-70">{user.first_name} {user.last_name}</p>
+                                        <p className="dark:text-white hover:opacity-70 max-sm:hidden">{user.first_name} {user.last_name}</p>
                                     ) : (
-                                        <p className="dark:text-white sm:hidden">{user.metadata.company_name}</p>
+                                        <p className="dark:text-white max-sm:hidden">{user.metadata.company_name}</p>
                                     )
                                 }
 

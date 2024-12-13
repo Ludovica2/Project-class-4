@@ -5,8 +5,10 @@ import ImageModal from './ImageModal';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import PopUpModal from './PopUpModal';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "", nickname= ""}) => {
+const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "", nickname = "" }) => {
+    const { token } = useSelector((state) => state.auth);
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
     const [replyComments, setReplyComments] = useState(false);
@@ -33,7 +35,7 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
             <div className="m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600">
                 <div className='flex'>
                     <div>
-                        <img className='imgProfile-post' src={imgProfile} alt="Profile" />
+                        <img crossOrigin="anonymous" className='imgProfile-post' src={`${imgProfile}?token=${token}`} alt="Profile" />
                     </div>
                     <div className="rounded-t-lg flex flex-col flex-1 justify-center ml-4">
                         <div className='flex'>
@@ -87,18 +89,26 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                 <div className="w-full h-[1px] mb-5 mt-2 bg-slate-100"></div>
                 <div className="m-4 rounded-b-lg">
                     <div>
+                        {
+                           /*  post?.locality && */ (
+                                <div className='mb-4'>
+                                    <i className="fa-solid fa-location-dot text-secondaryColor text-lm"></i>
+                                    <span className='ml-1 text-dark'>{post.locality} ciao sono qui</span>
+                                </div>
+                            )
+                        }
                         {children}
                         <div className="w-full my-4">
                             {
                                 // IMAGES
                                 Array.isArray(post?.images) && post?.images.length > 0 && (
-                                    <ImageModal images={post.images}>
+                                    <ImageModal images={post.images} token={token}>
                                         {
                                             (setIsShowModal) => {
                                                 if (post.images.length == 1) {
                                                     return (
                                                         <div className="w-full h-auto max-h-[350px] flex justify-center items-center overflow-hidden">
-                                                            <img className="w-full h-auto cursor-pointer" src={post.images[0]} alt="Post image" onClick={() => setIsShowModal(true)} />
+                                                            <img className="w-full h-auto cursor-pointer" src={`${post.images[0]}?token=${token}`} alt="Post image" onClick={() => setIsShowModal(true)} />
                                                         </div>
                                                     )
                                                 } else {
@@ -108,48 +118,48 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                                                                 post.images.slice(0, 3).map((img, i) => {
                                                                     if (post.images.length <= 3) {
                                                                         return (
-                                                                            <div 
-                                                                                key={img} 
-                                                                                style={{ 
-                                                                                    width: `${(100 / post.images.slice(0, 3).length) - 1}%`,
-                                                                                    backgroundImage: `url(${img})`,
+                                                                            <div
+                                                                                key={img}
+                                                                                style={{
+                                                                                    width: `32.33%`,
+                                                                                    backgroundImage: `url(${img}?token=${token})`,
                                                                                     backgroundRepeat: "no-repete",
                                                                                     backgroundSize: "cover",
                                                                                     backgroundPosition: "center center"
-                                                                                }} 
-                                                                                className={`h-auto min-h-[250px] cursor-pointer`} 
-                                                                                onClick={() => setIsShowModal(true)} 
+                                                                                }}
+                                                                                className={`h-auto min-h-[250px] cursor-pointer`}
+                                                                                onClick={() => setIsShowModal(true)}
                                                                             />
                                                                         )
                                                                     } else {
                                                                         if (i < 2) {
                                                                             return (
-                                                                                <div 
-                                                                                    key={img} 
-                                                                                    style={{ 
-                                                                                        width: `${(100 / post.images.slice(0, 3).length) - 1}%`,
-                                                                                        backgroundImage: `url(${img})`,
+                                                                                <div
+                                                                                    key={img}
+                                                                                    style={{
+                                                                                        width: `32.33%`,
+                                                                                        backgroundImage: `url(${img}?token=${token})`,
                                                                                         backgroundRepeat: "no-repete",
                                                                                         backgroundSize: "cover",
                                                                                         backgroundPosition: "center center"
-                                                                                    }} 
-                                                                                    className={`h-auto min-h-[250px] cursor-pointer`} 
-                                                                                    onClick={() => setIsShowModal(true)} 
+                                                                                    }}
+                                                                                    className={`h-auto min-h-[250px] cursor-pointer`}
+                                                                                    onClick={() => setIsShowModal(true)}
                                                                                 />
                                                                             )
                                                                         } else {
                                                                             return (
-                                                                                <div 
-                                                                                    key={img} 
-                                                                                    style={{ 
+                                                                                <div
+                                                                                    key={img}
+                                                                                    style={{
                                                                                         width: `${(100 / post.images.slice(0, 3).length) - 1}%`,
-                                                                                        backgroundImage: `url(${img})`,
+                                                                                        backgroundImage: `url(${img}?token=${token})`,
                                                                                         backgroundRepeat: "no-repete",
                                                                                         backgroundSize: "cover",
                                                                                         backgroundPosition: "center center"
-                                                                                    }} 
-                                                                                    className={`h-auto min-h-[250px] cursor-pointer relative`} 
-                                                                                    onClick={() => setIsShowModal(true)} 
+                                                                                    }}
+                                                                                    className={`h-auto min-h-[250px] cursor-pointer relative`}
+                                                                                    onClick={() => setIsShowModal(true)}
                                                                                 >
                                                                                     <div className="w-full h-full absolute bg-black bg-opacity-70 flex justify-center items-center text-white font-extrabold text-3xl top-0 left-0">
                                                                                         +{post.images.length - 2}
