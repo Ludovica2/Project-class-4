@@ -31,6 +31,15 @@ export default {
             primaryColor_Dark: '#E8FCC2',
             primaryColor_Dark_Hover: '#689C07',
         },
+        screens: {
+            'xxs': '340px',
+            'xs': '540px',
+            'sm': '640px',
+            'md': '768px',
+            'lg': '1024px',
+            'xl': '1280px',
+            'xxl': '1536px',
+        },
     },
     plugins: [
         flowbite.plugin(),

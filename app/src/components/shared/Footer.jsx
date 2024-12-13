@@ -4,7 +4,7 @@ const Footer = () => {
       <footer className="flex flex-col items-center w-full dark:bg-bg_dark">
         <div className="w-full h-1 mb-5 bg-gradient-to-r from-white via-slate-500 to-white">
         </div>
-        <div className="flex flex-col text-xs">
+        <div className="flex flex-col text-xs max-xs:px-2">
           <div className="flex justify-center gap-8">
             <span className="link">Condizioni d'uso</span>
             <span className="link">Informativa sulla privacy</span>

@@ -52,17 +52,16 @@ const SignUpBusiness = () => {
 
     return (
         <>
-            <div className="relative flex h-full">
-                <div className="flex justify-center items-center w-1/2 bg-primayColor">
-                    <div className="flex justify-center items-center drag-area">
-                    </div>
-                    <div className="w-96 overflow-hidden z-10 images-container">
+            <div className="relative flex h-full max-lg:flex-col max-lg:justify-center">
+                <div className="flex justify-center items-center w-1/2 bg-primayColor max-lg:w-full max-xs:hidden">
+                    <div className="flex justify-center items-center drag-area max-lg:top-[15%] max-lg:left-[50%]"></div>
+                    <div className="w-96 overflow-hidden z-10 images-container max-lg:mt-4">
                         <SliderLogin/>
                     </div>
                 </div>
-                <div className="flex items-center justify-center w-1/2 pt-9 pb-11 max-h-full">
+                <div className="flex items-center justify-center w-1/2 pt-9 pb-11 max-h-full max-lg:w-full">
                     <div className="flex justify-center">
-                        <div className="flex flex-col w-w_450 2xl:w-w_500 min-w-96 mt-4 p-4 bg-white border border-gray-300 rounded-md dark:bg-elements_dark">
+                        <div className="flex flex-col w-w_450 2xl:w-w_500 mt-4 p-4 bg-white border border-gray-300 rounded-md dark:bg-elements_dark max-xs:w-80 max-xxs:border-none">
                             <img src={ darkMode? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="logo-business" className="logo-login flex self-center mb-3" />
                             <p className="mx-4 mt-3 mb-8 px-4 text-center text-gray-600 text-dark">Benvenuto su Found!Business, la piattaforma ideale per promuovere la tua impresa</p>
                             <form onSubmit={handleSignIn}>

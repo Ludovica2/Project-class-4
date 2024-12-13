@@ -110,7 +110,7 @@ const Profile = ({ isExternal = false }) => {
                                                     </>
                                                 }
                                             </button>
-                                            <Link to={"/app/chat"} className="w-2/3">
+                                            <Link to={"/app/chat"} target="_blank" className="w-2/3">
                                                 <button className="w-full px-4 py-2 end-2.5 bottom-2.5 font-medium border border-slate-300 rounded-lg text-[#767d89] hover:bg-slate-100 ml-3 dark:text-slate-300 dark:bg-zinc-600 dark:hover:bg-zinc-700 dark:hover:border-none">
                                                     <i className="fa-solid fa-comments mr-2 text-secondaryColor"></i>
                                                     Messaggio</button>

@@ -34,7 +34,7 @@ app.post("/", async (req, res) => {
         const user = (await new User(data).save()).toObject();
 
         // if directory uploads/${user._id} does not exist, create it with inside avatar and posts directories
-        const userDir = path.join(__dirname, "../../uploads/", user._id);
+        const userDir = path.join(__dirname, "../../uploads/", user._id.toString());
 
         if (!fs.existsSync(userDir)) {
             fs.mkdirSync(userDir);

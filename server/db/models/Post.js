@@ -80,6 +80,10 @@ const PostSchema = new Schema({
         },
         default: null,
     },
+    locality: {
+        type: String,
+        default: null,
+    }
 }, { strict: true, timestamps: true, versionKey: false });
 
 const Post = model("Post", PostSchema);

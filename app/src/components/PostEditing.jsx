@@ -17,6 +17,7 @@ const PostEditing = ({ onNewPost }) => {
     const { user, token } = useSelector((state) => state.auth);
     const [field, setField] = useState("");
     const [isOpenDragDdrop, setIsOpenDragDdrop] = useState(false);
+    const [showLocality, setShowLocality] = useState(false);
     const [valueReview, setValueReview] = useState(0);
     const [post, setPost] = useState({
         userId: user._id,
@@ -25,7 +26,7 @@ const PostEditing = ({ onNewPost }) => {
         content: "",
         photo: [],
         video: [],
-        luogo: "",
+        locality: "",
         val_review: null
     });
 
@@ -36,7 +37,6 @@ const PostEditing = ({ onNewPost }) => {
         setPost((post) => ({ ...post, val_review: value }));
     };
 
-
     const handleChange = (event) => {
         console.log(event)
         setField(event.target.value);
@@ -45,11 +45,19 @@ const PostEditing = ({ onNewPost }) => {
     }
 
     const handleDragDrop = () => {
-        setIsOpenDragDdrop(true);
+        setIsOpenDragDdrop((isOpenDragDdrop) => !isOpenDragDdrop);
     }
 
     const handleTypePost = (event) => {
         setPost((post) => ({ ...post, type: event.target.value }));
+    }
+
+    const handleLocalityPost = (event) => {
+        setPost((post) => ({ ...post, locality: event.target.value }));
+    }
+
+    const handleShowLocality = () => {
+        setShowLocality((showLocality) => !showLocality);
     }
 
     const handleCreatePost = async () => {
@@ -85,7 +93,7 @@ const PostEditing = ({ onNewPost }) => {
                     {
                         post.type == postType.reviewType && (
                             <div className="flex mb-3">
-                                <span className="mr-2">Valutazione</span>
+                                <span className="mr-2 text-dark">Valutazione</span>
                                 <div className="">
                                     {
                                         reviews.map((star, index) => (
@@ -98,9 +106,17 @@ const PostEditing = ({ onNewPost }) => {
                             </div>
                         )
                     }
+                    {
+                        showLocality && (
+                            <div className="flex mb-3 items-center">
+                                <label className="mr-4 text-dark">Dove sei stato?</label>
+                                <input type="text" className="input_field" onChange={handleLocalityPost} />
+                            </div>
+                        )
+                    }
                     <div>
                         { /* <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" /> */ }
-                        <textarea className="w-full border-none outline-none focus:ring-0 focus:outline-none active:outline-none" onChange={handleChange} value={field} placeholder="Crea il tuo post..."></textarea>
+                        <textarea className="w-full border-none outline-none focus:ring-0 focus:outline-none active:outline-none dark:bg-elements_dark" onChange={handleChange} value={field} placeholder="Crea il tuo post..."></textarea>
                     </div>
                     {
                         isOpenDragDdrop && (
@@ -158,7 +174,7 @@ const PostEditing = ({ onNewPost }) => {
                                 <div className="arrow-tooltip arrow-tlt-top dark:bg-elements_dark dark:text-elements_dark"></div>
                             </div>
                         </motion.button>
-                        <motion.button className="p-2 mr-2 relative btn-tooltip"
+                        <motion.button onClick={handleShowLocality} className="p-2 mr-2 relative btn-tooltip"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
                         >
