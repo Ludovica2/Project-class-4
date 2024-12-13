@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 import '../../image-slide.css';
 import { Navigation, Pagination } from 'swiper/modules';
 
-const ImageModal = ({ children, images }) => {
+const ImageModal = ({ children, images, token }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -33,10 +33,10 @@ const ImageModal = ({ children, images }) => {
                         >
                             {
                                 images && (
-                                    images.map((img, index) => {
+                                    images.map(i => `${i}?token=${token}`).map((img, index) => {
                                         return (
                                             <SwiperSlide key={index}>
-                                                <img className="modal-content" src={img} />
+                                                <img crossOrigin="anonymous" className="modal-content" src={img} />
                                             </SwiperSlide>
                                         )
                                     })

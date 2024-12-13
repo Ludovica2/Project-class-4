@@ -86,7 +86,6 @@ app.put("/profile", authUser(["user"]), uploadAvatar, async (req, res) => {
     const schema = Joi.object().keys({
         first_name: Joi.string().required(),
         last_name: Joi.string().required(),
-        avatatar: Joi.any().optional(),
         tel: Joi.string().optional(),
         birth_date: Joi.string().optional(),
         nation: Joi.string().optional(),
@@ -96,6 +95,10 @@ app.put("/profile", authUser(["user"]), uploadAvatar, async (req, res) => {
 
     try {
         const data = await schema.validateAsync(req.body);
+
+        if (req.file) {
+            console.log(req.file);
+        }
 
         if (data.birth_date) data.birth_date = new Date(data.birth_date);
 

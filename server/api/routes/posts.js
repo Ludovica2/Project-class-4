@@ -2,6 +2,8 @@ const express = require("express");
 const app = express.Router();
 
 const Joi = require("joi");
+const fs = require("fs");
+const path = require("path");
 const { parsePostContent } = require("../../utilities/parse");
 const { authUser } = require("../../middleware/auth");
 const { uploadPostImages } = require("../../middleware/users");
@@ -22,34 +24,36 @@ app.post("/", authUser(), async (req, res, next) => {
 
     try {
         const data = await schema.validateAsync(req.body);
-
         const parsedData = parsePostContent(atob(data.content));
+
+        const _post = new Post({ ...parsedData, from: from._id });
+
+        const postDir = path.join(__dirname, `../../uploads/${from._id}/posts/`, _post._id.toString());
+        
+        if (!fs.existsSync(postDir)) {
+            fs.mkdirSync(postDir);
+        }
+
+        for (let image of data.images) {
+            const data = image.src.split(',')[1]; 
+            const buf = Buffer.from(data, 'base64'); 
+            fs.writeFileSync(path.join(__dirname, `../../uploads/${from._id}/posts/${_post._id}/${image.name}`), buf);
+            if (!parsedData.images) parsedData.images = [];
+            parsedData.images.push(`${process.env.SERVER_HOST}/static/${from._id}/posts/${_post._id}/${image.name}`);
+        }
+        
+        if (!_post.images) _post.images = parsedData.images;
+        else _post.images.push(...parsedData.images);
 
         // parsedData.images = [...parsedData.images, ...req.files.map(file => file.path)];
 
-        const post = (await new Post({ ...parsedData, from: from._id }).save()).toObject();
+        const post = (await _post.save()).toObject();
 
-        req.post = post;
-        return next();
+        return res.status(201).json(post);
 
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" })
-    }
-}, uploadPostImages, async (req, res) => {
-    const post = req.post;
-
-    try {
-        if (req.files) {
-            post.images = [...post.images, ...req.files.map(file => file.path)];
-    
-            await Post.updateOne({ _id: post._id }, { images: post.images });
-        }
-
-        return res.status(201).json({ post });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
     }
 });
 

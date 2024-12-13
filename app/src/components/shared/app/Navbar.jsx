@@ -8,7 +8,7 @@ import { toggleDarkMode } from "../../../store/slices/settingsSlice";
 
 const Navbar = () => {
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.auth);
+    const { user, token } = useSelector((state) => state.auth);
     const { darkMode } = useSelector((state) => state.settings);
     const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef } = useClickOutside(false);
     const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef } = useClickOutside(false);
@@ -146,7 +146,7 @@ const Navbar = () => {
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
                                 <div className="bg-slate-300 p-1 flex items-center justify-center rounded-full text-slate-800 text-sm">
-                                    <img className='w-10 h-10 rounded-full max-xs:w-8 max-xs:h-8' src="https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile" />
+                                    <img className='w-10 h-10 rounded-full max-xs:w-8 max-xs:h-8' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
                                 </div>
                                 {
                                     user.role == "user" ? (

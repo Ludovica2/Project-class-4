@@ -15,7 +15,7 @@ const widget = {
 }
 
 const Profile = ({ isExternal = false }) => {
-    const { user } = useSelector((state) => state.auth);
+    const { user, token } = useSelector((state) => state.auth);
     const { social } = useSelector((state) => state.settings);
     const [follow, setFollow] = useState(false);
     const [blockUser, setBlockUser] = useState(false);
@@ -42,10 +42,10 @@ const Profile = ({ isExternal = false }) => {
                     <div className="flex justify-center items-center w-32 h-32 absolute -top-11 -left-3 bg-white rounded-[50%] shadow dark:bg-elements_dark dark:shadow-slate-400">
                         {/* Modal */}
                         {
-                            <ImageModal images={["https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"]}>
+                            <ImageModal images={[`${user.avatar}?token=${token}`]}>
                                 {
                                     (setIsShowModal) => {
-                                        return <img className='imgProfile cursor-pointer' onClick={() => setIsShowModal(true)} src="https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile" />
+                                        return <img crossOrigin="anonymous" className='imgProfile cursor-pointer' onClick={() => setIsShowModal(true)} src={`${user.avatar}?token=${token}`} alt="Profile" />
                                     }
                                 }
                             </ImageModal>

@@ -25,7 +25,7 @@ const UserSchema = new Schema({
     },
     avatar: {
         type: String,
-        default: null,
+        default: `${process.env.SERVER_HOST}/static/default/avatar/profile.png`,
     },
     birth_date: {
         type: Date,

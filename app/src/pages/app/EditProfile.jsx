@@ -127,7 +127,7 @@ const EditProfile = () => {
                                     <h2 className="text-lg mb-6 dark:text-slate-100">Informazioni Personali:</h2>
                                     <div className="flex mb-5">
                                         <div className="flex justify-center items-center min-w-32 h-32 relative bg-white rounded-[50%] shadow my-14 ml-14 mr-16 dark:bg-elements_dark dark:shadow-slate-400">
-                                            <img className='imgProfile' src="https://images.pexels.com/photos/670741/pexels-photo-670741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile" />
+                                            <img className='imgProfile' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
                                             <div className="relative">
                                                 {
                                                     <PopUpModal title={"Modifica Immagine Profilo"} sizeModal={"md"}

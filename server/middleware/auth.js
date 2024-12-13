@@ -2,11 +2,11 @@ const { User } = require("../db");
 const { verifyToken } = require("../utilities/auth");
 
 const authUser = (roles = null) => async (req, res, next) => {
-    const bearer = req.headers.authorization || req.headers["Authorization"] || false;
+    const bearer = req.headers.authorization || req.headers["Authorization"] || req.query.token || false;
 
     if (!bearer) return res.status(403).json({ message: "Not authorized" });
     
-    const token = bearer.split(" ")[1];
+    const token = req.query.token ? bearer : bearer.split(" ")[1];
 
     if (!token) return res.status(403).json({ message: "Not authorized" });
 

@@ -5,8 +5,10 @@ import ImageModal from './ImageModal';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import PopUpModal from './PopUpModal';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "", nickname = "" }) => {
+    const { token } = useSelector((state) => state.auth);
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
     const [replyComments, setReplyComments] = useState(false);
@@ -33,7 +35,7 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
             <div className="m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600">
                 <div className='flex'>
                     <div>
-                        <img className='imgProfile-post' src={imgProfile} alt="Profile" />
+                        <img crossOrigin="anonymous" className='imgProfile-post' src={`${imgProfile}?token=${token}`} alt="Profile" />
                     </div>
                     <div className="rounded-t-lg flex flex-col flex-1 justify-center ml-4">
                         <div className='flex'>
@@ -100,13 +102,13 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                             {
                                 // IMAGES
                                 Array.isArray(post?.images) && post?.images.length > 0 && (
-                                    <ImageModal images={post.images}>
+                                    <ImageModal images={post.images} token={token}>
                                         {
                                             (setIsShowModal) => {
                                                 if (post.images.length == 1) {
                                                     return (
                                                         <div className="w-full h-auto max-h-[350px] flex justify-center items-center overflow-hidden">
-                                                            <img className="w-full h-auto cursor-pointer" src={post.images[0]} alt="Post image" onClick={() => setIsShowModal(true)} />
+                                                            <img className="w-full h-auto cursor-pointer" src={`${post.images[0]}?token=${token}`} alt="Post image" onClick={() => setIsShowModal(true)} />
                                                         </div>
                                                     )
                                                 } else {
@@ -119,8 +121,8 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                                                                             <div
                                                                                 key={img}
                                                                                 style={{
-                                                                                    width: `${(100 / post.images.slice(0, 3).length) - 1}%`,
-                                                                                    backgroundImage: `url(${img})`,
+                                                                                    width: `32.33%`,
+                                                                                    backgroundImage: `url(${img}?token=${token})`,
                                                                                     backgroundRepeat: "no-repete",
                                                                                     backgroundSize: "cover",
                                                                                     backgroundPosition: "center center"
@@ -135,8 +137,8 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                                                                                 <div
                                                                                     key={img}
                                                                                     style={{
-                                                                                        width: `${(100 / post.images.slice(0, 3).length) - 1}%`,
-                                                                                        backgroundImage: `url(${img})`,
+                                                                                        width: `32.33%`,
+                                                                                        backgroundImage: `url(${img}?token=${token})`,
                                                                                         backgroundRepeat: "no-repete",
                                                                                         backgroundSize: "cover",
                                                                                         backgroundPosition: "center center"
@@ -151,7 +153,7 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                                                                                     key={img}
                                                                                     style={{
                                                                                         width: `${(100 / post.images.slice(0, 3).length) - 1}%`,
-                                                                                        backgroundImage: `url(${img})`,
+                                                                                        backgroundImage: `url(${img}?token=${token})`,
                                                                                         backgroundRepeat: "no-repete",
                                                                                         backgroundSize: "cover",
                                                                                         backgroundPosition: "center center"
