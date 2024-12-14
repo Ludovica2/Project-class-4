@@ -5,14 +5,16 @@ const { authUser } = require("../../middleware/auth");
 const { Notification } = require("../../db");
 
 /**
- * @path /api/notifications
+ * @path /api/notifications?page=1&limit=10
  * @method GET
  */
 app.get("/", authUser(), async (req, res) => {
     const user = req.user;
+    const { page, limit } = req.query;
+    const skip = (page - 1) * limit;
 
     try {
-        const notifications = await Notification.find({ user: user._id }, null, { lean: true, sort: { createdAt: -1 } });
+        const notifications = await Notification.find({ user: user._id }, null, { lean: true, sort: { createdAt: -1 }, skip: skip, limit: limit || 10 }).populate("from", "first_name last_name nickname avatar");
 
         return res.json(notifications);
     } catch (error) {
