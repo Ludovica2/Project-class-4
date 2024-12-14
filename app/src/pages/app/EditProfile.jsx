@@ -21,6 +21,8 @@ const EditProfile = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const { user, token } = useSelector((state) => state.auth);
     const [tabToOpen, setTabToOpen] = useState(searchParams.get("et") || activeTab.personalInfo);
+    const [imagePreview, setImagePreview] = useState(null);
+    const [isOpenProfileImageModal, setIsOpenProfileImageModal] = useState(false);
     const [form, setForm] = useState({
         [activeTab.personalInfo]: {
             first_name: user.first_name || "",
@@ -58,6 +60,35 @@ const EditProfile = () => {
                 [name]: value,
             }
         }))
+    }
+
+    const handleDeleteImage = () => {
+        setImagePreview(null);
+    }
+
+    const handleChangeImage = (event) => {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            setImagePreview({ 
+                id: `profile-preview-${user._id}-${new Date().getTime()}`, 
+                name: `profile-image-${new Date().getTime()}-${user._id}.${reader.result.split(":")[1].split("/")[1].replace(";base64,", "")}`,
+                src: reader.result 
+            });
+        }, false);
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    const handleUpdateImage = async () => {
+        try {
+            const { avatar: imageUrl } = await SDK.profile.updateImage({ avatar: imagePreview }, token);
+            dispatch(updateUser({ avatar: imageUrl }));
+            toast.success("Profile Image Updated");
+            setImagePreview(null);
+            setIsOpenProfileImageModal(false);
+        } catch (error) {
+            console.log(error);
+            toast.error("Something Went Wrong");
+        }
     }
 
     const handleSubmit = async (event) => {
@@ -127,10 +158,15 @@ const EditProfile = () => {
                                     <h2 className="text-lg mb-6 dark:text-slate-100">Informazioni Personali:</h2>
                                     <div className="flex mb-5">
                                         <div className="flex justify-center items-center min-w-32 h-32 relative bg-white rounded-[50%] shadow my-14 ml-14 mr-16 dark:bg-elements_dark dark:shadow-slate-400">
-                                            <img className='imgProfile' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
+                                            <div style={{ backgroundImage: `url(${user.avatar}?token=${token})` }} className="imgProfile bg-cover bg-center"></div>
                                             <div className="relative">
                                                 {
-                                                    <PopUpModal title={"Modifica Immagine Profilo"} sizeModal={"md"}
+                                                    <PopUpModal 
+                                                        title={"Modifica Immagine Profilo"} 
+                                                        sizeModal={"md"}
+                                                        onCloseModal={() => setImagePreview(null)}
+                                                        isOpen={isOpenProfileImageModal}
+                                                        setIsOpen={setIsOpenProfileImageModal}
                                                         showBtn={(openModal) => {
                                                             return <div onClick={() => openModal(true)} className="flex justify-center items-center absolute w-10 h-10 -bottom-16 right-1 cursor-pointer bg-primayColor rounded-[50%] btn-tooltip">
                                                                 <i className="fa-solid fa-pen text-white"></i>
@@ -143,35 +179,60 @@ const EditProfile = () => {
                                                     >
                                                         {
                                                             <>
-                                                                <div className="flex w-full items-center justify-center">
-                                                                    <Label
-                                                                        htmlFor="dropzone-file"
-                                                                        className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                                                                    >
-                                                                        <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                                                                            <svg
-                                                                                className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-                                                                                aria-hidden="true"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                fill="none"
-                                                                                viewBox="0 0 20 16"
-                                                                            >
-                                                                                <path
-                                                                                    stroke="currentColor"
-                                                                                    strokeLinecap="round"
-                                                                                    strokeLinejoin="round"
-                                                                                    strokeWidth="2"
-                                                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                                                                                />
-                                                                            </svg>
-                                                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                                                <span className="font-semibold">Click to upload</span> or drag and drop
-                                                                            </p>
-                                                                            <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                {
+                                                                    imagePreview ? (
+                                                                        <div className="flex flex-col w-full items-center justify-center">
+                                                                            <div className="flex w-full items-center justify-center">
+                                                                                <div style={{ backgroundImage: `url(${imagePreview.src})` }} className={`h-[150px] w-[150px] bg-cover bg-center rounded-full flex justify-center items-center relative`}>
+                                                                                    <span 
+                                                                                        onClick={handleDeleteImage} 
+                                                                                        className="absolute cursor-pointer right-[-12.5px] top-[-12.5px] h-[25px] w-[25px] bg-slate-100 text-slate-500 rounded-full flex justify-center items-center border-2 border-slate-300">
+                                                                                        x
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="flex justify-center mt-4">
+                                                                                <motion.button 
+                                                                                    onClick={handleUpdateImage} 
+                                                                                    className="btn"
+                                                                                    whileTap={{ scale: 0.95 }}
+                                                                                >
+                                                                                    Salva
+                                                                                </motion.button>
+                                                                            </div>
                                                                         </div>
-                                                                        <FileInput id="dropzone-file" className="hidden" />
-                                                                    </Label>
-                                                                </div>
+                                                                    ) : (
+                                                                        <div className="flex w-full items-center justify-center">
+                                                                            <Label
+                                                                                htmlFor="dropzone-file"
+                                                                                className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                                                            >
+                                                                                <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                                                                                    <svg
+                                                                                        className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                                                                                        aria-hidden="true"
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        fill="none"
+                                                                                        viewBox="0 0 20 16"
+                                                                                    >
+                                                                                        <path
+                                                                                            stroke="currentColor"
+                                                                                            strokeLinecap="round"
+                                                                                            strokeLinejoin="round"
+                                                                                            strokeWidth="2"
+                                                                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                                                        />
+                                                                                    </svg>
+                                                                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                                                        <span className="font-semibold">Click to upload</span> or drag and drop
+                                                                                    </p>
+                                                                                    <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                                </div>
+                                                                                <FileInput id="dropzone-file" onChange={handleChangeImage} className="hidden" />
+                                                                            </Label>
+                                                                        </div>
+                                                                    )
+                                                                }
                                                             </>
                                                         }
                                                     </PopUpModal>

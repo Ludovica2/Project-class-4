@@ -146,7 +146,7 @@ const Navbar = () => {
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
                                 <div className="bg-slate-300 p-1 flex items-center justify-center rounded-full text-slate-800 text-sm">
-                                    <img className='w-10 h-10 rounded-full max-xs:w-8 max-xs:h-8' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
+                                    <div style={{ backgroundImage: `url(${user.avatar}?token=${token})` }} className="w-10 h-10 rounded-full max-xs:w-8 max-xs:h-8 bg-cover bg-center"></div>
                                 </div>
                                 {
                                     user.role == "user" ? (

@@ -41,7 +41,7 @@ const Feed = () => {
                             <CustomBox
                                 key={post._id}
                                 profile={post.from.first_name + " " + post.from.last_name} 
-                                imgProfile={user.avatar}
+                                imgProfile={post.from.avatar}
                                 nickname={post.from.nickname} 
                                 dataPost="5 minuti fa"
                                 post={post}

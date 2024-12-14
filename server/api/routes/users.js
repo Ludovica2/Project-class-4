@@ -112,6 +112,35 @@ app.put("/profile", authUser(["user"]), uploadAvatar, async (req, res) => {
 });
 
 /**
+ * @path /api/users/profile/avatar
+ * @method PUT
+ */
+app.put("/profile/avatar", authUser(["user"]), uploadAvatar, async (req, res) => {
+    const _id = req.user._id;
+    const schema = Joi.object().keys({
+        avatar: Joi.object().required(),
+    });
+
+    try {
+        const data = await schema.validateAsync(req.body);
+
+        // Save file
+        const _data = data.avatar.src.split(',')[1]; 
+        const buf = Buffer.from(_data, 'base64'); 
+        const userDir = path.join(__dirname, "../../uploads/", _id.toString(), "avatar", data.avatar.name);
+
+        fs.writeFileSync(userDir, buf);
+
+        await User.updateOne({ _id }, { avatar: `${process.env.SERVER_HOST}/static/${_id}/avatar/${data.avatar.name}` });
+
+        return res.status(200).json({ message: "User avatar updated", avatar: `${process.env.SERVER_HOST}/static/${_id}/avatar/${data.avatar.name}` });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" })
+    }
+});
+
+/**
  * @path /api/users/password
  * @method PUT
  */

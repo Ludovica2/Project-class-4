@@ -42,10 +42,10 @@ const Profile = ({ isExternal = false }) => {
                     <div className="flex justify-center items-center w-32 h-32 absolute -top-11 -left-3 bg-white rounded-[50%] shadow dark:bg-elements_dark dark:shadow-slate-400">
                         {/* Modal */}
                         {
-                            <ImageModal images={[`${user.avatar}?token=${token}`]}>
+                            <ImageModal images={[user.avatar]} token={token}>
                                 {
                                     (setIsShowModal) => {
-                                        return <img crossOrigin="anonymous" className='imgProfile cursor-pointer' onClick={() => setIsShowModal(true)} src={`${user.avatar}?token=${token}`} alt="Profile" />
+                                        return <div style={{ backgroundImage: `url(${user.avatar}?token=${token})` }} onClick={() => setIsShowModal(true)} className="imgProfile cursor-pointer bg-cover bg-center"></div>
                                     }
                                 }
                             </ImageModal>

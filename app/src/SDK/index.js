@@ -116,7 +116,17 @@ export default {
                 },
                 data: payload,
             })).data;
-        }
+        },
+        updateImage: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl("/users/profile/avatar"),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
     },
     account: {
         updatePassword: async (payload, token) => {

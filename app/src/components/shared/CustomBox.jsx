@@ -35,7 +35,7 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
             <div className="m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600">
                 <div className='flex'>
                     <div>
-                        <img crossOrigin="anonymous" className='imgProfile-post' src={`${imgProfile}?token=${token}`} alt="Profile" />
+                        <div style={{ backgroundImage: `url(${imgProfile}?token=${token})` }} className="imgProfile-post bg-cover bg-center"></div>
                     </div>
                     <div className="rounded-t-lg flex flex-col flex-1 justify-center ml-4">
                         <div className='flex'>

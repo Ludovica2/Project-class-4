@@ -1,15 +1,15 @@
 import { Modal } from "flowbite-react"
 import { motion } from "framer-motion"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const PopUpModal = ({ children, title, showBtn, sizeModal }) => {
-
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    const openModal = (event) => {
-        event.preventDefault();
-        setModalIsOpen((modalIsOpen) => !modalIsOpen);
-    }
+const PopUpModal = ({ children, title, showBtn, sizeModal, isOpen, setIsOpen, onCloseModal = () => {} }) => {
+    const [modalIsOpen, setModalIsOpen] = isOpen !== undefined && typeof setIsOpen === "function" ? [isOpen, setIsOpen] : useState(false);
+    
+    useEffect(() => {
+        if (!modalIsOpen) {
+            onCloseModal();
+        }
+    }, [modalIsOpen]);
 
     return (
         <>
@@ -18,7 +18,7 @@ const PopUpModal = ({ children, title, showBtn, sizeModal }) => {
             }
             {
                 modalIsOpen && (
-                    <Modal dismissible size={sizeModal} show={modalIsOpen/* show */} onClose={openModal/* onClose */}>
+                    <Modal dismissible size={sizeModal} show={modalIsOpen/* show */} onClose={() => setModalIsOpen(false)}>
                         <Modal.Header className="dark:text-slate-100">{title}</Modal.Header>
                         <Modal.Body>
                             <div className="flex flex-col justify-between">
