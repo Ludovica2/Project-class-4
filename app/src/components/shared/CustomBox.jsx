@@ -249,7 +249,7 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                                                 </div>
                                             </div>
                                             <div className='relative'>
-                                                <input type="text" value={`www.Found!/Post/${profile}`} className="w-full input_field h-14" readOnly />
+                                                <input type="text" value={`/app/feed/${post._id}`} className="w-full input_field h-14" readOnly />
                                                 <button className="btn absolute bottom-2 right-2">Copia</button>
                                             </div>
                                         </>

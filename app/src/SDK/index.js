@@ -1,5 +1,5 @@
 import axios from "axios";
-import { buildApiUrl, buildAuthUrl } from "../config/confing";
+import { buildApiUrl, buildAuthUrl } from "../config/config";
 
 export default {
     auth: {
@@ -161,6 +161,15 @@ export default {
         }
     },
     post: {
+        get: async (post_id, token) => {
+            return (await axios({
+                url: buildApiUrl(`/posts/${post_id}`),
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })).data;
+        },
         getAll:async (token) => {
             return (await axios({
                 url: buildApiUrl(`/posts`),
@@ -189,5 +198,63 @@ export default {
                 data: payload,
             })).data;
         },
-    }
+    },
+    followers: {
+        follow: async (user_id, token) => {
+            return (await axios({
+                url: buildApiUrl(`/users/follow`),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: {
+                    user: user_id
+                }
+            })).data;
+        },
+        unfollow: async (user_id, token) => {
+            return (await axios({
+                url: buildApiUrl(`/users/follow`),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: {
+                    user: user_id
+                }
+            })).data;
+        },
+    },
+    users: {
+        getUser: async (nickname, token) => {
+            return (await axios({
+                url: buildApiUrl(`/users/follow/${nickname}`),
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })).data;
+        },
+    },
+    notifications: {
+        getAll: async (token) => {
+            return (await axios({
+                url: buildApiUrl(`/notifications`),
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })).data;
+        },
+        create: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl(`/notifications`),
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+    },
 }

@@ -7,7 +7,8 @@ const path = require("path");
 const { parsePostContent } = require("../../utilities/parse");
 const { authUser } = require("../../middleware/auth");
 const { uploadPostImages } = require("../../middleware/users");
-const { Post } = require("../../db");
+const { Post, UserFollow } = require("../../db");
+const { sendNotification } = require("../../utilities/notifications");
 
 /**
  * @path /api/posts
@@ -49,6 +50,20 @@ app.post("/", authUser(), async (req, res, next) => {
 
         const post = (await _post.save()).toObject();
 
+        // create notification for user
+        const dataNotification = {
+            user: from._id,
+            image: from.avatar,
+            title: "New post",
+            content: `${from.first_name} ${from.last_name} has just posted something`,
+            link: `${process.env.CLIENT_HOST}/app/feed/${post._id}`
+        };
+        const notification = (await new Notification({ from: from._id, ...dataNotification }).save()).toObject();
+
+        // Send real time notification to user
+        const followers = (await UserFollow.find({ user: from._id }, null, { lean: true })).map(f => f.follower);
+        sendNotification(notification, { to: followers });
+
         return res.status(201).json(post);
 
     } catch (error) {
@@ -69,6 +84,21 @@ app.get("/", authUser(), async (_, res) => {
             .populate({ path: "post_comments", populate: ["reply_to", "reactions"] });
 
         return res.json(posts);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+/**
+ * @path /api/posts/:post_id
+ * @method GET
+ */
+app.get("/:post_id", authUser(), async (req, res) => {
+    const post_id = req.params.post_id;
+    try {
+        const post = await Post.findById(post_id, null, { lean: true }).populate({ path: "from", select: "first_name last_name nickname createdAt avatar" });
+        return res.json(post);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error" });

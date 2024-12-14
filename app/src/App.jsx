@@ -11,7 +11,7 @@ import Chat from "./pages/app/Chat"
 import Login from "./pages/Login"
 import RootLayout from "./layout/RootLayout"
 import AppLayout from "./layout/AppLayout"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import SignUp from "./pages/SignUp"
 import ForgotPassword from "./pages/ForgotPassword"
 import LoginBusiness from "./pages/LoginBusiness"
@@ -20,6 +20,9 @@ import EditProfile from "./pages/app/EditProfile"
 import { useLastRole } from "./hooks/useLastRole"
 import SettingsProfile from "./pages/app/SettingsProfile"
 import { useEffect } from "react"
+import SinglePost from "./pages/app/SinglePost"
+import SDK from "./SDK"
+import { setNotifications } from "./store/slices/notificationSlice"
 
 
 const ProtectedRoute = ({ children }) => {
@@ -35,11 +38,30 @@ const ProtectedRoute = ({ children }) => {
 }
 
 const App = () => {
+    const dispatch = useDispatch();
+    const { token } = useSelector((state) => state.auth);
     const { darkMode } = useSelector((state) => state.settings);
     
+    const fetchNotifications = async () => {
+        try {
+            const notifications = await SDK.notifications.getAll(token);
+            dispatch(setNotifications(notifications));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         document.body.classList[darkMode ? "add" : "remove"]("dark");
     }, [darkMode]);
+
+    useEffect(() => {
+        if (token) {
+            fetchNotifications();
+        } else {
+            dispatch(setNotifications([]));
+        }
+    }, [token]);
 
     return (
         <>
@@ -57,6 +79,7 @@ const App = () => {
                     </ProtectedRoute>
                 }>
                     <Route path="/app/feed" element={<Feed />} />
+                    <Route path="/app/feed/:post_id" element={<SinglePost />} />
                     <Route path="/app/profile" element={<Profile />} />
                     <Route path="/app/profile/editprofile" element={<EditProfile />} />
                     <Route path="/app/profile/settingsprofile" element={<SettingsProfile />} />

@@ -1,11 +1,15 @@
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import io from "socket.io-client";
+import { config } from "../config/config";
 
 export const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
     const { token } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
     const socket = useMemo(() => io("http://localhost:3031", { autoConnect: false, extraHeaders: { token: `Bearer ${token}` } }), [token]);
 
     useEffect(() => {
@@ -21,7 +25,11 @@ export const SocketProvider = ({ children }) => {
             });
 
             socket.on("new-notification", (notification) => {
-                console.log(notification);
+                toast.info(notification.content, {
+                    onClick: () => {
+                        navigate(notification.link.replace(config.CLIENT_URL, ""));
+                    }
+                });
             });
         } else {
             socket.disconnect();

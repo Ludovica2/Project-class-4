@@ -5,9 +5,10 @@ const fs = require("fs");
 const path = require("path");
 const Joi = require("joi");
 const { hashPassword, comparePassword } = require("../../utilities/auth");
-const { User, UserFollow } = require("../../db");
+const { User, UserFollow, Notification } = require("../../db");
 const { authUser } = require("../../middleware/auth");
 const { uploadAvatar } = require("../../middleware/users");
+const { sendNotification } = require("../../utilities/notifications");
 
 /**
  * @path /api/users
@@ -50,6 +51,27 @@ app.post("/", async (req, res) => {
 });
 
 /**
+ * @path /api/users/follow/:nickname
+ * @method GET
+ */
+app.get("/follow/:nickname", authUser(), async (req, res) => {
+    // const user = req.user._id;
+    const nickname = req.params.nickname;
+
+    try {
+        const user = await User.findOne({ nickname }, "-password", { lean: true });
+
+        const followers = await UserFollow.find({ user: user._id }, "follower", { lean: true }).populate({ path: "follower", select: "_id first_name last_name nickname avatar" });
+        const following = await UserFollow.find({ follower: user._id }, "user", { lean: true }).populate({ path: "user", select: "_id first_name last_name nickname avatar" });
+
+        return res.status(200).json({ ...user, followers, following });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" })
+    }
+});
+
+/**
  * @path /api/users/follow
  * @method PUT
  */
@@ -68,6 +90,15 @@ app.put("/follow", authUser(), async (req, res) => {
             await UserFollow.deleteOne({ follower, user: data.user });
         } else {
             await new UserFollow({ follower, user: data.user }).save();
+            const dataNotification = {
+                user: data.user,
+                image: req.user.avatar,
+                title: "New follower",
+                content: `${req.user.first_name} ${req.user.last_name} has just followed you`,
+                link: `${process.env.CLIENT_HOST}/app/profile/${req.user.nickname}`
+            };
+            const notification = (await new Notification({ from: follower, ...dataNotification }).save()).toObject();
+            sendNotification(notification, { to: [data.user] });
         }
 
         return res.status(follow >= 1 ? 200 : 201).json({ message: follow >= 1 ? "User unfollowed" : "User followed" });

@@ -2,19 +2,19 @@ const { Server } = require('socket.io');
 const { verifyToken } = require('./auth');
 const { Message, User } = require('../db');
 
+const io = new Server({
+    cors: {
+        // origin: "http://localhost:5173",
+        origin: "*",
+    }
+});
+
 /**
  * Connects the socket server to the app
  * @param {Express} app 
  * @returns {void} 
  */
 const connect = (app) => {
-    const io = new Server({
-        cors: {
-            // origin: "http://localhost:5173",
-            origin: "*",
-        }
-    });
-
     io.use((socket, next) => {
         const { token: bearerToken } = socket.request.headers;
 
@@ -84,4 +84,5 @@ const connect = (app) => {
 
 module.exports = {
     connect,
+    io,
 }

@@ -2,7 +2,7 @@ const express = require("express");
 const app = express.Router();
 
 const Joi = require("joi");
-const { User } = require("../../db");
+const { User, UserFollow } = require("../../db");
 const { comparePassword, generateToken } = require("../../utilities/auth");
 
 /**
@@ -31,8 +31,11 @@ app.post("/", async (req, res) => {
         const { password, ...payload } = user;
     
         const token = generateToken({ id: user._id, email: user.email, role: user.role });
+
+        const followers = await UserFollow.find({ user: user._id }, "follower", { lean: true }).populate({ path: "follower", select: "_id first_name last_name nickname avatar" });
+        const following = await UserFollow.find({ follower: user._id }, "user", { lean: true }).populate({ path: "user", select: "_id first_name last_name nickname avatar" });
     
-        return res.status(200).json({ token, user: payload });
+        return res.status(200).json({ token, user: { ...payload, followers, following } });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Errore interno del server" });   
