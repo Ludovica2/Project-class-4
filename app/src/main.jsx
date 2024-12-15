@@ -10,6 +10,7 @@ import store from './store/index.js'
 import { ToastContainer } from 'react-toastify';
 import { RoleProvider } from './provider/Role.jsx';
 import { SocketProvider } from './provider/Socket.jsx';
+import { Toaster } from 'react-hot-toast';
 
 
 createRoot(document.getElementById('root')).render(
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')).render(
             <SocketProvider>
                 <RoleProvider>
                     <App />
+                    <Toaster position="top-right" />
                     <ToastContainer />
                 </RoleProvider>
             </SocketProvider>

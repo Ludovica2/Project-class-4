@@ -76,9 +76,14 @@ app.post("/", authUser(), async (req, res, next) => {
  * @path /api/posts
  * @method GET
  */
-app.get("/", authUser(), async (_, res) => {
+app.get("/", authUser(), async (req, res) => {
+    const user = req.user._id;
+
     try {
-        const posts = await Post.find({}, null, { lean: true, sort: { createdAt: -1 } })
+        const followers = (await UserFollow.find({ user: user._id }, "follower", { lean: true }).populate({ path: "follower", select: "_id" })).map(f => f.follower._id);
+        const following = (await UserFollow.find({ follower: user._id }, "user", { lean: true }).populate({ path: "user", select: "_id" })).map(f => f.user._id);
+
+        const posts = await Post.find({ $or: [{ user }, { from: user }, { from: { $in: followers } }, { from: { $in: following } }] }, null, { lean: true, sort: { createdAt: -1 } })
             .populate({ path: "from", select: "first_name last_name nickname createdAt avatar" })
             .populate({ path: "post_likes" })
             .populate({ path: "post_comments", populate: ["reply_to", "reactions"] });

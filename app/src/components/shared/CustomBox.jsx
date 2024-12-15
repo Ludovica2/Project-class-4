@@ -6,9 +6,11 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 import PopUpModal from './PopUpModal';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { formatDistance } from 'date-fns';
+import { it } from 'date-fns/locale';
 
 const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "", nickname = "" }) => {
-    const { token } = useSelector((state) => state.auth);
+    const { token, user } = useSelector((state) => state.auth);
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
     const [replyComments, setReplyComments] = useState(false);
@@ -35,14 +37,19 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
             <div className="m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600">
                 <div className='flex'>
                     <div>
-                        <div style={{ backgroundImage: `url(${imgProfile}?token=${token})` }} className="imgProfile-post bg-cover bg-center"></div>
+                        <Link className="cursor-pointer flex items-center justify-center" to={`/app/profile/${nickname.replace("@", "")}`}>
+                            <div style={{ backgroundImage: `url(${imgProfile}?token=${token})` }} className="imgProfile-post bg-cover bg-center"></div>
+                        </Link>
                     </div>
                     <div className="rounded-t-lg flex flex-col flex-1 justify-center ml-4">
                         <div className='flex'>
-                            <h3 className="dark:text-white">{profile} -</h3>
-                            <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @<Link to={`/app/profile/${nickname.replace("@", "")}`}>{nickname}</Link></span>
+                            <Link className="cursor-pointer flex items-center justify-center" to={`/app/profile/${nickname.replace("@", "")}`}>
+                                <h3 className="dark:text-white">
+                                    {profile} - <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @{nickname}</span>
+                                </h3>
+                            </Link>
                         </div>
-                        <span className='textSmall-gray dark:text-slate-300'>{dataPost}</span>
+                        <span className='textSmall-gray dark:text-slate-300'>{formatDistance(post.createdAt, new Date(), { locale: it, addSuffix: true })}</span>
                     </div>
                     <div className='flex'>
                         <div className="p-2 mr-2 justify-center relative cursor-pointer" onClick={toggleOptionsPost}>
@@ -90,12 +97,12 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                 <div className="m-4 rounded-b-lg">
                     <div>
                         {
-                           /*  post?.locality && */ (
+                           /*  post?.locality && (
                                 <div className='mb-4'>
                                     <i className="fa-solid fa-location-dot text-secondaryColor text-lm"></i>
                                     <span className='ml-1 text-dark'>{post.locality} ciao sono qui</span>
                                 </div>
-                            )
+                            ) */
                         }
                         {children}
                         <div className="w-full my-4">
@@ -317,9 +324,9 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                                     {
                                         replyComments && (
                                             <div className='flex mt-4 ml-4'>
-                                                <img className='img-CommentsProf' src={imgProfile} alt="Profile" />
+                                                <img className='img-CommentsProf' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
                                                 <div className="flex flex-1 justify-between items-center ml-3 p-1 h-14 border border-slate-100 rounded-md ">
-                                                    <ContentEditable onChange={handleChange} disabled={false} html={field} className="outline-none textSmall-gray" />
+                                                    <textarea onChange={handleChange} disabled={false} value={field} placeholder="Rispondi al commento..." className="outline-none w-full h-full border-0 focus:ring-0 textSmall-gray"></textarea>
                                                     <motion.button className="btn"
                                                         whileTap={{ scale: 0.95 }}
                                                     >
@@ -331,9 +338,9 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                                     }
                                 </div>
                                 <div className='flex mt-4'>
-                                    <img className='img-CommentsProf' src={imgProfile} alt="Profile" />
+                                    <img className='img-CommentsProf' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
                                     <div className="flex flex-1 justify-between items-center ml-3 p-1 h-16 border border-slate-100 rounded-md ">
-                                        <ContentEditable onChange={handleChange} disabled={false} html={field} className="outline-none textSmall-gray" />
+                                        <textarea onChange={handleChange} disabled={false} value={field} placeholder="Aggiungi un commento..." className="outline-none w-full h-full border-0 focus:ring-0 textSmall-gray"></textarea>
                                         <motion.button className="btn"
                                             whileTap={{ scale: 0.95 }}
                                         >

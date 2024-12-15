@@ -1,4 +1,5 @@
 export const config = {
+    API_SOCKET_URL: "http://localhost:3031",
     API_BASE_URL: "http://localhost:3030/api",
     API_AUTH_URL: "http://localhost:3030/auth",
     CLIENT_URL: "http://localhost:5173",

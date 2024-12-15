@@ -38,7 +38,9 @@ const connect = (app) => {
         // Join to personal room of the user by the user's id
         socket.join(socket.user.id);
         // Set online status
-        await User.updateOne({ _id: socket.user.id }, { chat_status: "online" });
+        const user = await User.findOneAndUpdate({ _id: socket.user.id }, { chat_status: "online" });
+
+        io.emit('new-user-online', { user });
         
         // A new chat message is received
         socket.on('new-chat-message', async ({ room, to, message }) => {
@@ -68,7 +70,9 @@ const connect = (app) => {
             // Leave the room
             socket.leave(socket.user.id);
             // Set offline status
-            await User.updateOne({ _id: socket.user.id }, { chat_status: "offline" });
+            const user = await User.findOneAndUpdate({ _id: socket.user.id }, { chat_status: "offline" });
+
+            io.emit('new-user-offline', { user });
         });
     });
     
