@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "", nickname = "" }) => {
-    const { token } = useSelector((state) => state.auth);
+    const { user, token } = useSelector((state) => state.auth);
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
     const [replyComments, setReplyComments] = useState(false);
@@ -39,6 +39,11 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                     </div>
                     <div className="rounded-t-lg flex flex-col flex-1 justify-center ml-4">
                         <div className='flex'>
+                            {/* <h3 className="text-xl dark:text-slate-100">
+                                {user.role === "user"
+                                    ? `${user.first_name} ${user.last_name}`
+                                    : user.metadata.company_name}
+                            </h3> */}
                             <h3 className="dark:text-white">{profile} -</h3>
                             <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @<Link to={`/app/profile/${nickname.replace("@", "")}`}>{nickname}</Link></span>
                         </div>

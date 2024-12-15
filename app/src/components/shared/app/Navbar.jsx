@@ -42,7 +42,7 @@ const Navbar = () => {
         setIsOpenMessage(false);
         setIsOpenSearch(prev => !prev);
     }
- 
+
     const handleLogout = () => {
         dispatch(logout());
     }
@@ -107,7 +107,10 @@ const Navbar = () => {
                     <button onClick={toggleMessage}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
-                                <i className="fa-solid fa-envelope text-primayColor hover:opacity-70"></i>
+                                <div className='absolute transform translate-x-2 -translate-y-2 flex items-center justify-center rounded-full border-[1px] border-white bg-red-600 text-xs w-[14px] h-[14px] text-center text-white font-bold'>
+                                    1
+                                </div>
+                                <i className="fa-solid fa-envelope text-primayColor hover:text-primayColor_Hover"></i>
                             </div>
                         </div>
                     </button>
@@ -117,7 +120,10 @@ const Navbar = () => {
                     <button onClick={toggleNotify}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
-                                <i className="fa-solid fa-bell-concierge text-primayColor hover:opacity-70"></i>
+                                <div className='absolute transform translate-x-2 -translate-y-2 flex items-center justify-center rounded-full border-[1px] border-white bg-red-600 text-xs w-[14px] h-[14px] text-center text-white font-bold'>
+                                    1
+                                </div>
+                                <i className="fa-solid fa-bell-concierge text-primayColor hover:text-primayColor_Hover"></i>
                             </div>
                             {
                                 isOpenNotify && (

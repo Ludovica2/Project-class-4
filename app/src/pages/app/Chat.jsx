@@ -50,7 +50,9 @@ const Chat = () => {
                             <div className='ml-4 flex-1'>
                                 <p className='text-sm font-semibold'>{contact.name}</p>
                             </div>
-                            <div className='flex items-center justify-center rounded-full bg-primayColor text-xs w-5 h-5 text-center text-white font-bold'>1</div>
+                            <div className='flex items-center justify-center rounded-full bg-primayColor text-xs w-5 h-5 text-center text-white font-bold'>
+                                1
+                            </div>
                         </div>
                     ))}
                 </div>
