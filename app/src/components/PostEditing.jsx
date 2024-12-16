@@ -81,6 +81,7 @@ const PostEditing = ({ onNewPost }) => {
     const handleDeleteImages = (id) => {
         setImagesPreview((i) => ([...i.filter((_) => _.id != id)]));
     }
+    
 
     const handleCreatePost = async () => {
         try {

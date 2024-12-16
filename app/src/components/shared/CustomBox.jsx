@@ -31,6 +31,7 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
     const toggleOptionsPost = () => {
         setIsOpenOptionsMenu(true);
     }
+    
 
     return (
         <>
