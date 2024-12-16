@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { formatDistance } from 'date-fns';
 import { it } from 'date-fns/locale';
 
-const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "", nickname = "" }) => {
+const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = "" }) => {
     const { token, user } = useSelector((state) => state.auth);
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
@@ -32,6 +32,9 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
         setIsOpenOptionsMenu(true);
     }
     
+    const formatPostAuthorName = (post) => {
+        return post.from.role == "user" ? `${post.from.first_name} ${post.from.last_name}` : post.from.metadata.company_name;
+    }
 
     return (
         <>
@@ -46,7 +49,7 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                         <div className='flex'>
                             <Link className="cursor-pointer flex items-center justify-center" to={`/app/profile/${nickname.replace("@", "")}`}>
                                 <h3 className="dark:text-white">
-                                    {profile} - <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @{nickname}</span>
+                                    {formatPostAuthorName(post)} - <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @{nickname}</span>
                                 </h3>
                             </Link>
                         </div>

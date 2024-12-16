@@ -40,7 +40,6 @@ const Feed = () => {
                         allPosts.map(post => (
                             <CustomBox
                                 key={post._id}
-                                profile={post.from.first_name + " " + post.from.last_name} 
                                 imgProfile={post.from.avatar}
                                 nickname={post.from.nickname} 
                                 dataPost="5 minuti fa"
@@ -52,7 +51,9 @@ const Feed = () => {
                     }
                 </div>
                 <div className="w-full lg:max-w-[360px] 2xl:max-w-[450px]">
-                    <Widget title={"Eventi Suggeriti"} wgt={widget.events} role={user.role}/>
+                    <div className="sticky top-4">
+                        <Widget title={"Eventi Suggeriti"} wgt={widget.events} role={user.role}/>
+                    </div>
                 </div>
             </div>
         </>

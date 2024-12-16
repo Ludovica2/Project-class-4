@@ -1,10 +1,10 @@
 import React from 'react'
 import WidgetItem from './app/WidgetItem'
 
-const Widget = ({ title, wgt, role = "", val_review = "" }) => {
+const Widget = ({ title, wgt, role = "", val_review = "", className = "" }) => {
   return (
     <>
-      <div className="m-5 rounded-lg bg-white w-full shadow p-4 dark:bg-elements_dark dark:shadow-slate-600 sticky top-4">
+      <div className={"m-5 rounded-lg bg-white w-full shadow p-4 dark:bg-elements_dark dark:shadow-slate-600" + " " + className}>
         <div className='flex justify-between'>
           <h2 className='dark:text-slate-100'> {title}</h2>
           {val_review}

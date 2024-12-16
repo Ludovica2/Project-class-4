@@ -9,6 +9,7 @@ import CustomActiveSocial from "../../components/shared/CustomActiveSocial";
 import { getSocialActive } from "../../utilities/settings";
 import SDK from "../../SDK";
 import { toast } from "react-toastify";
+import CustomBox from "../../components/shared/CustomBox";
 
 const widget = {
     events: "events",
@@ -21,6 +22,7 @@ const ExternalProfile = ({ nickname }) => {
     const { token, user: currentUser } = useSelector((state) => state.auth);
     const { social } = useSelector((state) => state.settings);
     const [user, setUser] = useState(null);
+    const [posts, setPosts] = useState([]);
     const [follow, setFollow] = useState(false);
     const [blockUser, setBlockUser] = useState(false);
 
@@ -56,17 +58,32 @@ const ExternalProfile = ({ nickname }) => {
         }
     }
 
+    const fetchPosts = async () => {
+        try {
+            console.log(user)
+            const _posts = await SDK.post.getAllProfile(user._id, token);
+            setPosts(_posts);
+        } catch (error) {
+            console.log(error);
+            toast.error("Post non trovati");
+        }
+    }
+
+    const fetchData = async () => {
+        await fetchUser();
+    }
+
     useEffect(() => {
         document.title = "Profile - Found!";
 
-        fetchUser();
+        fetchData();
     }, []);
 
     useEffect(() => {
         if (user) {
             const isFollowing = user.followers.find(follower => follower.follower._id == currentUser._id);
             setFollow(isFollowing);
-            // dispatch() // TODO: dipatch action to update user following
+            fetchPosts();
         }
     }, [user]);
 
@@ -210,20 +227,34 @@ const ExternalProfile = ({ nickname }) => {
                                     <span className="text-slate-600">Sblocca questo utente per vedere i suoi contenuti</span>
                                 </div> : <>
                                     <div className="w-1/4">
-                                        <Widget title={"Eventi in Programma"} wgt={widget.events} role="user" />
-                                        {
-                                            user.role == "user" ? (
-                                                <Widget title={"Luoghi Visitati"} wgt={widget.city} />
-                                            ) : (
-                                                <Widget title={"Recensioni"} wgt={widget.review} role={user.role} val_review={
-                                                    <span>4,5 <i className="fa-solid fa-star text-yellow-300"></i></span>
-                                                } />
-                                            )
-                                        }
+                                        <div className="sticky top-4">
+                                            <Widget title={"Eventi in Programma"} wgt={widget.events} role="user" />
+                                            {
+                                                user.role == "user" ? (
+                                                    <Widget title={"Luoghi Visitati"} wgt={widget.city} />
+                                                ) : (
+                                                    <Widget title={"Recensioni"} wgt={widget.review} role={user.role} val_review={
+                                                        <span>4,5 <i className="fa-solid fa-star text-yellow-300"></i></span>
+                                                    } />
+                                                )
+                                            }
+                                        </div>
                                     </div>
                                     <div className="w-full">
-                                        <div className="flex justify-center flex-1">
-                                            <PostEditing />
+                                        <div className="w-full md:max-w-[640px] xl:max-w-[660px] 2xl:max-w-[830px]">
+                                            {
+                                                posts?.map(post => (
+                                                    <CustomBox
+                                                        key={post._id}
+                                                        imgProfile={post.from.avatar}
+                                                        nickname={post.from.nickname}
+                                                        dataPost="5 minuti fa"
+                                                        post={post}
+                                                    >
+                                                        <p className="dark:text-dark w-full post-p" dangerouslySetInnerHTML={{ __html: post.html }}></p>
+                                                    </CustomBox>
+                                                ))
+                                            }
                                         </div>
                                     </div>
                                 </>

@@ -163,7 +163,7 @@ export default {
     post: {
         get: async (post_id, token) => {
             return (await axios({
-                url: buildApiUrl(`/posts/${post_id}`),
+                url: buildApiUrl(`/posts/single/${post_id}`),
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`
@@ -181,7 +181,7 @@ export default {
         },
         getAllProfile:async (user_id, token) => {
             return (await axios({
-                url: buildApiUrl(`/posts/${user_id}`),
+                url: buildApiUrl(`/posts/all/${user_id}`),
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`

@@ -112,7 +112,7 @@ app.put("/follow", authUser(), async (req, res) => {
  * @path /api/users/profile
  * @method PUT
  */
-app.put("/profile", authUser(["user"]), uploadAvatar, async (req, res) => {
+app.put("/profile", authUser(["user", "business"]), uploadAvatar, async (req, res) => {
     const _id = req.user._id;
     const schema = Joi.object().keys({
         first_name: Joi.string().required(),
@@ -122,6 +122,7 @@ app.put("/profile", authUser(["user"]), uploadAvatar, async (req, res) => {
         nation: Joi.string().optional(),
         city: Joi.string().optional(),
         bio: Joi.string().optional(),
+        metadata: Joi.object().optional(),
     });
 
     try {
@@ -146,7 +147,7 @@ app.put("/profile", authUser(["user"]), uploadAvatar, async (req, res) => {
  * @path /api/users/profile/avatar
  * @method PUT
  */
-app.put("/profile/avatar", authUser(["user"]), uploadAvatar, async (req, res) => {
+app.put("/profile/avatar", authUser(["user","business"]), uploadAvatar, async (req, res) => {
     const _id = req.user._id;
     const schema = Joi.object().keys({
         avatar: Joi.object().required(),
@@ -159,6 +160,10 @@ app.put("/profile/avatar", authUser(["user"]), uploadAvatar, async (req, res) =>
         const _data = data.avatar.src.split(',')[1]; 
         const buf = Buffer.from(_data, 'base64'); 
         const userDir = path.join(__dirname, "../../uploads/", _id.toString(), "avatar", data.avatar.name);
+
+        if (!fs.existsSync(path.join(__dirname, "../../uploads/", _id.toString(), "avatar"))) {
+            fs.writeSync(path.join(__dirname, "../../uploads/", _id.toString(), "avatar"))
+        }
 
         fs.writeFileSync(userDir, buf);
 
@@ -175,7 +180,7 @@ app.put("/profile/avatar", authUser(["user"]), uploadAvatar, async (req, res) =>
  * @path /api/users/password
  * @method PUT
  */
-app.put("/password", authUser(["user"]), async (req, res) => {
+app.put("/password", authUser(["user", "business"]), async (req, res) => {
     const _id = req.user._id;
     const schema = Joi.object().keys({
         current_password: Joi.string().required(),
@@ -206,7 +211,7 @@ app.put("/password", authUser(["user"]), async (req, res) => {
  * @path /api/users/email
  * @method PUT
  */
-app.put("/email", authUser(["user"]), async (req, res) => {
+app.put("/email", authUser(["user", "business"]), async (req, res) => {
     const _id = req.user._id;
     const schema = Joi.object().keys({
         email: Joi.string().required(),
@@ -228,7 +233,7 @@ app.put("/email", authUser(["user"]), async (req, res) => {
  * @path /api/users/nickname
  * @method PUT
  */
-app.put("/nickname", authUser(["user"]), async (req, res) => {
+app.put("/nickname", authUser(["user", "business"]), async (req, res) => {
     const _id = req.user._id;
     const schema = Joi.object().keys({
         nickname: Joi.string().required(),
@@ -250,7 +255,7 @@ app.put("/nickname", authUser(["user"]), async (req, res) => {
  * @path /api/users
  * @method DELETE
  */
-app.delete("/", authUser(["user"]), async (req, res) => {
+app.delete("/", authUser(["user", "business"]), async (req, res) => {
     const _id = req.user._id;
 
     try {

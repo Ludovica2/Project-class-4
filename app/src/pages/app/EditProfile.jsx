@@ -32,6 +32,7 @@ const EditProfile = () => {
             nation: user.nation || "",
             city: user.city || "",
             bio: user.bio || "",
+            metadata: user.metadata || {}
         },
         [activeTab.changePassword]: {
             current_password: "",
@@ -71,7 +72,7 @@ const EditProfile = () => {
         reader.addEventListener("load", () => {
             setImagePreview({ 
                 id: `profile-preview-${user._id}-${new Date().getTime()}`, 
-                name: `profile-image-${new Date().getTime()}-${user._id}.${reader.result.split(":")[1].split("/")[1].replace(";base64,", "")}`,
+                name: `profile-image-${new Date().getTime()}-${user._id}.${reader.result.split(",")[0].split("/")[1].split(";")[0]}`,
                 src: reader.result 
             });
         }, false);
@@ -94,10 +95,35 @@ const EditProfile = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        const formatBusinessProfilePayload = (payload) => {
+            const fields = ["first_name", "last_name", "tel", "birth_date", "nation", "city", "bio", "metadata"];
+
+            const obj = {};
+
+            console.log(obj)
+
+            Object.entries(payload).forEach(([key, value]) => {
+                if (fields.includes(key) && value && value != "") {
+                    obj[key] = value;
+                } else {
+                    if (!obj.metadata) obj.metadata = {};
+                    if (value && value != "") {
+                        obj.metadata = {...obj.metadata, [key]: value };
+                    }
+                }
+            })
+
+            return obj;
+        }
+
         try {
             if (tabToOpen == activeTab.personalInfo) {
-                await SDK.profile.update(form[tabToOpen], token);
-                dispatch(updateUser(form[tabToOpen]));
+                const payload = user.role == "user" ? form[tabToOpen] : formatBusinessProfilePayload(form[tabToOpen]);
+
+                console.log(payload)
+                
+                await SDK.profile.update(payload, token);
+                dispatch(updateUser(payload));
                 toast.success("Profile Informations Updated");
             } else if (tabToOpen == activeTab.changePassword) {
                 const { conf_password, ...payload } = form[tabToOpen];
@@ -245,11 +271,11 @@ const EditProfile = () => {
                                                     <>
                                                         <div className="flex flex-col w-2/5">
                                                             <label htmlFor="company_name" className="font-semibold mt-1 dark:text-slate-300">Ragione Sociale</label>
-                                                            <input type="text" name="company_name" id="company_name" onInput={handleInput} value={form.personal.company_name} className="my-2 p-2 input_field" />
+                                                            <input type="text" name="company_name" id="company_name" onInput={handleInput} value={form.personal.metadata.company_name} className="my-2 p-2 input_field" />
                                                         </div>
                                                         <div className="flex flex-col w-2/5">
                                                             <label htmlFor="vat_number" className="font-semibold mt-1 dark:text-slate-300">Partita IVA</label>
-                                                            <input type="text" name="vat_number" id="vat_number" onInput={handleInput} value={form.personal.vat_numbere} className="my-2 p-2 input_field" />
+                                                            <input type="text" name="vat_number" id="vat_number" onInput={handleInput} value={form.personal.metadata.vat_number} className="my-2 p-2 input_field" />
                                                         </div>
                                                     </>
                                                 )
