@@ -20,7 +20,6 @@ const SettingsProfile = () => {
     const dispatch = useDispatch();
     const { darkMode, notify, social: socialSettings, device: deviceSettings } = useSelector((state) => state.settings);
     const [popupIsOpen, setpopupIsOpen] = useState(false);
-    console.log(deviceSettings)
 
     const handleSocialSettingsChange = (payload) => {
         dispatch(changeSocialSettings(payload));

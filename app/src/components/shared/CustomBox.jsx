@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "", nickname = "" }) => {
-    const { token } = useSelector((state) => state.auth);
+    const { token, user } = useSelector((state) => state.auth);
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
     const [replyComments, setReplyComments] = useState(false);
@@ -32,7 +32,7 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
 
     return (
         <>
-            <div className="m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600">
+            <div className="m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600 max-lg:mx-4 max-md:max-w-[600px] max-lg:max-w-[700px]">
                 <div className='flex'>
                     <div>
                         <img crossOrigin="anonymous" className='imgProfile-post' src={`${imgProfile}?token=${token}`} alt="Profile" />
@@ -49,37 +49,104 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                             <i className="fa-solid fa-ellipsis dark:text-gray-500"></i>
                             {
                                 isOpenOptionsMenu && (
-                                    <motion.div ref={optionsRef} className="flex flex-col absolute top-9 -left-3 px-2 w-64 bg-white border border-slate-100 z-10 dark:bg-elements_dark  dark:shadow dark:shadow-slate-400 dark:border-none"
+                                    <motion.div ref={optionsRef} className="flex flex-col absolute top-9 -left-3 px-2 min-w-52 bg-white border border-slate-100 z-10 dark:bg-elements_dark  dark:shadow dark:shadow-slate-400 dark:border-none"
                                         initial={{ y: -8 }}
                                         animate={{ y: "calc(0vw + 5%)" }}
                                     >
-                                        <button className='flex mt-2 border-b border-b-slate-100 group'>
-                                            <div>
-                                                <i className="fa-regular fa-circle-xmark text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
-                                            </div>
-                                            <div className='flex flex-col ml-2'>
-                                                <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Nascondi Post</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor group-hover:text-secondaryColor_Hover text-dark'>Mostra meno post come questo.</span>
-                                            </div>
-                                        </button>
-                                        <button className='flex mt-2 border-b border-b-slate-100 group'>
-                                            <div>
-                                                <i className="fa-solid fa-user-minus text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
-                                            </div>
-                                            <div className='flex flex-col ml-2'>
-                                                <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Non seguire più</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover text-dark'>Non vedrai più i post di questo utente.</span>
-                                            </div>
-                                        </button>
-                                        <button className='flex mt-2 group'>
-                                            <div>
-                                                <i className="fa-solid fa-bell text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
-                                            </div>
-                                            <div className='flex flex-col ml-2'>
-                                                <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Attiva Notifiche</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover text-dark'>Riceverai notifiche per i nuovi post di questo utente.</span>
-                                            </div>
-                                        </button>
+                                        {
+                                            user._id == post.from._id ? (
+                                                <>
+                                                    <button className='flex mt-2 mb-2 group' >
+                                                        <div>
+                                                            <i className="fa-solid fa-pen-to-square text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
+                                                        </div>
+                                                        <h3 className='text-sm ml-2 mt-1 font-semibold align-middle text-start dark:text-slate-300'>Modifica Post</h3>
+                                                    </button>
+                                                    <button className='flex mt-2 mb-2 group' >
+                                                        <div>
+                                                            <i className="fa-solid fa-trash text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
+                                                        </div>
+                                                        <h3 className='text-sm ml-2 mt-1 font-semibold align-middle text-start dark:text-slate-300'>Elimina Post</h3>
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <button className='flex mt-2 border-b border-b-slate-100 group'>
+                                                        <div>
+                                                            <i className="fa-regular fa-circle-xmark text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
+                                                        </div>
+                                                        <div className='flex flex-col ml-2'>
+                                                            <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Nascondi Post</h3>
+                                                            <span className='mb-2 text-xs text-start text-text_secondaryColor group-hover:text-secondaryColor_Hover text-dark'>Mostra meno post come questo.</span>
+                                                        </div>
+                                                    </button>
+                                                    <button className='flex mt-2 border-b border-b-slate-100 group'>
+                                                        <div>
+                                                            <i className="fa-solid fa-user-minus text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
+                                                        </div>
+                                                        <div className='flex flex-col ml-2'>
+                                                            <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Non seguire più</h3>
+                                                            <span className='mb-2 text-xs text-start text-text_secondaryColor group-hover:text-secondaryColor_Hover text-dark'>Non vedrai più i post di questo utente.</span>
+                                                        </div>
+                                                    </button>
+                                                    <button className='flex mt-2 border-b border-b-slate-100 group'>
+                                                        <div>
+                                                            <i className="fa-solid fa-bell text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
+                                                        </div>
+                                                        <div className='flex flex-col ml-2'>
+                                                            <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Attiva Notifiche</h3>
+                                                            <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover text-dark'>Riceverai notifiche per i nuovi post di questo utente.</span>
+                                                        </div>
+                                                    </button>
+                                                </>
+                                            )
+                                        }
+                                        {
+                                            <PopUpModal title={"Condividi"} sizeModal={"md"}
+                                                showBtn={(openModal) => {
+                                                    return <button className='flex mt-2 mb-2 group' onClick={() => openModal(true)}>
+                                                        <div>
+                                                            <i className="fa-solid fa-share-nodes text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
+                                                        </div>
+
+                                                        <h3 className='text-sm ml-2 mt-1 font-semibold align-middle text-start dark:text-slate-300'>Condividi Post</h3>
+
+
+                                                    </button>;
+                                                }}
+                                            >
+                                                {
+                                                    <>
+                                                        <div className="flex items-center w-full mb-8 gap-5">
+                                                            <div className='w-12 h-12 cursor-pointer'>
+                                                                <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=000000" alt="whatsApp" />
+                                                            </div>
+                                                            <div className='w-12 h-12 cursor-pointer'>
+                                                                <img src="https://img.icons8.com/color/48/telegram-app--v1.png" alt="telegram" />
+                                                            </div>
+                                                            <div className='w-12 h-12 cursor-pointer'>
+                                                                <img src="https://img.icons8.com/color/48/instagram-new--v1.png" alt="instagram" />
+                                                            </div>
+                                                            <div className='w-12 h-12 cursor-pointer'>
+                                                                <img src="https://img.icons8.com/color/48/facebook-new.png" alt="facebook" />
+                                                            </div>
+                                                            <div className='w-12 h-12 cursor-pointer'>
+                                                                <img src="https://img.icons8.com/color/48/pinterest--v1.png" alt="pinterest" />
+                                                            </div>
+                                                            <div className='w-12 h-12 cursor-pointer flex items-center'>
+                                                                <i className="fa-solid fa-ellipsis text-3xl dark:text-gray-500"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div className='relative'>
+                                                            <input type="text" value={`www.Found!/Post/${profile}`} className="w-full input_field h-14" readOnly />
+                                                            <button className="btn absolute bottom-2 right-2">Copia</button>
+                                                        </div>
+                                                    </>
+                                                }
+                                            </PopUpModal>
+
+                                        }
+
                                     </motion.div>
                                 )
                             }
@@ -218,44 +285,42 @@ const CustomBox = ({ children, post, profile = "", imgProfile = "", dataPost = "
                                 <span className='icon-text group-hover:text-primayColor'>Salva</span>
                             </button>
                             {
-                                <PopUpModal title={"Condividi"} sizeModal={"md"}
+                                <PopUpModal title={"Invia a..."} sizeModal={"md"}
                                     showBtn={(openModal) => {
-                                        return <button className='group' onClick={() => openModal(true)}>
-                                            <i className="fa-solid fa-share-nodes icon group-hover:text-primayColor"></i>
-                                            <span className='icon-text group-hover:text-primayColor'>Condividi</span>
+                                        return <button onClick={() => openModal(true)} className="group">
+                                            <i className="fa-regular fa-paper-plane icon group-hover:text-primayColor"></i>
+                                            <span className='icon-text group-hover:text-primayColor'>Invia</span>
                                         </button>;
                                     }}
                                 >
                                     {
                                         <>
-                                            <div className="flex items-center w-full mb-8 gap-5">
-                                                <div className='w-12 h-12 cursor-pointer'>
-                                                    <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=000000" alt="whatsApp" />
+                                            {
+                                                <div className=' flex'>
+                                                    {/* Map delle persone seguite */}
+                                                    <button className='flex flex-col items-center w-1/3'>
+                                                        <div className="flex justify-center items-center w-[90px] h-[90px] bg-white rounded-full shadow dark:bg-elements_dark dark:shadow-slate-400">
+                                                            <img className='w-20 h-20 rounded-full' crossOrigin="anonymous" src="https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Profile" />
+                                                        </div>
+                                                        <span className='max-w-24 truncate'>Gino Fluffy</span>
+                                                    </button>
+                                                    <button className='flex flex-col items-center w-1/3'>
+                                                        <div className="flex justify-center items-center w-[90px] h-[90px] bg-white rounded-full shadow dark:bg-elements_dark dark:shadow-slate-400">
+                                                            <img className='w-20 h-20 rounded-full' crossOrigin="anonymous" src="https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Profile" />
+                                                        </div>
+                                                        <span className='max-w-24 truncate'>Gino Fluffy</span>
+                                                    </button>
+                                                    <button className='flex flex-col items-center w-1/3'>
+                                                        <div className="flex justify-center items-center w-[90px] h-[90px] bg-white rounded-full shadow dark:bg-elements_dark dark:shadow-slate-400">
+                                                            <img className='w-20 h-20 rounded-full' crossOrigin="anonymous" src="https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Profile" />
+                                                        </div>
+                                                        <span className='max-w-24 truncate'>Gino Fluffy</span>
+                                                    </button>
                                                 </div>
-                                                <div className='w-12 h-12 cursor-pointer'>
-                                                    <img src="https://img.icons8.com/color/48/telegram-app--v1.png" alt="telegram" />
-                                                </div>
-                                                <div className='w-12 h-12 cursor-pointer'>
-                                                    <img src="https://img.icons8.com/color/48/instagram-new--v1.png" alt="instagram" />
-                                                </div>
-                                                <div className='w-12 h-12 cursor-pointer'>
-                                                    <img src="https://img.icons8.com/color/48/facebook-new.png" alt="facebook" />
-                                                </div>
-                                                <div className='w-12 h-12 cursor-pointer'>
-                                                    <img src="https://img.icons8.com/color/48/pinterest--v1.png" alt="pinterest" />
-                                                </div>
-                                                <div className='w-12 h-12 cursor-pointer flex items-center'>
-                                                    <i className="fa-solid fa-ellipsis text-3xl dark:text-gray-500"></i>
-                                                </div>
-                                            </div>
-                                            <div className='relative'>
-                                                <input type="text" value={`www.Found!/Post/${profile}`} className="w-full input_field h-14" readOnly />
-                                                <button className="btn absolute bottom-2 right-2">Copia</button>
-                                            </div>
+                                            }
                                         </>
                                     }
                                 </PopUpModal>
-
                             }
                         </div>
                     </div>

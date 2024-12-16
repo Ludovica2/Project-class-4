@@ -167,7 +167,9 @@ const FoundCalendar = () => {
                             />
                         </div>
                         <div className='flex justify-between gap-2 mt-1'>
-                            <button className="btn" type="submit"><i className="fa-solid fa-check dark:text-white"></i></button>
+                            <button className="btn" type="submit">
+                                <i className="fa-solid fa-check dark:text-white"></i>
+                            </button>
                             {selectedEvent && (
                                 <motion.button
                                     className="btn"

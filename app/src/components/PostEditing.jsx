@@ -23,7 +23,7 @@ const PostEditing = ({ onNewPost }) => {
     const [post, setPost] = useState({
         userId: user._id,
         date: "",
-        type: "",
+        typePost: "",
         content: "",
         video: [],
         images: [],
@@ -50,7 +50,7 @@ const PostEditing = ({ onNewPost }) => {
     }
 
     const handleTypePost = (event) => {
-        setPost((post) => ({ ...post, type: event.target.value }));
+        setPost((post) => ({ ...post, typePost: event.target.value }));
     }
 
     const handleLocalityPost = (event) => {
@@ -66,11 +66,11 @@ const PostEditing = ({ onNewPost }) => {
             const reader = new FileReader();
             reader.addEventListener("load", () => {
                 setImagesPreview((f) => ([
-                    ...f, 
-                    { 
-                        id: `image-preview-${i}-${new Date().getTime()}`, 
+                    ...f,
+                    {
+                        id: `image-preview-${i}-${new Date().getTime()}`,
                         name: `image-${i}-${new Date().getTime()}.${reader.result.split(":")[1].split("/")[1].replace(";base64,", "")}`,
-                        src: reader.result 
+                        src: reader.result
                     }
                 ]));
             }, false);
@@ -101,7 +101,7 @@ const PostEditing = ({ onNewPost }) => {
 
     return (
         <>
-            <div className="m-5 max-w-[1000px] rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600">
+            <div className="m-5 max-w-[1000px] rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600 max-lg:mx-4 max-md:max-w-[600px] max-lg:max-w-[700px]">
                 <div className="flex justify-between items-center rounded-t-lg">
                     <h3 className="p-4 dark:text-slate-100">Aggiungi un post</h3>
                     <div className="flex m-3">
@@ -118,10 +118,10 @@ const PostEditing = ({ onNewPost }) => {
                 <div className="w-full h-[1px] mb-5 bg-slate-100"></div>
                 <div className="m-4 p-1 min-h-16">
                     {
-                        post.type == postType.reviewType && (
+                        post.typePost == postType.reviewType && (
                             <div className="flex mb-3">
                                 <span className="mr-2 text-dark">Valutazione</span>
-                                <div className="">
+                                <div>
                                     {
                                         reviews.map((star, index) => (
                                             <button className="cursor-default" onClick={() => handleReview(index)}>
@@ -141,6 +141,45 @@ const PostEditing = ({ onNewPost }) => {
                             </div>
                         )
                     }
+                    {
+                        post.typePost == postType.eventType && (
+                            <div className="mb-2">
+                                <div className='flex flex-col'>
+                                    <label className='text-dark'>Titolo: </label>
+                                    <input
+                                        type="text"
+                                        /* value={eventDetails.title}
+                                        onChange={(e) => setEventDetails({ ...eventDetails, title: e.target.value })} */
+                                        required
+                                        className='input_field p-2 border border-gray-300 rounded'
+                                    />
+                                </div>
+                                <div className="flex gap-5 my-5">
+                                    <div className='flex flex-col w-1/2'>
+                                        <label className='text-dark'>Inizio: </label>
+                                        <input
+                                            type="datetime-local"
+                                            /* value={moment(eventDetails.start).format("YYYY-MM-DDTHH:mm")}
+                                            onChange={(e) => setEventDetails({ ...eventDetails, start: new Date(e.target.value) })} */
+                                            required
+                                            className='input_field p-2 border border-gray-300 rounded'
+                                        />
+                                    </div>
+                                    <div className='flex flex-col w-1/2'>
+                                        <label className='text-dark'>Fine: </label>
+                                        <input
+                                            type="datetime-local"
+                                            /* value={moment(eventDetails.end).format("YYYY-MM-DDTHH:mm")}
+                                            onChange={(e) => setEventDetails({ ...eventDetails, end: new Date(e.target.value) })} */
+                                            required
+                                            className='input_field p-2 border border-gray-300 rounded'
+                                        />
+                                    </div>
+                                </div>
+                                <span className='text-dark'>Descrizione:</span>
+                            </div>
+                        )
+                    }
                     <div>
                         { /* <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" /> */}
                         <textarea className="w-full border-none outline-none focus:ring-0 focus:outline-none active:outline-none dark:bg-elements_dark" onChange={handleChange} value={field} placeholder="Crea il tuo post..."></textarea>
@@ -151,8 +190,8 @@ const PostEditing = ({ onNewPost }) => {
                                 {
                                     imagesPreview.map(({ id, src }) => (
                                         <div key={id} className="relative w-[31.33%]">
-                                            <span 
-                                                onClick={() => handleDeleteImages(id)} 
+                                            <span
+                                                onClick={() => handleDeleteImages(id)}
                                                 className="absolute cursor-pointer right-[-12.5px] top-[-12.5px] h-[25px] w-[25px] bg-slate-100 text-slate-500 rounded-full flex justify-center items-center border-2 border-slate-300">
                                                 x
                                             </span>

@@ -34,7 +34,7 @@ const Feed = () => {
     return (
         <>
             <div className="flex gap-6">
-                <div className="w-full md:max-w-[640px] xl:max-w-[660px] 2xl:max-w-[830px]">
+                <div className="w-full md:max-w-[640px] max-lg:flex max-lg:flex-col max-lg:items-center xl:max-w-[660px] 2xl:max-w-[830px]">
                     <PostEditing onNewPost={fetchAllPosts} />
                     {
                         allPosts.map(post => (
@@ -51,7 +51,7 @@ const Feed = () => {
                         ))
                     }
                 </div>
-                <div className="w-full lg:max-w-[360px] 2xl:max-w-[450px]">
+                <div className="w-full max-lg:hidden lg:max-w-[360px] 2xl:max-w-[450px]">
                     <Widget title={"Eventi Suggeriti"} wgt={widget.events} role={user.role}/>
                 </div>
             </div>

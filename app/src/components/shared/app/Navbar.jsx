@@ -68,13 +68,13 @@ const Navbar = () => {
                     )
                 }
             </div>
-            <form className="w-96 mx-auto max-md:hidden">
+            <form className="w-96 mx-auto max-lg:hidden">
                 <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1  dark:bg-bg_dark dark:border-gray-500">
                     <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50 input_field dark:bg-elements_dark dark:border-gray-500 dark:focus:bg-gray-800 dark:focus:border-gray-400" placeholder="Searched and Found!" required />
                     <button type="submit" className="btn dark:border-gray-500">Search</button>
                 </div>
             </form>
-            <div ref={serachRef} className="md:hidden">
+            <div ref={serachRef} className="lg:hidden">
                 <button onClick={toggleSearch}>
                     <div className="flex justify-center items-center">
                         <i className="fa-solid fa-magnifying-glass text-primayColor"></i>
@@ -150,9 +150,9 @@ const Navbar = () => {
                                 </div>
                                 {
                                     user.role == "user" ? (
-                                        <p className="dark:text-white hover:opacity-70 max-sm:hidden">{user.first_name} {user.last_name}</p>
+                                        <p className="dark:text-white hover:opacity-70 max-md:hidden">{user.first_name} {user.last_name}</p>
                                     ) : (
-                                        <p className="dark:text-white max-sm:hidden">{user.metadata.company_name}</p>
+                                        <p className="dark:text-white max-md:hidden">{user.metadata.company_name}</p>
                                     )
                                 }
 

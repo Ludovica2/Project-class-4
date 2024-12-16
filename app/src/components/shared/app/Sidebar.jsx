@@ -19,7 +19,7 @@ const Sidebar = ({ children, navbar }) => {
                     {
                         isOpenSidebar && (
 
-                            <motion.div className="w-[150px] flex bg-white flex-col justify-between p-4 dark:bg-elements_dark"
+                            <motion.div className="w-[150px] flex bg-white flex-col justify-between p-4 dark:bg-elements_dark max-xl:hidden"
                                 initial={{ x: -100 }}
                                 animate={{ x: "calc(0vw + 0%)" }}
                             >
@@ -31,7 +31,7 @@ const Sidebar = ({ children, navbar }) => {
                             </motion.div>
                         )
                     }
-                    <span className='relative'>
+                    <span className='relative max-xl:hidden'>
                         <button onClick={toggleSidebar}>
                             {isOpenSidebar ? (
                                 <i className="fa-solid fa-chevron-left text-lg dark:text-white dark:hover:opacity-70 text-primayColor hover:opacity-70 p-2"></i>
@@ -43,7 +43,6 @@ const Sidebar = ({ children, navbar }) => {
                     <div className="bg-slate-50 flex-grow h-[calc(100vh-65px)] overflow-y-auto dark:bg-bg_dark">
                         {children}
                     </div>
-
                 </div>
             </div>
         </div>
