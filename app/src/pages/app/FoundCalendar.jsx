@@ -20,7 +20,7 @@ const FoundCalendar = () => {
 
     const { token } = useSelector((state) => state.auth);
     const [isOpenDragDdrop, setIsOpenDragDdrop] = useState(false);
-    const [imagesPreview, setImagesPreview] = useState([]);
+    const [imagePreview, setImagePreview] = useState(null);
 
     const [popupIsOpen, setPopupIsOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
@@ -95,21 +95,19 @@ const FoundCalendar = () => {
         for (let i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             reader.addEventListener("load", () => {
-                setImagesPreview((f) => ([
-                    ...f,
-                    {
+                setImagePreview({
                         id: `image-preview-${i}-${new Date().getTime()}`,
                         name: `image-${i}-${new Date().getTime()}.${reader.result.split(":")[1].split("/")[1].replace(";base64,", "")}`,
                         src: reader.result
                     }
-                ]));
+                );
             }, false);
             reader.readAsDataURL(event.target.files[i]);
         }
     }
 
     const handleDeleteImages = (id) => {
-        setImagesPreview((i) => ([...i.filter((_) => _.id != id)]));
+        setImagePreview(null);
     }
 
 
@@ -159,25 +157,21 @@ const FoundCalendar = () => {
                 <Modal.Body>
                     <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
                         {
-                            imagesPreview.length > 0 && (
-                                <div className="flex flex-wrap gap-[2%] my-2">
-                                    {
-                                        imagesPreview.map(({ id, src }) => (
-                                            <div key={id} className="relative w-[31.33%]">
-                                                <span
-                                                    onClick={() => handleDeleteImages(id)}
-                                                    className="absolute cursor-pointer right-[-12.5px] top-[-12.5px] h-[25px] w-[25px] bg-slate-100 text-slate-500 rounded-full flex justify-center items-center border-2 border-slate-300">
-                                                    x
-                                                </span>
-                                                <img src={src} className="w-full" />
-                                            </div>
-                                        ))
-                                    }
+                            imagePreview && (
+                                <div className="flex flex-wrap gap-[2%] my-2 pt-2">
+                                    <div key={imagePreview.id} className="relative w-[31.33%]">
+                                        <span
+                                            onClick={() => handleDeleteImages(imagePreview.id)}
+                                            className="absolute cursor-pointer right-[-12.5px] top-[-12.5px] h-[25px] w-[25px] bg-slate-100 text-slate-500 rounded-full flex justify-center items-center border-2 border-slate-300">
+                                            x
+                                        </span>
+                                        <img src={imagePreview.src} className="w-full" />
+                                    </div>
                                 </div>
                             )
                         }
                         {
-                            isOpenDragDdrop && (
+                            isOpenDragDdrop && !imagePreview && (
                                 <div className="flex w-full items-center flex-col justify-center">
                                     <Label
                                         htmlFor="dropzone-file"
@@ -209,12 +203,19 @@ const FoundCalendar = () => {
                                 </div>
                             )
                         }
-                        <motion.button className="p-2 mr-2 relative btn-tooltip" onClick={handleDragDrop}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            <i className="fa-solid fa-camera text-secondaryColor text-xl hover:text-secondaryColor_Hover"></i>
-                        </motion.button>
+                        {
+                            !imagePreview && (
+                                <motion.button type="button" className="p-2 mr-2 relative btn-tooltip" onClick={handleDragDrop}
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <i className="fa-solid fa-camera text-secondaryColor text-xl hover:text-secondaryColor_Hover"></i>
+                                    {
+                                        isOpenDragDdrop && " Close"
+                                    }
+                                </motion.button>
+                            )
+                        }
                         <div className='flex flex-col'>
                             <label className='dark:text-white'>Titolo: </label>
                             <input

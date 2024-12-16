@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { formatDistance } from 'date-fns';
 import { it } from 'date-fns/locale';
+import { config } from '../../config/config';
 
 const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = "" }) => {
     const { token, user } = useSelector((state) => state.auth);
@@ -33,7 +34,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
     }
     
     const formatPostAuthorName = (post) => {
-        return post.from.role == "user" ? `${post.from.first_name} ${post.from.last_name}` : post.from.metadata.company_name;
+        return post.from.role == "user" ? `${post.from.first_name} ${post.from.last_name}` : post.from?.metadata?.company_name;
     }
 
     return (
@@ -149,7 +150,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                             </div>
                                                         </div>
                                                         <div className='relative'>
-                                                            <input type="text" value={`www.Found!/Post/${profile}`} className="w-full input_field h-14" readOnly />
+                                                            <input type="text" value={`${config.CLIENT_URL}/app/feed/${post._id}`} className="w-full input_field h-14" readOnly />
                                                             <button className="btn absolute bottom-2 right-2">Copia</button>
                                                         </div>
                                                     </>

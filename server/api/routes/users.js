@@ -41,6 +41,7 @@ app.post("/", async (req, res) => {
             fs.mkdirSync(userDir);
             fs.mkdirSync(path.join(userDir, "avatar"));
             fs.mkdirSync(path.join(userDir, "posts"));
+            fs.mkdirSync(path.join(userDir, "events"));
         }
 
         return res.status(201).json({ user });
@@ -162,7 +163,7 @@ app.put("/profile/avatar", authUser(["user","business"]), uploadAvatar, async (r
         const userDir = path.join(__dirname, "../../uploads/", _id.toString(), "avatar", data.avatar.name);
 
         if (!fs.existsSync(path.join(__dirname, "../../uploads/", _id.toString(), "avatar"))) {
-            fs.writeSync(path.join(__dirname, "../../uploads/", _id.toString(), "avatar"))
+            fs.mkdirSync(path.join(__dirname, "../../uploads/", _id.toString(), "avatar"))
         }
 
         fs.writeFileSync(userDir, buf);

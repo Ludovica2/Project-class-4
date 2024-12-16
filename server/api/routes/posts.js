@@ -102,7 +102,7 @@ app.get("/", authUser(), async (req, res) => {
 app.get("/single/:post_id", authUser(), async (req, res) => {
     const post_id = req.params.post_id;
     try {
-        const post = await Post.findById(post_id, null, { lean: true }).populate({ path: "from", select: "first_name last_name nickname createdAt avatar" });
+        const post = await Post.findById(post_id, null, { lean: true }).populate({ path: "from", select: "first_name last_name nickname metadata createdAt avatar" });
         return res.json(post);
     } catch (error) {
         console.error(error);
@@ -119,7 +119,7 @@ app.get("/all/:user_id", authUser(), async (req, res) => {
     try {
         console.log({ $or: [{ user }, { from: user }] })
         const posts = await Post.find({ $or: [{ user }, { from: user }] }, null, { lean: true, sort: { createdAt: -1 } })
-            .populate({ path: "from", select: "first_name last_name nickname createdAt avatar" })
+            .populate({ path: "from", select: "first_name last_name nickname metadata createdAt avatar" })
             .populate({ path: "post_likes" })
             .populate({ path: "post_comments", populate: ["reply_to", "reactions"] });
 

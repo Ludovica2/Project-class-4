@@ -11,6 +11,10 @@ const EventSchema = new Schema({
         ref: "Post",
         default: null,
     },
+    cover_img: {
+        type: String,
+        default: null
+    },
     title: {
         type: String,
         required: true

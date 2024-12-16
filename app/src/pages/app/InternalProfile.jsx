@@ -86,6 +86,30 @@ const InternalProfile = () => {
                                 </div>
                             </div>
                             <div className="flex flex-col">
+                                <div className="flex gap-1 justify-end">
+                                    <div className="mr-2">
+                                        <Link to="/app/profile/editprofile">
+                                            <button className="relative btn-tooltip">
+                                                <i className="fa-solid fa-user-pen text-text_primaryColor dark:text-gray-500"></i>
+                                                <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
+                                                    Modifica Profilo
+                                                    <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
+                                                </div>
+                                            </button>
+                                        </Link>
+                                    </div>
+                                    <div className="mr-2">
+                                        <Link to="/app/profile/settingsprofile">
+                                            <button className="relative btn-tooltip">
+                                                <i className="fa-solid fa-gear text-text_primaryColor dark:text-gray-500"></i>
+                                                <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
+                                                    Impostazioni
+                                                    <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
+                                                </div>
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </div>
                                 <div className="">
                                     <p className="m-2 dark:text-slate-100">Altri Social</p>
                                     <div className="flex gap-1">
@@ -131,7 +155,7 @@ const InternalProfile = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
