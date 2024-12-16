@@ -95,7 +95,9 @@ app.put("/follow", authUser(), async (req, res) => {
                 user: data.user,
                 image: req.user.avatar,
                 title: "New follower",
-                content: `${req.user.first_name} ${req.user.last_name} has just followed you`,
+                content: req.user.role === "user" ?
+                    `${req.user.first_name} ${req.user.last_name} has just followed you`
+                    : `${req.user.metadata.company_name} has just followed you`,
                 link: `${process.env.CLIENT_HOST}/app/profile/${req.user.nickname}`
             };
             const notification = (await new Notification({ from: follower, ...dataNotification }).save()).toObject();
@@ -148,7 +150,7 @@ app.put("/profile", authUser(["user", "business"]), uploadAvatar, async (req, re
  * @path /api/users/profile/avatar
  * @method PUT
  */
-app.put("/profile/avatar", authUser(["user","business"]), uploadAvatar, async (req, res) => {
+app.put("/profile/avatar", authUser(["user", "business"]), uploadAvatar, async (req, res) => {
     const _id = req.user._id;
     const schema = Joi.object().keys({
         avatar: Joi.object().required(),
@@ -158,8 +160,8 @@ app.put("/profile/avatar", authUser(["user","business"]), uploadAvatar, async (r
         const data = await schema.validateAsync(req.body);
 
         // Save file
-        const _data = data.avatar.src.split(',')[1]; 
-        const buf = Buffer.from(_data, 'base64'); 
+        const _data = data.avatar.src.split(',')[1];
+        const buf = Buffer.from(_data, 'base64');
         const userDir = path.join(__dirname, "../../uploads/", _id.toString(), "avatar", data.avatar.name);
 
         if (!fs.existsSync(path.join(__dirname, "../../uploads/", _id.toString(), "avatar"))) {
