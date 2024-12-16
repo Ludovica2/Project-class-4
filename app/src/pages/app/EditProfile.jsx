@@ -161,7 +161,7 @@ const EditProfile = () => {
             <div className="flex flex-col w-full max-w-[1280px] lg:max-w-[1320px]">
                 <ButtonBack to={"/app/profile"} />
                 {/* Tab */}
-                <div className="flex bg-white rounded-lg shadow m-5 justify-around dark:bg-elements_dark">
+                <div className="flex bg-white rounded-lg shadow m-5 justify-around text-center dark:bg-elements_dark">
                     <div className="py-4 px-2 cursor-pointer" onClick={() => showTab(activeTab.personalInfo)}>
                         <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.personalInfo ? " border-b-4 border-b-primayColor" : "")}>Personal Information</span>
                     </div>
@@ -182,7 +182,7 @@ const EditProfile = () => {
                             tabToOpen == activeTab.personalInfo && (
                                 <div>
                                     <h2 className="text-lg mb-6 dark:text-slate-100">Informazioni Personali:</h2>
-                                    <div className="flex mb-5">
+                                    <div className="flex mb-5 max-md:flex-col max-md:items-center">
                                         <div className="flex justify-center items-center min-w-32 h-32 relative bg-white rounded-[50%] shadow my-14 ml-14 mr-16 dark:bg-elements_dark dark:shadow-slate-400">
                                             <div style={{ backgroundImage: `url(${user.avatar}?token=${token})` }} className="imgProfile bg-cover bg-center"></div>
                                             <div className="relative">
