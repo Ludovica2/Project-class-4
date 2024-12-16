@@ -111,7 +111,7 @@ const Chat = () => {
                                 </div>
                             </div>
                         ))}
-                        <div className='flex justify-start items-center p-4 gap-2'>
+                        <div className='flex justify-start items-center p-4 gap-2 mt-4'>
                             <p className='text-sm opacity-70'>John Doe sta scrivendo</p>
                             <svg class="cmpw7 cdqku cbm9w" viewBox="0 0 15 3" width="15" height="3">
                                 <circle cx="1.5" cy="1.5" r="1.5">
