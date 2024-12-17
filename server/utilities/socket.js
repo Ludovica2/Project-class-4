@@ -66,6 +66,17 @@ const connect = (app) => {
             }
         });
 
+        socket.on('read-messages', async ({ room }) => {
+            try {
+                await Message.updateMany({ room, to: socket.user.id, is_read: false }, { is_read: true });
+
+                io.emit('read-messages', { room });
+            } catch (error) {
+                console.error(error);
+                io.emit('notification-error', { message: "Something went wrong, try to reload the page" });
+            }
+        });
+
         socket.on('disconnect', async () => {
             // Leave the room
             socket.leave(socket.user.id);

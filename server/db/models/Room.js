@@ -7,7 +7,6 @@ const RoomSchema = new Schema({
             ref: "User",
             required: true,
         }],
-        required: true,
     },
 }, { strict: true, timestamps: true, versionKey: false });
 

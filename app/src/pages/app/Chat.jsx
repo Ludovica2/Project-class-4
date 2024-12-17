@@ -1,40 +1,77 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from "framer-motion"
 import { FaSearch } from 'react-icons/fa';
 import { useClickOutside } from '../../hooks/useClickOutside';
+import { useDispatch, useSelector } from 'react-redux';
+import SDK from '../../SDK';
+import { addMessage, readMessage, setRooms } from '../../store/slices/chatSlice';
+import ChatIsWriting from '../../components/shared/app/ChatIsWriting';
+import { toast } from 'react-toastify';
+import { formatDistance } from 'date-fns';
+import { it } from 'date-fns/locale';
+import { useSocket } from '../../provider/Socket';
 
 const Chat = () => {
+    const dispatch = useDispatch();
+    const socket = useSocket();
+    const { token, user } = useSelector(state => state.auth);
+    const rooms = useSelector(state => state.chat.rooms);
+    const [activeRoom, setActiveRoom] = useState(null);
     const { active: isOpenOptionsMenu, setActive: setIsOpenOptionsMenu, elRef: optionsRef } = useClickOutside(false);
-    const dummyData = {
-        contacts: [
-            { id: 1, name: 'John Doe', avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTh8fHVzZXIlMjBwcm9maWxlfGVufDB8fDB8fHww', isOnline: true },
-            { id: 2, name: 'Jane Smith', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHVzZXIlMjBwcm9maWxlfGVufDB8fDB8fHww', isOnline: false },
-            { id: 3, name: 'Morne Taylor', avatar: 'https://images.unsplash.com/photo-1502323777036-f29e3972d82f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHVzZXIlMjBwcm9maWxlfGVufDB8fDB8fHww', isOnline: false },
-            { id: 4, name: 'Natasha Engineer', avatar: 'https://images.unsplash.com/photo-1519648023493-d82b5f8d7b8a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHVzZXIlMjBwcm9maWxlfGVufDB8fDB8fHww', isOnline: false },
-            { id: 5, name: 'Victoria Ashes', avatar: 'https://images.unsplash.com/photo-1520295187453-cd239786490c?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fHVzZXIlMjBwcm9maWxlfGVufDB8fDB8fHww', isOnline: false },
-        ],
-        chats: [
-            { id: 1, message: 'Hello!', timestamp: '10:00 AM', type: 'received' },
-            { id: 2, message: 'Hi, how are you?', timestamp: '10:02 AM', type: 'sent' },
-            { id: 3, message: "I'm fine. What about you?", timestamp: '10:03 AM', type: 'received' },
-            { id: 4, message: "I'm also fine", timestamp: '10:04 AM', type: 'sent' },
-            { id: 5, message: "I'm getting error in my code", timestamp: '10:05 AM', type: 'received' },
-            { id: 6, message: 'Send me the code, I will look into it', timestamp: '10:07 AM', type: 'sent' },
-            { id: 7, message: "Thank you, I'm getting crazy", timestamp: '10:10 AM', type: 'received' },
-            { id: 8, message: 'Did you find the problem?', timestamp: '01:02 PM', type: 'received' },
-            { id: 9, message: "I'm still looking at it", timestamp: '01:05 PM', type: 'sent' },
-            { id: 10, message: "I'm sure is something silly", timestamp: '01:05 PM', type: 'sent' },
-            { id: 11, message: 'As always, dude', timestamp: '10:07 AM', type: 'received' },
-        ]
-    };
+
+    const inputRef = useRef();
+    const messagesRef = useRef();
+
+    const scrollMessagesToBottom = () => {
+        messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
 
     const toggleOptionsChat = () => {
         setIsOpenOptionsMenu(true);
     }
 
+    const fetchRooms = async () => {
+        // fetch rooms from the server
+        const rooms = await SDK.chat.getRooms(token);
+
+        dispatch(setRooms(rooms));
+    }
+
+    const handleSendMessage = async (event) => {
+        event.preventDefault();
+
+        const { message } = Object.fromEntries(new FormData(event.target));
+
+        if (!message) return;
+        
+        try {
+            const _message = await SDK.chat.createMessage(activeRoom.roomId, { to: activeRoom.roomUser._id, message }, token);
+
+            dispatch(addMessage({ room_id: activeRoom.roomId, message: _message }));
+
+            inputRef.current.value = "";
+        } catch(error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    }
+
     useEffect(() => {
         document.title = "Chat - Found!";
+
+        fetchRooms();
     }, []);
+
+    useEffect(() => {
+        scrollMessagesToBottom();
+    }, [rooms, activeRoom])
+    
+    useEffect(() => {
+        if (activeRoom) {
+            socket.emit("read-messages", { room: activeRoom.roomId });
+            dispatch(readMessage({ room_id: activeRoom.roomId, to: user._id }));
+        }
+    }, [activeRoom])
 
     return (
         <div className='flex justify-center'>
@@ -44,23 +81,45 @@ const Chat = () => {
                         <FaSearch />
                         <input className='bg-transparent p-2 w-full focus:outline-none' placeholder='Cerca persona...' />
                     </div>
-                    {dummyData.contacts.map(contact => (
-                        <div key={contact.id} className='flex items-center p-4 hover:bg-gradient-to-r from-secondaryColor via-[#D1D7F0] to-white rounded-xl cursor-pointer'>
-                            <img className='h-10 w-10 rounded-full object-cover hidden md:block' src={contact.avatar} alt={`Profile picture of ${contact.name}`} />
-                            <div className='ml-4 flex-1'>
-                                <p className='text-sm font-semibold'>{contact.name}</p>
+                    { /* Chat list */ }
+                    {rooms.map(({ _id, users, messages }) => {
+                        const roomUser = users.find(u => u._id != user._id);
+                        const name = roomUser.role === "user" ? `${roomUser.first_name} ${roomUser.last_name}` : roomUser.metadata.company_name
+                        
+                        return (
+                            <div onClick={() => setActiveRoom({ roomId: _id, roomUser })} key={_id} className={`flex items-center p-4 hover:bg-gradient-to-r from-secondaryColor via-[#D1D7F0] to-white rounded-xl cursor-pointer${activeRoom?.roomUser._id == roomUser._id ? " bg-gradient-to-r" : ""}`}>
+                                <img crossOrigin="anonymous" className='h-10 w-10 rounded-full object-cover hidden md:block' src={`${roomUser.avatar}?token=${token}`} alt={`Profile picture of ${name}`} />
+                                <div className='ml-4 flex-1'>
+                                    <p className='text-sm font-semibold'>{name}</p>
+                                </div>
+                                    {
+                                        messages && Array.isArray(messages) && messages.filter((m) => m.to._id == user._id && m.is_read == false).length != 0 && (
+                                            <div className='flex items-center justify-center rounded-full bg-primayColor text-xs w-5 h-5 text-center text-white font-bold'>
+                                                {messages.filter((m) => m.to._id == user._id && m.is_read == false).length}
+                                            </div>
+                                        )
+                                    }
                             </div>
-                            <div className='flex items-center justify-center rounded-full bg-primayColor text-xs w-5 h-5 text-center text-white font-bold'>
-                                1
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
                 <div className='flex-1 flex flex-col'>
                     <div className='p-4 flex items-center border-b justify-between'>
                         <div className='flex items-center'>
-                            <img className='h-10 w-10 rounded-full object-cover' src={'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTh8fHVzZXIlMjBwcm9maWxlfGVufDB8fDB8fHww'} alt={`Profile picture of john doe`} />
-                            <span className='ml-4'>Chat con John Doe</span>
+                            {
+                                activeRoom ? (
+                                    <>
+                                        <img className='h-10 w-10 rounded-full object-cover' src={`${activeRoom.roomUser.avatar}?token=${token}`} alt={`Profile picture of ${activeRoom.roomUser.first_name} ${activeRoom.roomUser.last_name}`} />
+                                        <span className='ml-4'>Chat con {
+                                            activeRoom.roomUser.role === "user" ? `${activeRoom.roomUser.first_name} ${activeRoom.roomUser.last_name}` : activeRoom.roomUser.metadata.company_name
+                                        }</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className='ml-4'>Inizia a Chattare</span>
+                                    </>
+                                )
+                            }
                         </div>
                         <div className='flex'>
                             <div className="p-2 mr-2 justify-center relative cursor-pointer" onClick={toggleOptionsChat}>
@@ -102,34 +161,24 @@ const Chat = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex-1 p-4 overflow-auto bg-slate-100'>
-                        {dummyData.chats.map(chat => (
-                            <div key={chat.id} className={`flex ${chat.type === 'sent' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`rounded-lg px-6 py-2 ${chat.type === 'sent' ? 'bg-primayColor text-white' : 'bg-slate-200'} my-1`}>
-                                    <p>{chat.message}</p>
-                                    <span className='text-[12px]'>{chat.timestamp}</span>
+                    <div ref={messagesRef} className='flex-1 p-4 overflow-auto bg-slate-100'>
+                        { /* Chat messages */}
+                        {activeRoom && rooms.find(({ _id }) => _id == activeRoom.roomId)?.messages.map(message => (
+                            <div key={message._id} className={`flex ${message.from._id === user._id ? 'justify-end' : 'justify-start'}`}>
+                                <div className={`rounded-lg px-6 py-2 ${message.from._id === user._id ? 'bg-primayColor text-white' : 'bg-slate-200'} my-1`}>
+                                    <p>{message.message}</p>
+                                    <span className='text-[12px]'>{formatDistance(message.createdAt, new Date())}</span>
                                 </div>
                             </div>
                         ))}
-                        <div className='flex justify-start items-center p-4 gap-2 mt-4'>
-                            <p className='text-sm opacity-70'>John Doe sta scrivendo</p>
-                            <svg class="cmpw7 cdqku cbm9w" viewBox="0 0 15 3" width="15" height="3">
-                                <circle cx="1.5" cy="1.5" r="1.5">
-                                    <animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"></animate>
-                                </circle>
-                                <circle cx="7.5" cy="1.5" r="1.5">
-                                    <animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.2"></animate>
-                                </circle>
-                                <circle cx="13.5" cy="1.5" r="1.5">
-                                    <animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.3"></animate>
-                                </circle>
-                            </svg>
-                        </div>
+                        { /* <ChatIsWriting /> */ }
                     </div>
-                    <div className='p-4 flex'>
-                        <input className='flex-1 border p-2 rounded-lg focus:border-transparent focus:outline-transparent' type='text' placeholder='Scrivi un messaggio...' />
-                        <button className='ml-2 bg-primayColor px-4 rounded-lg'><i className="fa-regular fa-paper-plane text-white"></i></button>
-                    </div>
+                    <form className='p-4 flex' onSubmit={handleSendMessage}>
+                        <input ref={inputRef} disabled={!activeRoom} name="message" className='flex-1 border p-2 rounded-lg focus:border-transparent focus:outline-transparent disabled:opacity-60' type='text' placeholder='Scrivi un messaggio...' required />
+                        <button disabled={!activeRoom} className='ml-2 bg-primayColor px-4 rounded-lg disabled:opacity-60'>
+                            <i className="fa-regular fa-paper-plane text-white"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -20,6 +20,10 @@ const MessageSchema = new Schema({
         type: String,
         required: true
     },
+    is_read: {
+        type: Boolean,
+        default: false,
+    },
 }, { strict: true, timestamps: true, versionKey: false });
 
 const Message = model("Message", MessageSchema);

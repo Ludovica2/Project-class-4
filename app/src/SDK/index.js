@@ -257,4 +257,35 @@ export default {
             })).data;
         },
     },
+    chat: {
+        getRooms: async (token) => {
+            return (await axios({
+                url: buildApiUrl(`/rooms`),
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })).data;
+        },
+        createRoom: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl(`/rooms`),
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+        createMessage: async (room_id, payload, token) => { // { to, message }
+            return (await axios({
+                url: buildApiUrl(`/messages/${room_id}`),
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        }
+    }
 }

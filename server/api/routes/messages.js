@@ -2,19 +2,53 @@ const express = require("express");
 const app = express.Router();
 
 const { authUser } = require("../../middleware/auth");
-const { Message } = require("../../db");
+const { Message, Room } = require("../../db");
+const { io } = require("../../utilities/socket");
+const Joi = require("joi");
 
 /**
- * @path /api/messages
+ * @path /api/messages/:room_id
  * @method GET
  */
-app.get("/", authUser(), async (req, res) => {
+app.get("/:room_id", authUser(), async (req, res) => {
     const user = req.user;
+    const room = req.params.room_id;
 
     try {
-        const messages = await Message.find({ $or: [{ from: user._id }, { to: user._id }] }, null, { lean: true }).populate({ path: "from", select: "first_name last_name avatar" }).populate({ path: "to", select: "first_name last_name avatar" });
+        const messages = await Message.find({ room, $or: [{ from: user._id }, { to: user._id }] }, null, { lean: true }).populate({ path: "from", select: "first_name last_name avatar" }).populate({ path: "to", select: "first_name last_name avatar" });
 
-        return res.json(messages);
+        return res.json({ room, messages });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+/**
+ * @path /api/messages/:room_id
+ * @method POST
+ */
+app.post("/:room_id", authUser(), async (req, res) => {
+    const user = req.user;
+    const room = req.params.room_id;
+
+    const schema = Joi.object({
+        to: Joi.string().required(),
+        message: Joi.string().required(),
+    });
+
+    try {
+        const data = await schema.validateAsync(req.body);
+
+        const _message = ((await new Message({ room, from: user._id, to: data.to, message: data.message }).save())).toObject();
+
+        const message = await Message.findOne({ _id: _message._id }, null, { lean: true })
+            .populate({ path: "from", select: "first_name last_name avatar" })
+            .populate({ path: "to", select: "first_name last_name avatar" });
+
+        io.to(data.to).emit("new-chat-message", { room, message });
+
+        return res.status(201).json(message);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error" });
