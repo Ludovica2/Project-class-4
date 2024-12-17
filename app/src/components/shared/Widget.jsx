@@ -4,12 +4,12 @@ import WidgetItem from './app/WidgetItem'
 const Widget = ({ title, wgt, role = "", val_review = "", className = "" }) => {
   return (
     <>
-      <div className={"m-5 rounded-lg bg-white w-full shadow p-4 dark:bg-elements_dark dark:shadow-slate-600" + " " + className}>
-        <div className='flex justify-between'>
+      <div className={"min-h-80 m-5 rounded-lg bg-white w-full shadow relative dark:bg-elements_dark dark:shadow-slate-600 max-lg:max-w-[400px]" + " " + className}>
+        <div className='flex justify-between pt-4 px-4'>
           <h2 className='dark:text-slate-100'> {title}</h2>
           {val_review}
         </div>
-        <div className='mt-4 flex flex-col gap-3'>
+        <div className='mt-4 flex flex-col gap-3 px-4'>
           {
             wgt == "events" && (
               <>
@@ -86,6 +86,9 @@ const Widget = ({ title, wgt, role = "", val_review = "", className = "" }) => {
               </>
             )
           }
+        </div>
+        <div className='absolute bottom-0 h-10 w-full shadow text-center cursor-pointer z-10 bg-white'>
+          <span className='text-primayColor'>Vedi più</span>
         </div>
       </div>
     </>

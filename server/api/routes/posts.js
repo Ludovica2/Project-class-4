@@ -7,7 +7,7 @@ const path = require("path");
 const { parsePostContent } = require("../../utilities/parse");
 const { authUser } = require("../../middleware/auth");
 const { uploadPostImages } = require("../../middleware/users");
-const { Post, UserFollow } = require("../../db");
+const { Post, UserFollow, Notification } = require("../../db");
 const { sendNotification } = require("../../utilities/notifications");
 
 /**

@@ -32,7 +32,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
     const toggleOptionsPost = () => {
         setIsOpenOptionsMenu(true);
     }
-    
+
     const formatPostAuthorName = (post) => {
         return post.from.role == "user" ? `${post.from.first_name} ${post.from.last_name}` : post.from?.metadata?.company_name;
     }
@@ -169,12 +169,12 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                 <div className="m-4 rounded-b-lg">
                     <div>
                         {
-                           /*  post?.locality && (
-                                <div className='mb-4'>
-                                    <i className="fa-solid fa-location-dot text-secondaryColor text-lm"></i>
-                                    <span className='ml-1 text-dark'>{post.locality} ciao sono qui</span>
-                                </div>
-                            ) */
+                            /*  post?.locality && (
+                                 <div className='mb-4'>
+                                     <i className="fa-solid fa-location-dot text-secondaryColor text-lm"></i>
+                                     <span className='ml-1 text-dark'>{post.locality} ciao sono qui</span>
+                                 </div>
+                             ) */
                         }
                         {children}
                         <div className="w-full my-4">
@@ -309,25 +309,14 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                         <>
                                             {
                                                 <div className=' flex'>
-                                                    {/* Map delle persone seguite */}
-                                                    <button className='flex flex-col items-center w-1/3'>
-                                                        <div className="flex justify-center items-center w-[90px] h-[90px] bg-white rounded-full shadow dark:bg-elements_dark dark:shadow-slate-400">
-                                                            <img className='w-20 h-20 rounded-full' crossOrigin="anonymous" src="https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Profile" />
-                                                        </div>
-                                                        <span className='max-w-24 truncate'>Gino Fluffy</span>
-                                                    </button>
-                                                    <button className='flex flex-col items-center w-1/3'>
-                                                        <div className="flex justify-center items-center w-[90px] h-[90px] bg-white rounded-full shadow dark:bg-elements_dark dark:shadow-slate-400">
-                                                            <img className='w-20 h-20 rounded-full' crossOrigin="anonymous" src="https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Profile" />
-                                                        </div>
-                                                        <span className='max-w-24 truncate'>Gino Fluffy</span>
-                                                    </button>
-                                                    <button className='flex flex-col items-center w-1/3'>
-                                                        <div className="flex justify-center items-center w-[90px] h-[90px] bg-white rounded-full shadow dark:bg-elements_dark dark:shadow-slate-400">
-                                                            <img className='w-20 h-20 rounded-full' crossOrigin="anonymous" src="https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Profile" />
-                                                        </div>
-                                                        <span className='max-w-24 truncate'>Gino Fluffy</span>
-                                                    </button>
+                                                    {user.following.map((item) => {
+                                                        return <Link key={item._id} to={`/app/chat?share=http://localhost:5173/app/feed/${post._id}&recipient=${item._id}`} target="_blank" className='flex flex-col items-center w-1/3 cursor-pointer'>
+                                                            <div className="flex justify-center items-center w-[90px] h-[90px] bg-white rounded-full shadow dark:bg-elements_dark dark:shadow-slate-400">
+                                                                <img className='w-20 h-20 rounded-full' crossOrigin="anonymous" src={`${item.user.avatar}?token=${token}`} alt="Profile" />
+                                                            </div>
+                                                            <span className='max-w-24 truncate'>{item.user.nickname}</span>
+                                                        </Link>;
+                                                    })}
                                                 </div>
                                             }
                                         </>
