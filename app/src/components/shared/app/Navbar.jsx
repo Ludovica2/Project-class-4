@@ -6,7 +6,7 @@ import { useClickOutside } from "../../../hooks/useClickOutside";
 import { toggleDarkMode } from "../../../store/slices/settingsSlice";
 
 
-const Navbar = () => {
+const Navbar = (imgProfile = "",) => {
     const dispatch = useDispatch();
     const { user, token } = useSelector((state) => state.auth);
     const { darkMode } = useSelector((state) => state.settings);
@@ -141,13 +141,14 @@ const Navbar = () => {
                                         <ul className="text-xs">
                                             {notifications.length > 0 ? (
                                                 notifications.map((notification) => (
-                                                    <li key={notification._id} className="flex items-center gap-2 dark:text-dark">
-                                                        <img src={notification.from.avatar} alt="Avatar" className="w-10 h-10 rounded" />
-                                                        <strong>{notification.content}</strong>
+                                                    <li key={notification._id} className="flex items-center gap-2 mb-1">
+                                                        <div style={{ backgroundImage: `url(${notification.from.avatar}?token=${token})` }} className="imgProfile-notification bg-cover bg-center border-[1px]"></div>
+                                                        {/* <img src={notification.from.avatar} alt="Avatar" className="w-10 h-10 rounded" /> */}
+                                                        <p className=" dark:text-white">{notification.content}</p>
                                                     </li>
                                                 ))
                                             ) : (
-                                                <li className="dark:text-dark">Nessuna notifica</li>
+                                                <li className="dark:text-white">Nessuna notifica</li>
                                             )}
                                         </ul>
                                     </div>
