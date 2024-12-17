@@ -141,11 +141,12 @@ const Navbar = (imgProfile = "",) => {
                                         <ul className="text-xs">
                                             {notifications.length > 0 ? (
                                                 notifications.map((notification) => (
-                                                    <li key={notification._id} className="flex items-center gap-2 mb-1">
-                                                        <div style={{ backgroundImage: `url(${notification.from.avatar}?token=${token})` }} className="imgProfile-notification bg-cover bg-center border-[1px]"></div>
-                                                        {/* <img src={notification.from.avatar} alt="Avatar" className="w-10 h-10 rounded" /> */}
-                                                        <p className=" dark:text-white">{notification.content}</p>
-                                                    </li>
+                                                    <Link className="cursor-pointer flex items-center justify-center" to={notification.link}>
+                                                        <li key={notification._id} className="flex items-center gap-2 mb-1">
+                                                            <div style={{ backgroundImage: `url(${notification.from.avatar}?token=${token})` }} className="imgProfile-notification bg-cover bg-center border-[1px]"></div>
+                                                            <p className=" dark:text-white">{notification.content}</p>
+                                                        </li>
+                                                    </Link>
                                                 ))
                                             ) : (
                                                 <li className="dark:text-white">Nessuna notifica</li>
