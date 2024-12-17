@@ -4,6 +4,7 @@ import eventSlice from "./slices/eventSlice"
 import settingsSlice from "./slices/settingsSlice";
 import postSlice from "./slices/postSlice";
 import notificationSlice from "./slices/notificationSlice";
+import chatSlice from "./slices/chatSlice";
 
 export default configureStore({
     reducer: {
@@ -12,5 +13,6 @@ export default configureStore({
         settings: settingsSlice,
         posts: postSlice,
         notifications: notificationSlice,
+        chat: chatSlice,
     }
 });

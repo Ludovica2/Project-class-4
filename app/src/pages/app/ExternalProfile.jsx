@@ -10,6 +10,7 @@ import { getSocialActive } from "../../utilities/settings";
 import SDK from "../../SDK";
 import { toast } from "react-toastify";
 import CustomBox from "../../components/shared/CustomBox";
+import { setRooms } from "../../store/slices/chatSlice";
 
 const widget = {
     events: "events",
@@ -19,6 +20,7 @@ const widget = {
 
 const ExternalProfile = ({ nickname }) => {
     const dispatch = useDispatch();
+    const { rooms } = useSelector((state) => state.chat);
     const { token, user: currentUser } = useSelector((state) => state.auth);
     const { social } = useSelector((state) => state.settings);
     const [user, setUser] = useState(null);
@@ -60,7 +62,6 @@ const ExternalProfile = ({ nickname }) => {
 
     const fetchPosts = async () => {
         try {
-            console.log(user)
             const _posts = await SDK.post.getAllProfile(user._id, token);
             setPosts(_posts);
         } catch (error) {
@@ -71,6 +72,32 @@ const ExternalProfile = ({ nickname }) => {
 
     const fetchData = async () => {
         await fetchUser();
+    }
+
+    const fetchRooms = async () => {
+        // fetch rooms from the server
+        const rooms = await SDK.chat.getRooms(token);
+
+        dispatch(setRooms(rooms));
+    }
+
+    const handleCreateRoom = async () => {
+        const room = rooms.find(({ users }) => {
+            return users.includes(user._id) && users.includes(currentUser._id);
+        });
+        
+        try {
+            
+            if (!room) {
+                await SDK.chat.createRoom({ to: user._id }, token);
+                await fetchRooms();
+            }
+            
+            window.open("/app/chat", "__blank");
+        } catch(error) {
+            console.log(error);
+            toast.error(error.message);
+        }
     }
 
     useEffect(() => {
@@ -163,9 +190,10 @@ const ExternalProfile = ({ nickname }) => {
                                                 }
                                             </button>
                                             <Link to={"/app/chat"} target="_blank" className="w-2/3">
-                                                <button className="w-full px-4 py-2 end-2.5 bottom-2.5 font-medium border border-slate-300 rounded-lg text-[#767d89] hover:bg-slate-100 ml-3 dark:text-slate-300 dark:bg-zinc-600 dark:hover:bg-zinc-700 dark:hover:border-none">
+                                                <button onClick={handleCreateRoom} className="w-full px-4 py-2 end-2.5 bottom-2.5 font-medium border border-slate-300 rounded-lg text-[#767d89] hover:bg-slate-100 ml-3 dark:text-slate-300 dark:bg-zinc-600 dark:hover:bg-zinc-700 dark:hover:border-none">
                                                     <i className="fa-solid fa-comments mr-2 text-secondaryColor"></i>
-                                                    Messaggio</button>
+                                                    Messaggio
+                                                </button>
                                             </Link>
                                         </div>
 

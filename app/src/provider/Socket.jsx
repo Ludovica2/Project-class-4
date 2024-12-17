@@ -1,12 +1,14 @@
 import { createContext, useContext, useEffect, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 import { config } from "../config/config";
 import { useNotify } from "../hooks/useNotify";
+import { addMessage, readMessage } from "../store/slices/chatSlice";
 
 export const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
+    const dispatch = useDispatch();
     const { token, user } = useSelector((state) => state.auth);
     const notify = useNotify(token);
     const socket = useMemo(() => io(config.API_SOCKET_URL, { autoConnect: false, extraHeaders: { token: `Bearer ${token}` } }), [token]);
@@ -33,10 +35,16 @@ export const SocketProvider = ({ children }) => {
                 }
             });
 
-            socket.on("new-chat-message", ({ message, notification }) => {
-                console.log(message);
-                notify(notification);
+            socket.on("new-chat-message", async ({ room, message, notification }) => {
+                if (notification) notify(notification);
+                // fetch rooms from the server
+        
+                dispatch(addMessage({ room_id: room, message }));
             });
+
+            socket.on("read-messages", ({ room }) => {
+                dispatch(readMessage({ room_id: room, to: user._id }));
+            })
 
             socket.on("new-notification", (notification) => {
                 notify(notification);
@@ -60,11 +68,11 @@ export const SocketProvider = ({ children }) => {
 }
 
 export const useSocket = () => {
-    const context = useContext(SocketContext);
+    const socket = useContext(SocketContext);
 
-    if (!context) {
+    if (!socket) {
         throw new Error("useSocket must be used within a SocketProvider");
     }
 
-    return context;
+    return socket;
 }

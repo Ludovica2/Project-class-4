@@ -117,7 +117,6 @@ app.get("/single/:post_id", authUser(), async (req, res) => {
 app.get("/all/:user_id", authUser(), async (req, res) => {
     const user = req.params.user_id;
     try {
-        console.log({ $or: [{ user }, { from: user }] })
         const posts = await Post.find({ $or: [{ user }, { from: user }] }, null, { lean: true, sort: { createdAt: -1 } })
             .populate({ path: "from", select: "first_name last_name nickname metadata createdAt avatar" })
             .populate({ path: "post_likes" })
