@@ -6,7 +6,7 @@ import { useClickOutside } from "../../../hooks/useClickOutside";
 import { toggleDarkMode } from "../../../store/slices/settingsSlice";
 
 
-const Navbar = () => {
+const Navbar = (imgProfile = "",) => {
     const dispatch = useDispatch();
     const { user, token } = useSelector((state) => state.auth);
     const { darkMode } = useSelector((state) => state.settings);
@@ -14,6 +14,7 @@ const Navbar = () => {
     const { active: isOpenNotify, setActive: setIsOpenNotify, elRef: notifyRef } = useClickOutside(false);
     const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef } = useClickOutside(false);
     const { active: isOpenSearch, setActive: setIsOpenSearch, elRef: serachRef } = useClickOutside(false);
+    const notifications = useSelector((state) => state.notifications.all);
 
     const toggleProfileMenu = () => {
         setIsOpenMenu(prev => !prev);
@@ -107,7 +108,7 @@ const Navbar = () => {
                     <button onClick={toggleMessage}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
-                                <div className='absolute transform translate-x-2 -translate-y-2 flex items-center justify-center rounded-full border-[1px] border-white bg-red-600 text-xs w-[14px] h-[14px] text-center text-white font-bold'>
+                                <div className='absolute transform translate-x-2 -translate-y-2 flex items-center justify-center rounded-full border-[1px] border-white bg-red-600 text-xs w-5 h-5 text-center text-white font-bold p-[2px]'>
                                     1
                                 </div>
                                 <i className="fa-solid fa-envelope text-primayColor hover:text-primayColor_Hover"></i>
@@ -120,31 +121,41 @@ const Navbar = () => {
                     <button onClick={toggleNotify}>
                         <div className="flex justify-center items-center">
                             <div className="flex gap-2 items-center justify-center">
-                                <div className='absolute transform translate-x-2 -translate-y-2 flex items-center justify-center rounded-full border-[1px] border-white bg-red-600 text-xs w-[14px] h-[14px] text-center text-white font-bold'>
-                                    1
+                                <div className='absolute transform translate-x-2 -translate-y-2 flex items-center justify-center rounded-full border-[1px] border-white bg-red-600 text-xs w-5 h-5 text-center text-white font-bold p-[2px]'>
+                                    {notifications.length}
                                 </div>
                                 <i className="fa-solid fa-bell-concierge text-primayColor hover:text-primayColor_Hover"></i>
                             </div>
-                            {
-                                isOpenNotify && (
-                                    <motion.div className="top-12 right-6 flex flex-col p-4 w-48 bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
-                                        initial={{ y: 100 }}
-                                        animate={{ y: "calc(0vw + 10%)" }}
-                                    >
-                                        <div className="mb-4">
-                                            <h4 className="dark:text-slate-100">Notifiche</h4>
-                                        </div>
-                                        <div className="flex flex-col gap-3 items-start">
-                                            <ul>
-                                                <li className="dark:text-dark">notifica</li>
-                                                <li className="dark:text-dark">notifica</li>
-                                                <li className="dark:text-dark">notifica</li>
-                                            </ul>
-                                        </div>
-                                    </motion.div>
-                                )
-                            }
                         </div>
+                        {
+                            isOpenNotify && (
+                                <motion.div
+                                    className="top-6 right-6 flex flex-col p-4 w-[320px] bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
+                                    initial={{ y: 100 }}
+                                    animate={{ y: "calc(0vw + 10%)" }}
+                                >
+                                    <div className="mb-4">
+                                        <h4 className="dark:text-slate-100">Notifiche</h4>
+                                    </div>
+                                    <div className="flex flex-col gap-3 items-start">
+                                        <ul className="text-xs">
+                                            {notifications.length > 0 ? (
+                                                notifications.map((notification) => (
+                                                    <Link className="cursor-pointer flex items-center justify-center" to={notification.link}>
+                                                        <li key={notification._id} className="flex items-center gap-2 mb-1">
+                                                            <div style={{ backgroundImage: `url(${notification.from.avatar}?token=${token})` }} className="imgProfile-notification bg-cover bg-center border-[1px]"></div>
+                                                            <p className=" dark:text-white">{notification.content}</p>
+                                                        </li>
+                                                    </Link>
+                                                ))
+                                            ) : (
+                                                <li className="dark:text-white">Nessuna notifica</li>
+                                            )}
+                                        </ul>
+                                    </div>
+                                </motion.div>
+                            )
+                        }
                     </button>
                 </div>
                 <div ref={menuRef}>

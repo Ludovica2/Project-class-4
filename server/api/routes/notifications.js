@@ -14,7 +14,7 @@ app.get("/", authUser(), async (req, res) => {
     const skip = (page - 1) * limit;
 
     try {
-        const notifications = await Notification.find({ user: user._id }, null, { lean: true, sort: { createdAt: -1 }, skip: skip, limit: limit || 10 }).populate("from", "first_name last_name nickname avatar");
+        const notifications = await Notification.find({ user: user._id }, null, { lean: true, sort: { createdAt: -1 }, skip: skip, limit: limit || 10 }).populate("from", "first_name last_name nickname avatar metada");
 
         return res.json(notifications);
     } catch (error) {

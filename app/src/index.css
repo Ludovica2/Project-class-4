@@ -104,6 +104,12 @@ option:hover {
     width: 60px;
 }
 
+.imgProfile-notification {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
 .img-LikesProf {
     border-radius: 50%;
     height: 26px;
