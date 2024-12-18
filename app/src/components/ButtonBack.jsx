@@ -5,8 +5,8 @@ const ButtonBack = ({to}) => {
         <>
             <button className="mt-3 ml-5 self-start">
                 <Link to={to}>
-                    <i className="fa-solid fa-circle-arrow-left mr-1 text-primayColor"></i>
-                    <span className="text-primayColor">Indietro</span>
+                    <i className="fa-solid fa-circle-arrow-left mr-1 text-primaryColor"></i>
+                    <span className="text-primaryColor">Indietro</span>
                 </Link>
             </button>
         </>

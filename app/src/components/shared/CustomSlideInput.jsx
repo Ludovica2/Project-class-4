@@ -29,14 +29,14 @@ const CustomSlideInput = ({ title, name, onChange, social, image, content, isAct
         <>
             {
                 social && (
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex justify-between min-w-36">
+                    <div className="flex items-center justify-between mb-6 max-xl:flex-col max-xl:items-start">
+                        <div className="flex justify-between min-w-36 max-xl:mb-2">
                             <label htmlFor="insta" className="mr-4 text-dark"> {title} </label>
                             <div className="switch dark:bg-zinc-600" data-ison={values.isActive} onClick={toggleActive}>
-                                <motion.div className={"w-5 h-5 rounded-[40px]" + (values.isActive ? " bg-primayColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
+                                <motion.div className={"w-5 h-5 rounded-[40px]" + (values.isActive ? " bg-primaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
                             </div>
                         </div>
-                        <input type="text" value={values.content} onInput={handleInput} className="min-w-80 input_readOnly" readOnly={!values.isActive} />
+                        <input type="text" value={values.content} onInput={handleInput} className="min-w-80 input_readOnly max-md:min-w-64" readOnly={!values.isActive} />
                     </div>
                 )
             }

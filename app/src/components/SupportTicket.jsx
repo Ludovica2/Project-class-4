@@ -27,7 +27,7 @@ const SupportTicket = ({ tickets }) => {
                                     <td className="px-6 py-4">{item.date}</td>
                                     <td className="px-6 py-4">{item.category}</td>
                                     <td className="px-6 py-4">{item.state}</td>
-                                    <td className="px-6 py-4"><button><i className="fa-solid fa-trash-can text-primayColor"></i></button></td>
+                                    <td className="px-6 py-4"><button><i className="fa-solid fa-trash-can text-primaryColor"></i></button></td>
                                 </tr>
                             ))
                         }

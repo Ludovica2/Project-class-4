@@ -19,11 +19,11 @@ const Sidebar = ({ children, navbar }) => {
                     {
                         isOpenSidebar && (
 
-                            <motion.div className="w-[150px] flex bg-white flex-col justify-between p-4 dark:bg-elements_dark max-xl:hidden"
+                            <motion.div className="w-[150px] flex bg-white flex-col justify-between p-4 dark:bg-elements_dark max-xl:flex-row max-xl:fixed max-xl:bottom-0 max-xl:w-full max-xl:z-20 max-xl:shadow-inner max-lg:p-3"
                                 initial={{ x: -100 }}
                                 animate={{ x: "calc(0vw + 0%)" }}
                             >
-                                <div className="flex flex-col dark:text-white">
+                                <div className="flex flex-col dark:text-white max-xl:w-full max-xl:flex-row max-xl:justify-around ">
                                     {
                                         sidebar[`${user.role.toUpperCase()}_SIDEBAR`].map(renderSidebarItem)
                                     }
@@ -34,9 +34,9 @@ const Sidebar = ({ children, navbar }) => {
                     <span className='relative max-xl:hidden'>
                         <button onClick={toggleSidebar}>
                             {isOpenSidebar ? (
-                                <i className="fa-solid fa-chevron-left text-lg dark:text-white dark:hover:opacity-70 text-primayColor hover:opacity-70 p-2"></i>
+                                <i className="fa-solid fa-chevron-left text-lg dark:text-white dark:hover:opacity-70 text-primaryColor hover:opacity-70 p-2"></i>
                             ) : (
-                                <i className="fa-solid fa-chevron-right text-lg dark:text-white dark:hover:opacity-70 text-primayColor hover:opacity-70 p-2"></i>
+                                <i className="fa-solid fa-chevron-right text-lg dark:text-white dark:hover:opacity-70 text-primaryColor hover:opacity-70 p-2"></i>
                             )}
                         </button>
                     </span>

@@ -19,7 +19,7 @@ const WidgetItem = ({ to = "", img, alt, text, wgt }) => {
                                 <p className='text-sm dark:text-dark'>{text}</p>
                             </Link>
                             <button>
-                                <i className="fa-solid fa-suitcase-rolling text-primayColor "></i>
+                                <i className="fa-solid fa-suitcase-rolling text-primaryColor "></i>
                             </button>
                         </div>
                     </div>
@@ -29,10 +29,10 @@ const WidgetItem = ({ to = "", img, alt, text, wgt }) => {
                 wgt == "city" && (
                     <div className='flex justify-between border-b-slate-100'>
                         <div>
-                            <i className="fa-solid fa-map-pin mr-4 text-primayColor"></i>
+                            <i className="fa-solid fa-map-pin mr-4 text-primaryColor"></i>
                             <span className='text-sm dark:text-dark'>{text}</span>
                         </div>
-                        <div className='mr-4'>
+                        <div className='pr-6'>
                             <button className="relative btn-tooltip">
                                 <Link to={to}>
                                     <i className="fa-solid fa-share text-text_secondaryColor"></i>
@@ -67,6 +67,23 @@ const WidgetItem = ({ to = "", img, alt, text, wgt }) => {
                                 }
                             </PopUpModal>
                         }
+                    </div>
+                )
+            }
+            {
+                wgt == "account" && (
+                    <div className='flex justify-between border-b-slate-100'>
+                        <div>
+                            <Link to={to} className="flex gap-2">
+                                <img src={img} alt={alt} className='rounded-full max-w-[45px]' />
+                                <span className='text-sm content-center max-w-52 truncate dark:text-dark max-md:max-w-32 max-lg:max-w-[150px]'>{text}</span>
+                            </Link>
+                        </div>
+                        <div className='content-center'>
+                            <button className="btn font-normal text-sm px-3 py-1">
+                                Segui
+                            </button>
+                        </div>
                     </div>
                 )
             }

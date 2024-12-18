@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { toast } from "react-toastify";
 import SDK from "../SDK";
+import EmojiPicker from "emoji-picker-react";
 
 const postType = {
     basicType: "basic",
@@ -20,6 +21,7 @@ const PostEditing = ({ onNewPost }) => {
     const [showLocality, setShowLocality] = useState(false);
     const [valueReview, setValueReview] = useState(0);
     const [imagesPreview, setImagesPreview] = useState([]);
+    const [showEmoji, setShowEmoji] = useState(false);
     const [post, setPost] = useState({
         userId: user._id,
         date: "",
@@ -81,11 +83,19 @@ const PostEditing = ({ onNewPost }) => {
     const handleDeleteImages = (id) => {
         setImagesPreview((i) => ([...i.filter((_) => _.id != id)]));
     }
-    
+
+    const handleEmoji = () => {
+        setShowEmoji((show) => !show);
+    }
+
+    const onEmojiClick = (event) => {
+        setField((prevInput) => prevInput + event.emoji);
+        setShowEmoji(false);
+    };
 
     const handleCreatePost = async () => {
         try {
-            await SDK.post.create({ content: btoa(field), images: post.images }, token);
+            await SDK.post.create({ content: btoa(field), images: post.images}, token);
             setImagesPreview([]);
             toast.success("Post created");
             setField("");
@@ -184,6 +194,16 @@ const PostEditing = ({ onNewPost }) => {
                     <div>
                         { /* <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" /> */}
                         <textarea className="w-full border-none outline-none focus:ring-0 focus:outline-none active:outline-none dark:bg-elements_dark" onChange={handleChange} value={field} placeholder="Crea il tuo post..."></textarea>
+                    </div>
+                    <div>
+                        <button onClick={handleEmoji}>
+                            <i className="fa-regular fa-face-grin-wide text-primaryColor"></i>
+                        </button>
+                        {
+                            showEmoji && (
+                                <EmojiPicker onEmojiClick={onEmojiClick} previewConfig={{showPreview:false}} />
+                            )
+                        }
                     </div>
                     {
                         imagesPreview.length > 0 && (

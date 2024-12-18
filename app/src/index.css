@@ -6,11 +6,11 @@
 
 @layer components {
     .link {
-        @apply text-primayColor  hover:text-primayColor_Hover;
+        @apply text-primaryColor  hover:text-primaryColor_Hover;
     }
 
     .btn {
-        @apply px-4 py-2 end-2.5 bottom-2.5 font-medium border bg-primayColor text-white rounded-lg  hover:bg-primayColor_Hover hover:border hover:border-primayColor_Border_Hover disabled:opacity-75 disabled:hover:bg-primayColor disabled:hover:border-white;
+        @apply px-4 py-2 end-2.5 bottom-2.5 font-medium border bg-primaryColor text-white rounded-lg  hover:bg-primaryColor_Hover hover:border hover:border-primaryColor_Border_Hover disabled:opacity-75 disabled:hover:bg-primaryColor disabled:hover:border-white;
     }
 
     .textSmall-gray {
@@ -26,11 +26,11 @@
     }
 
     .icon-text {
-        @apply mr-3 text-text_secondaryColor text-xs hover:text-primayColor_Hover;
+        @apply mr-3 text-text_secondaryColor text-xs hover:text-primaryColor_Hover;
     }
 
     .input_field {
-        @apply border border-slate-200 rounded-md outline-none focus:ring-transparent focus:border-primayColor  dark:bg-zinc-600 dark:border-zinc-400 dark:text-slate-300;
+        @apply border border-slate-200 rounded-md outline-none focus:ring-transparent focus:border-primaryColor  dark:bg-zinc-600 dark:border-zinc-400 dark:text-slate-300;
     }
 
     .input_readOnly {

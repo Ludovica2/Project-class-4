@@ -51,7 +51,7 @@ const SettingsProfile = () => {
                         <div className="flex justify-between">
                             <div className="w-11/12">
                                 <h2 className="text-lg mt-1 mb-6 dark:text-slate-100">Imopostazioni Account:</h2>
-                                <div className="flex w-3/4 justify-between mb-8">
+                                <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
                                     <label htmlFor="lang" className="mt-1 text-dark"> Lingua </label>
                                     <div>
                                         <select id="lang" className="input_field ">
@@ -60,30 +60,30 @@ const SettingsProfile = () => {
                                         </select>
                                     </div>
                                 </div>
-                                <div className="flex items-center w-3/4 justify-between mb-8">
+                                <div className="flex items-center w-3/4 justify-between mb-8 max-xl:w-full">
                                     <span className="text-dark"> Tema </span>
                                     <div className="switch dark:bg-zinc-600" data-ison={darkMode} onClick={toggleSwitchDark}>
-                                        <motion.div className={"w-5 h-5 rounded-[40px] flex justify-center items-center" + (darkMode ? " bg-primayColor" : " bg-white dark:bg-slate-400")} layout transition={spring}>
+                                        <motion.div className={"w-5 h-5 rounded-[40px] flex justify-center items-center" + (darkMode ? " bg-primaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring}>
                                             {
                                                 darkMode ? <i className="fa-solid fa-moon text-slate-100"></i> : <i className="fa-solid fa-sun text-yellow-400"></i>
                                             }
                                         </motion.div>
                                     </div>
                                 </div>
-                                <div className="flex items-center w-3/4 justify-between mb-8">
+                                <div className="flex items-center w-3/4 justify-between mb-8 max-xl:w-full">
                                     <span className="text-dark"> Notifiche </span>
                                     <div className="switch dark:bg-zinc-600" data-ison={notify} onClick={toggleSwitchNotify}>
-                                        <motion.div className={"w-5 h-5 rounded-[40px]" + (notify ? " bg-primayColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
+                                        <motion.div className={"w-5 h-5 rounded-[40px]" + (notify ? " bg-primaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
                                     </div>
                                 </div>
-                                <div className="flex w-3/4 justify-between mb-8">
+                                <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
                                     <span className="text-dark">Autorizzazioni Dispositivo</span>
                                     <div>
                                         {
                                             <PopUpModal title={"Autorizzazioni Dispositivo"} sizeModal={"md"}
                                                 showBtn={(openModal) => {
                                                     return <div onClick={() => openModal(true)} className="cursor-pointer">
-                                                        <i className="fa-regular fa-circle-right text-primayColor"></i>
+                                                        <i className="fa-regular fa-circle-right text-primaryColor"></i>
                                                     </div>;
                                                 }}
                                             >
@@ -100,14 +100,14 @@ const SettingsProfile = () => {
                                         }
                                     </div>
                                 </div>
-                                <div className="flex w-3/4 justify-between mb-8">
+                                <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
                                     <span className="text-dark">Utenti Bloccati</span>
                                     <div>
                                         {
                                             <PopUpModal title={"Utenti Bloccati"} sizeModal={"md"}
                                                 showBtn={(openModal) => {
                                                     return <div onClick={() => openModal(true)} className="cursor-pointer">
-                                                        <i className="fa-regular fa-circle-right text-primayColor"></i>
+                                                        <i className="fa-regular fa-circle-right text-primaryColor"></i>
                                                     </div>;
                                                 }}
                                             >
@@ -122,14 +122,14 @@ const SettingsProfile = () => {
                                         }
                                     </div>
                                 </div>
-                                <div className="flex w-3/4 justify-between mb-8">
+                                <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
                                     <span className="text-dark">Assistenza</span>
                                     <div>
                                         {
                                             <PopUpModal title={"Ticket Aperti"} sizeModal={"5xl"}
                                                 showBtn={(openModal) => {
                                                     return <div onClick={() => openModal(true)} className="cursor-pointer">
-                                                        <i className="fa-regular fa-circle-right text-primayColor"></i>
+                                                        <i className="fa-regular fa-circle-right text-primaryColor"></i>
                                                     </div>;
                                                 }}
                                             >
@@ -146,11 +146,11 @@ const SettingsProfile = () => {
                                         }
                                     </div>
                                 </div>
-                                <div className="flex w-3/4 justify-between mb-8">
+                                <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
                                     <span className="text-dark">Elimina Account</span>
                                     <div>
                                         <button onClick={openPopup} >
-                                            <i className="fa-regular fa-circle-right text-primayColor"></i>
+                                            <i className="fa-regular fa-circle-right text-primaryColor"></i>
                                         </button>
                                         <Modal show={popupIsOpen} size="md" onClose={openPopup} popup>
                                             <Modal.Header />

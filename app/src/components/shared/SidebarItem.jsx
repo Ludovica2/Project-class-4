@@ -4,7 +4,7 @@ const SidebarItem = ({children, to, label}) => {
     const location = useLocation();
     
     const formatClassName = () => {
-       return location.pathname == to ? "p-1 bg-[#e1e4f5] rounded min-w-[120px] dark:bg-gray-700" : "p-1"
+       return location.pathname == to ? "p-1 bg-[#e1e4f5] rounded min-w-[120px] dark:bg-gray-700 max-xl:min-w-[30px] max-xl:flex max-xl:justify-center max-lg:px-2 max-xl:px-3" : "p-1"
     }
 
     return (

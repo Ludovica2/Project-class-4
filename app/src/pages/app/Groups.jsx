@@ -21,7 +21,7 @@ const Groups = () => {
                     whileHover={{ scale: 1.2 }}
                     className="mt-20"
                 >
-                    <p className="text-7xl text-primayColor font-medium italic">COMING SOON...</p>
+                    <p className="text-7xl text-primaryColor font-medium italic">COMING SOON...</p>
                 </motion.h1>
                 <div className="mt-20">
                     <FadeLoader color="#40798C" size={100} />
