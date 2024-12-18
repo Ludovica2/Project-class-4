@@ -21,11 +21,16 @@ app.post("/", authUser(), async (req, res, next) => {
         user: Joi.string().valid(null).optional(),
         content: Joi.string().required(),
         images: Joi.array().items(Joi.any()).optional(),
+        typePost: Joi.string().optional(),
+        locality: Joi.string().optional(),
+        val_review: Joi.number().optional(),
     });
 
     try {
         const data = await schema.validateAsync(req.body);
-        const parsedData = parsePostContent(atob(data.content));
+        let parsedData = parsePostContent(atob(data.content));
+
+        parsedData = { ...parsedData, post_type: data.typePost, locality: data.locality };
 
         const _post = new Post({ ...parsedData, from: from._id });
 

@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const Joi = require("joi");
 const { hashPassword, comparePassword } = require("../../utilities/auth");
-const { User, UserFollow, Notification } = require("../../db");
+const { User, UserFollow, Notification, UserReview } = require("../../db");
 const { authUser } = require("../../middleware/auth");
 const { uploadAvatar } = require("../../middleware/users");
 const { sendNotification } = require("../../utilities/notifications");
@@ -52,6 +52,31 @@ app.post("/", async (req, res) => {
 });
 
 /**
+ * @path /api/users/profile/reviews/:user_id
+ * @method POST
+ */
+app.post("/profile/reviews/:user_id", authUser(), async (req, res) => {
+    const user = req.params.user_id;
+    const author = req.user._id;
+
+    const schema = Joi.object().keys({
+        rating: Joi.number().required(),
+        content: Joi.string().required(),
+    });
+
+    try {
+        const data = await schema.validateAsync(req.body);
+
+        const review = (await new UserReview({ user, author, ...data }).save()).toObject();
+
+        return res.status(201).json(review);
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" })
+    }
+});
+
+/**
  * @path /api/users/follow/:nickname
  * @method GET
  */
@@ -67,6 +92,25 @@ app.get("/follow/:nickname", authUser(), async (req, res) => {
 
         return res.status(200).json({ ...user, followers, following });
     } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" })
+    }
+});
+
+/**
+ * @path /api/users/profile/reviews/:user_id
+ * @method GET
+ */
+app.get("/profile/reviews/:user_id", authUser(), async (req, res) => {
+    const user = req.params.user_id;
+
+    try {
+        const reviews = await UserReview.find({ user }, null, { lean: true })
+            .populate({ path: "user", select: "first_name last_name avatar nickname metadata role" })
+            .populate({ path: "author", select: "first_name last_name avatar nickname metadata role" });
+
+        return res.status(201).json(reviews);
+    } catch(error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" })
     }

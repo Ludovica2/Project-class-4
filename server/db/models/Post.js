@@ -11,6 +11,11 @@ const PostSchema = new Schema({
         ref: "User",
         required: true,
     },
+    post_type: {
+        type: String,
+        enum: ["basic", "review", "event"],
+        default: "basic",
+    },
     post_likes: {
         type: [{
             type: Schema.Types.ObjectId,

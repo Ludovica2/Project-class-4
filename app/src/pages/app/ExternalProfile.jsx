@@ -11,6 +11,9 @@ import SDK from "../../SDK";
 import { toast } from "react-toastify";
 import CustomBox from "../../components/shared/CustomBox";
 import { setRooms } from "../../store/slices/chatSlice";
+import Drawer from "../../components/shared/Drawer";
+import { setCurrentProfileReviews } from "../../store/slices/reviewSlice";
+import { setCurrentProfileId } from "../../store/slices/settingsSlice";
 
 const widget = {
     events: "events",
@@ -74,6 +77,16 @@ const ExternalProfile = ({ nickname }) => {
         await fetchUser();
     }
 
+    const fetchReviews = async () => {
+        try {
+            const reviews = await SDK.profile.getAllReviews(user._id, token);
+            dispatch(setCurrentProfileReviews(reviews))
+        } catch (error) {
+            console.log(error);
+            toast.error("Reviews non trovate");
+        }
+    }
+
     const fetchRooms = async () => {
         // fetch rooms from the server
         const rooms = await SDK.chat.getRooms(token);
@@ -105,12 +118,14 @@ const ExternalProfile = ({ nickname }) => {
 
         fetchData();
     }, []);
-
+    
     useEffect(() => {
         if (user) {
+            dispatch(setCurrentProfileId(user._id));
             const isFollowing = user.followers.find(follower => follower.follower._id == currentUser._id);
             setFollow(isFollowing);
             fetchPosts();
+            fetchReviews();
         }
     }, [user]);
 

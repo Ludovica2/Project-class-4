@@ -175,12 +175,12 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                 <div className="m-4 rounded-b-lg">
                     <div>
                         {
-                            /*  post?.locality && (
+                            post?.locality && (
                                  <div className='mb-4'>
                                      <i className="fa-solid fa-location-dot text-secondaryColor text-lm"></i>
-                                     <span className='ml-1 text-dark'>{post.locality} ciao sono qui</span>
+                                     <span className='ml-1 text-dark'>{post.locality}</span>
                                  </div>
-                             ) */
+                            )
                         }
                         {children}
                         <div className="w-full my-4">

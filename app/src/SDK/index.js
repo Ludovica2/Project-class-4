@@ -127,6 +127,25 @@ export default {
                 data: payload,
             })).data;
         },
+        getAllReviews: async (user_id, token) => {
+            return (await axios({
+                url: buildApiUrl(`/users/profile/reviews/${user_id}`),
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })).data;
+        },
+        createReview: async (user_id, payload, token) => {
+            return (await axios({
+                url: buildApiUrl(`/users/profile/reviews/${user_id}`),
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload // { rating: number, content: string }
+            })).data;
+        },
     },
     account: {
         updatePassword: async (payload, token) => {
@@ -287,5 +306,5 @@ export default {
                 data: payload,
             })).data;
         }
-    }
+    },
 }

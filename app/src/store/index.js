@@ -5,6 +5,8 @@ import settingsSlice from "./slices/settingsSlice";
 import postSlice from "./slices/postSlice";
 import notificationSlice from "./slices/notificationSlice";
 import chatSlice from "./slices/chatSlice";
+import drawerSlice from "./slices/drawerSlice";
+import reviewSlice from "./slices/reviewSlice";
 
 export default configureStore({
     reducer: {
@@ -14,5 +16,7 @@ export default configureStore({
         posts: postSlice,
         notifications: notificationSlice,
         chat: chatSlice,
+        drawer: drawerSlice,
+        review: reviewSlice,
     }
 });

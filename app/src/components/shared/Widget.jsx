@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import WidgetItem from './app/WidgetItem'
+import Drawer from './Drawer';
+import { useDrawer } from '../../hooks/useDrawer';
 
 const visbility = {
   more: "Vedi più",
@@ -7,11 +9,12 @@ const visbility = {
 }
 
 const Widget = ({ title, wgt, role = "", val_review = "", className = "" }) => {
-
   const [showMore, setShowMore] = useState(false);
+  const [_, setIsOpen] = useDrawer("review");
 
   const handleShowMore = () => {
-    setShowMore((more) => !more);
+    // setShowMore((more) => !more);
+    setIsOpen(true);
   }
 
   return (

@@ -6,6 +6,7 @@ const settingsSlice = createSlice({
         darkMode: false,
         notify: false,
         lastUserRole: "user",
+        currentProfileId: null,
         social: {
             instagram: {
                 title: "Instagram",
@@ -88,9 +89,12 @@ const settingsSlice = createSlice({
         },
         changeLastUserRole: (state, { payload }) => {
             state.lastUserRole = payload;
-        }
+        },
+        setCurrentProfileId: (state, { payload }) => {
+            state.currentProfileId = payload;
+        },
     }
 });
 
-export const { toggleDarkMode, toggleNotify, changeSocialSettings, changeDeviceSettings, changeLastUserRole } = settingsSlice.actions;
+export const { toggleDarkMode, toggleNotify, changeSocialSettings, changeDeviceSettings, changeLastUserRole, setCurrentProfileId } = settingsSlice.actions;
 export default settingsSlice.reducer;

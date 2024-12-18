@@ -84,19 +84,35 @@ const PostEditing = ({ onNewPost }) => {
         setImagesPreview((i) => ([...i.filter((_) => _.id != id)]));
     }
 
-    const handleEmoji = () => {
+    /*const handleEmoji = () => {
         setShowEmoji((show) => !show);
     }
 
     const onEmojiClick = (event) => {
         setField((prevInput) => prevInput + event.emoji);
         setShowEmoji(false);
-    };
+    };*/
 
     const handleCreatePost = async () => {
         try {
-            await SDK.post.create({ content: btoa(field), images: post.images}, token);
+            await SDK.post.create({ 
+                content: btoa(field), 
+                images: post.images, 
+                typePost: post.typePost,
+                locality: post.locality,
+            }, token);
+            setPost({
+                userId: user._id,
+                date: "",
+                typePost: "",
+                content: "",
+                video: [],
+                images: [],
+                locality: "",
+                val_review: null
+            });
             setImagesPreview([]);
+            setShowLocality(false);
             toast.success("Post created");
             setField("");
             onNewPost();
@@ -195,7 +211,7 @@ const PostEditing = ({ onNewPost }) => {
                         { /* <ContentEditable onChange={handleChange} onClick={handleClick} disabled={false} html={field} className="border-none outline-none mb-3 dark:text-dark" /> */}
                         <textarea className="w-full border-none outline-none focus:ring-0 focus:outline-none active:outline-none dark:bg-elements_dark" onChange={handleChange} value={field} placeholder="Crea il tuo post..."></textarea>
                     </div>
-                    <div>
+                    {/*<div>
                         <button onClick={handleEmoji}>
                             <i className="fa-regular fa-face-grin-wide text-primaryColor"></i>
                         </button>
@@ -204,7 +220,7 @@ const PostEditing = ({ onNewPost }) => {
                                 <EmojiPicker onEmojiClick={onEmojiClick} previewConfig={{showPreview:false}} />
                             )
                         }
-                    </div>
+                    </div>*/}
                     {
                         imagesPreview.length > 0 && (
                             <div className="flex flex-wrap gap-[2%] my-2">
