@@ -9,19 +9,19 @@ export default {
         {
             type: "item",
             to: "/app/feed",
-            iconClassName: "fa-regular fa-newspaper text-primayColor max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-regular fa-newspaper text-primaryColor max-lg:text-xl max-xl:text-2xl",
             label: "Bacheca"
         },
         {
             type: "item",
             to: "/app/profile",
-            iconClassName: "fa-solid fa-passport text-primayColor max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-solid fa-passport text-primaryColor max-lg:text-xl max-xl:text-2xl",
             label: "Profilo"
         },
         {
             type: "item",
             to: "/app/groups",
-            iconClassName: "fa-solid fa-users text-primayColor text-sm max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-solid fa-users text-primaryColor text-sm max-lg:text-xl max-xl:text-2xl",
             label: "Gruppi"
         },
         {
@@ -34,19 +34,19 @@ export default {
         {
             type: "item",
             to: "/app/chat",
-            iconClassName: "fa-solid fa-comments text-primayColor text-sm max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-solid fa-comments text-primaryColor text-sm max-lg:text-xl max-xl:text-2xl",
             label: "Chat"
         },
         {
             type: "item",
             to: "/app/calendar",
-            iconClassName: "fa-solid fa-calendar-days text-primayColor max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-solid fa-calendar-days text-primaryColor max-lg:text-xl max-xl:text-2xl",
             label: "Calendario"
         },
         {
             type: "item",
             to: "/app/favorites",
-            iconClassName: "fa-solid fa-suitcase-rolling text-primayColor max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-solid fa-suitcase-rolling text-primaryColor max-lg:text-xl max-xl:text-2xl",
             label: "Preferiti"
         },
     ],
@@ -58,13 +58,13 @@ export default {
         {
             type: "item",
             to: "/app/feed",
-            iconClassName: "fa-regular fa-newspaper text-primayColor max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-regular fa-newspaper text-primaryColor max-lg:text-xl max-xl:text-2xl",
             label: "Bacheca"
         },
         {
             type: "item",
             to: "/app/profile",
-            iconClassName: "fa-solid fa-passport text-primayColor max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-solid fa-passport text-primaryColor max-lg:text-xl max-xl:text-2xl",
             label: "Profilo"
         },
         {
@@ -77,13 +77,13 @@ export default {
         {
             type: "item",
             to: "/app/chat",
-            iconClassName: "fa-solid fa-comments text-primayColor text-sm max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-solid fa-comments text-primaryColor text-sm max-lg:text-xl max-xl:text-2xl",
             label: "Chat"
         },
         {
             type: "item",
             to: "/app/calendar",
-            iconClassName: "fa-solid fa-calendar-days text-primayColor max-lg:text-xl max-xl:text-2xl",
+            iconClassName: "fa-solid fa-calendar-days text-primaryColor max-lg:text-xl max-xl:text-2xl",
             label: "Calendario"
         },
     ]

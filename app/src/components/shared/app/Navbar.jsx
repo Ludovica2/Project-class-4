@@ -77,7 +77,7 @@ const Navbar = () => {
             <div ref={serachRef} className="lg:hidden">
                 <button onClick={toggleSearch}>
                     <div className="flex justify-center items-center">
-                        <i className="fa-solid fa-magnifying-glass text-primayColor"></i>
+                        <i className="fa-solid fa-magnifying-glass text-primaryColor"></i>
                         {
                             isOpenSearch && (
                                 <motion.div className="top-11 right-0 flex flex-col p-4 w-full bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
@@ -110,7 +110,7 @@ const Navbar = () => {
                                 <div className='absolute transform translate-x-2 -translate-y-2 flex items-center justify-center rounded-full border-[1px] border-white bg-red-600 text-xs w-[14px] h-[14px] text-center text-white font-bold'>
                                     1
                                 </div>
-                                <i className="fa-solid fa-envelope text-primayColor hover:text-primayColor_Hover"></i>
+                                <i className="fa-solid fa-envelope text-primaryColor hover:text-primaryColor_Hover"></i>
                             </div>
                         </div>
                     </button>
@@ -123,7 +123,7 @@ const Navbar = () => {
                                 <div className='absolute transform translate-x-2 -translate-y-2 flex items-center justify-center rounded-full border-[1px] border-white bg-red-600 text-xs w-[14px] h-[14px] text-center text-white font-bold'>
                                     1
                                 </div>
-                                <i className="fa-solid fa-bell-concierge text-primayColor hover:text-primayColor_Hover"></i>
+                                <i className="fa-solid fa-bell-concierge text-primaryColor hover:text-primaryColor_Hover"></i>
                             </div>
                             {
                                 isOpenNotify && (

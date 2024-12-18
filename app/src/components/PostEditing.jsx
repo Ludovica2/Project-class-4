@@ -197,7 +197,7 @@ const PostEditing = ({ onNewPost }) => {
                     </div>
                     <div>
                         <button onClick={handleEmoji}>
-                            <i className="fa-regular fa-face-grin-wide text-primayColor"></i>
+                            <i className="fa-regular fa-face-grin-wide text-primaryColor"></i>
                         </button>
                         {
                             showEmoji && (

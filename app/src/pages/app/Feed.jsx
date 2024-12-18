@@ -8,6 +8,7 @@ import { setAllPosts } from "../../store/slices/postSlice";
 
 const widget = {
     events: "events",
+    account: "account",
 }
 
 const Feed = () => {
@@ -50,9 +51,10 @@ const Feed = () => {
                         ))
                     }
                 </div>
-                <div className="w-full lg:max-w-[360px] 2xl:max-w-[450px] max-lg:order-1 max-lg:flex max-lg:w-full max-lg:justify-evenly">
-                    <div className="sticky top-4">
+                <div className="w-full lg:max-w-[360px] 2xl:max-w-[450px] max-lg:order-1 max-lg:w-full">
+                    <div className="sticky top-4 max-lg:flex max-lg:justify-evenly">
                         <Widget title={"Eventi Suggeriti"} wgt={widget.events} role={user.role}/>
+                        <Widget title={"Account Suggeriti"} wgt={widget.account} role={user.role}/>
                     </div>
                 </div>
             </div>

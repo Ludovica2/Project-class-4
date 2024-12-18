@@ -53,7 +53,7 @@ const SignUpBusiness = () => {
     return (
         <>
             <div className="relative flex h-full max-lg:flex-col max-lg:justify-center">
-                <div className="flex justify-center items-center w-1/2 bg-primayColor max-lg:w-full max-xs:hidden">
+                <div className="flex justify-center items-center w-1/2 bg-primaryColor max-lg:w-full max-xs:hidden">
                     <div className="flex justify-center items-center drag-area max-lg:top-[15%] max-lg:left-[50%]"></div>
                     <div className="w-96 overflow-hidden z-10 images-container max-lg:mt-4">
                         <SliderLogin/>
@@ -105,7 +105,7 @@ const SignUpBusiness = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <button type="submit" className="w-full my-3 p-2 border bg-primayColor text-white rounded-md  hover:bg-primayColor_Hover hover:border hover:border-primayColor_Border_Hover">Registrati</button>
+                                    <button type="submit" className="w-full my-3 p-2 border bg-primaryColor text-white rounded-md  hover:bg-primaryColor_Hover hover:border hover:border-primaryColor_Border_Hover">Registrati</button>
                                 </div>
                             </form>
                             <div className="mt-5 mb-4 text-center">

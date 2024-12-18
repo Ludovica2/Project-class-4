@@ -87,7 +87,7 @@ function SignUp() {
                                 </div>
                             </div>
                             <div>
-                                <button type="submit" className="w-full my-3 p-2 border bg-primayColor text-white rounded-md  hover:bg-primayColor_Hover hover:border hover:border-primayColor_Border_Hover">Registrati</button>
+                                <button type="submit" className="w-full my-3 p-2 border bg-primaryColor text-white rounded-md  hover:bg-primaryColor_Hover hover:border hover:border-primaryColor_Border_Hover">Registrati</button>
                             </div>
                         </form>
                         <div className="mt-5 mb-4 text-center">

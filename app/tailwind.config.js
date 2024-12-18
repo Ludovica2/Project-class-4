@@ -11,9 +11,9 @@ export default {
     theme: {
         extend: {
             colors: {
-                primayColor: '#40798C',
-                primayColor_Hover: 'rgb(57 108 124)',
-                primayColor_Border_Hover: 'rgb(52 102 118)',
+                primaryColor: '#40798C',
+                primaryColor_Hover: 'rgb(57 108 124)',
+                primaryColor_Border_Hover: 'rgb(52 102 118)',
                 secondaryColor: '#A6B1E1',
                 secondaryColor_Hover: 'rgb(141 151 192)',
                 text_primaryColor: '#111827',

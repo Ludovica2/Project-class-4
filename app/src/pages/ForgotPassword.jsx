@@ -28,7 +28,7 @@ function ForgotPassword() {
                             <input type="email" name="email" id="email" onInput={handleInput} placeholder="Inserisci Email" className="my-2 p-2 input_field" />
                         </div>
                         <div>
-                            <button type="submit" className="my-3 p-2 border bg-primayColor text-white rounded-md  hover:bg-primayColor_Hover hover:border hover:border-primayColor_Border_Hover">Reset Password</button>
+                            <button type="submit" className="my-3 p-2 border bg-primaryColor text-white rounded-md  hover:bg-primaryColor_Hover hover:border hover:border-primaryColor_Border_Hover">Reset Password</button>
                         </div>
                     </form>
                 </div>

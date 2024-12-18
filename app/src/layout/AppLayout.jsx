@@ -16,7 +16,7 @@ const AppLayout = () => {
   return (
     <>
       <Sidebar navbar={<Navbar />}>
-        <main className="flex justify-center dark:bg-bg_dark">
+        <main className="flex justify-center dark:bg-bg_dark max-xl:mb-14">
           <Outlet />
         </main>
       </Sidebar>

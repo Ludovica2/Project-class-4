@@ -34,9 +34,9 @@ const Sidebar = ({ children, navbar }) => {
                     <span className='relative max-xl:hidden'>
                         <button onClick={toggleSidebar}>
                             {isOpenSidebar ? (
-                                <i className="fa-solid fa-chevron-left text-lg dark:text-white dark:hover:opacity-70 text-primayColor hover:opacity-70 p-2"></i>
+                                <i className="fa-solid fa-chevron-left text-lg dark:text-white dark:hover:opacity-70 text-primaryColor hover:opacity-70 p-2"></i>
                             ) : (
-                                <i className="fa-solid fa-chevron-right text-lg dark:text-white dark:hover:opacity-70 text-primayColor hover:opacity-70 p-2"></i>
+                                <i className="fa-solid fa-chevron-right text-lg dark:text-white dark:hover:opacity-70 text-primaryColor hover:opacity-70 p-2"></i>
                             )}
                         </button>
                     </span>

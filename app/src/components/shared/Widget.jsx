@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import WidgetItem from './app/WidgetItem'
 
+const visbility = {
+  more: "Vedi più",
+  less: "Vedi meno"
+}
+
 const Widget = ({ title, wgt, role = "", val_review = "", className = "" }) => {
+
+  const [showMore, setShowMore] = useState(false);
+
+  const handleShowMore = () => {
+    setShowMore((more) => !more);
+  }
+
   return (
     <>
-      <div className={"min-h-80 m-5 rounded-lg bg-white w-full shadow relative dark:bg-elements_dark dark:shadow-slate-600 max-lg:max-w-[400px]" + " " + className}>
+      <div className={" m-5 rounded-lg bg-white w-full shadow relative dark:bg-elements_dark dark:shadow-slate-600 max-lg:max-w-[400px]" + " " + className + (showMore ? " max-h-96 overflow-y-scroll" : " max-h-80 overflow-hidden")}>
         <div className='flex justify-between pt-4 px-4'>
           <h2 className='dark:text-slate-100'> {title}</h2>
           {val_review}
@@ -86,10 +98,55 @@ const Widget = ({ title, wgt, role = "", val_review = "", className = "" }) => {
               </>
             )
           }
+          {
+            wgt == "account" && (
+              <>
+                <WidgetItem
+                  to=''
+                  img="https://images.pexels.com/photos/12893376/pexels-photo-12893376.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="Mario Rossi"
+                  text="Mario Rossi"
+                  wgt={wgt}
+                />
+                <WidgetItem
+                  to=''
+                  img="https://images.pexels.com/photos/8219320/pexels-photo-8219320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="Anna Bianchi"
+                  text="Anna Bianchi"
+                  wgt={wgt}
+                />
+                <WidgetItem
+                  to=''
+                  img="https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="Gino Fluffy"
+                  text="Gino Fluffy"
+                  wgt={wgt}
+                />
+                <WidgetItem
+                  to=''
+                  img="https://images.pexels.com/photos/6617683/pexels-photo-6617683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="Sara Gialli"
+                  text="Sara Gialli"
+                  wgt={wgt}
+                />
+                <WidgetItem
+                  to=''
+                  img="https://images.pexels.com/photos/2287129/pexels-photo-2287129.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="Alex Bryan"
+                  text="Alex Bryan"
+                  wgt={wgt}
+                />
+              </>
+            )
+          }
         </div>
-        <div className='absolute bottom-0 h-10 w-full shadow text-center cursor-pointer z-10 bg-white'>
-          <span className='text-primayColor'>Vedi più</span>
-        </div>
+        {
+          /* !role == "business" && !wgt == "events" &&  */(
+            <div onClick={handleShowMore} className='sticky -bottom-px h-10 w-full shadow rounded-b-lg text-center content-center cursor-pointer z-10 bg-white'>
+              <span className='text-primaryColor'>{showMore ? visbility.less : visbility.more}</span>
+            </div>
+          )
+        }
       </div>
     </>
   )

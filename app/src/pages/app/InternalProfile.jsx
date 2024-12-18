@@ -48,7 +48,10 @@ const InternalProfile = () => {
                                             user.role == "user" ? (
                                                 <h2 className="text-xl dark:text-slate-100">{`${user.first_name} ${user.last_name}`}</h2>
                                             ) : (
-                                                <h2 className="text-xl dark:text-slate-100">{user.metadata.company_name}</h2>
+                                                <div className="flex gap-2 items-center">
+                                                    <h2 className="text-xl dark:text-slate-100">{user.metadata.company_name}</h2>
+                                                    <i className="fa-solid fa-certificate text-primaryColor"></i>
+                                                </div>
                                             )
                                         }
                                         <span className="ml-1  mb-2 text-sm font-bold dark:text-slate-300">@{user.nickname}</span>

@@ -94,7 +94,7 @@ const Chat = () => {
                                 </div>
                                     {
                                         messages && Array.isArray(messages) && messages.filter((m) => m.to._id == user._id && m.is_read == false).length != 0 && (
-                                            <div className='flex items-center justify-center rounded-full bg-primayColor text-xs w-5 h-5 text-center text-white font-bold'>
+                                            <div className='flex items-center justify-center rounded-full bg-primaryColor text-xs w-5 h-5 text-center text-white font-bold'>
                                                 {messages.filter((m) => m.to._id == user._id && m.is_read == false).length}
                                             </div>
                                         )
@@ -165,7 +165,7 @@ const Chat = () => {
                         { /* Chat messages */}
                         {activeRoom && rooms.find(({ _id }) => _id == activeRoom.roomId)?.messages.map(message => (
                             <div key={message._id} className={`flex ${message.from._id === user._id ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`rounded-lg px-6 py-2 ${message.from._id === user._id ? 'bg-primayColor text-white' : 'bg-slate-200'} my-1`}>
+                                <div className={`rounded-lg px-6 py-2 ${message.from._id === user._id ? 'bg-primaryColor text-white' : 'bg-slate-200'} my-1`}>
                                     <p>{message.message}</p>
                                     <span className='text-[12px]'>{formatDistance(message.createdAt, new Date())}</span>
                                 </div>
@@ -175,7 +175,7 @@ const Chat = () => {
                     </div>
                     <form className='p-4 flex' onSubmit={handleSendMessage}>
                         <input ref={inputRef} disabled={!activeRoom} name="message" className='flex-1 border p-2 rounded-lg focus:border-transparent focus:outline-transparent disabled:opacity-60' type='text' placeholder='Scrivi un messaggio...' required />
-                        <button disabled={!activeRoom} className='ml-2 bg-primayColor px-4 rounded-lg disabled:opacity-60'>
+                        <button disabled={!activeRoom} className='ml-2 bg-primaryColor px-4 rounded-lg disabled:opacity-60'>
                             <i className="fa-regular fa-paper-plane text-white"></i>
                         </button>
                     </form>

@@ -163,16 +163,16 @@ const EditProfile = () => {
                 {/* Tab */}
                 <div className="flex bg-white rounded-lg shadow m-5 justify-around text-center dark:bg-elements_dark">
                     <div className="py-4 px-2 cursor-pointer" onClick={() => showTab(activeTab.personalInfo)}>
-                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.personalInfo ? " border-b-4 border-b-primayColor" : "")}>Personal Information</span>
+                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.personalInfo ? " border-b-4 border-b-primaryColor" : "")}>Personal Information</span>
                     </div>
                     <div className="py-4 px-2 cursor-pointer" onClick={() => showTab(activeTab.changePassword)}>
-                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.changePassword ? " border-b-4 border-b-primayColor" : "")}>Change Password</span>
+                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.changePassword ? " border-b-4 border-b-primaryColor" : "")}>Change Password</span>
                     </div>
                     <div className="py-4 px-2 cursor-pointer" onClick={() => showTab(activeTab.manageNickname)}>
-                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.manageNickname ? " border-b-4 border-b-primayColor" : "")}>Manage Nickname</span>
+                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.manageNickname ? " border-b-4 border-b-primaryColor" : "")}>Manage Nickname</span>
                     </div>
                     <div className="py-4 px-2 cursor-pointer dark:text-slate-100" onClick={() => showTab(activeTab.manageContact)}>
-                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.manageContact ? " border-b-4 border-b-primayColor" : "")}>Manage Contact</span>
+                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.manageContact ? " border-b-4 border-b-primaryColor" : "")}>Manage Contact</span>
                     </div>
                 </div>
                 {/* Information Container */}
@@ -194,7 +194,7 @@ const EditProfile = () => {
                                                         isOpen={isOpenProfileImageModal}
                                                         setIsOpen={setIsOpenProfileImageModal}
                                                         showBtn={(openModal) => {
-                                                            return <div onClick={() => openModal(true)} className="flex justify-center items-center absolute w-10 h-10 -bottom-16 right-1 cursor-pointer bg-primayColor rounded-[50%] btn-tooltip">
+                                                            return <div onClick={() => openModal(true)} className="flex justify-center items-center absolute w-10 h-10 -bottom-16 right-1 cursor-pointer bg-primaryColor rounded-[50%] btn-tooltip">
                                                                 <i className="fa-solid fa-pen text-white"></i>
                                                                 <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
                                                                     Modifica
@@ -308,7 +308,7 @@ const EditProfile = () => {
                                     </div>
                                     <div className="flex flex-col">
                                         <label htmlFor="bio" className="font-semibold mt-1 dark:text-slate-300">Biografia</label>
-                                        <textarea name="bio" id="bio" onInput={handleInput} value={form.personal.bio} placeholder="Racconta qualcosa di te..." className="my-2 p-2 input_field"></textarea>
+                                        <textarea name="bio" id="bio" onInput={handleInput} value={form.personal.bio} placeholder="Racconta qualcosa di te..." className="my-2 p-2 input_field max-lg:min-h-20"></textarea>
                                     </div>
                                 </div>
                             )

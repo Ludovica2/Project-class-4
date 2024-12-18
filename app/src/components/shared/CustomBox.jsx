@@ -51,6 +51,11 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                             <Link className="cursor-pointer flex items-center justify-center" to={`/app/profile/${nickname.replace("@", "")}`}>
                                 <h3 className="dark:text-white">
                                     {formatPostAuthorName(post)} - <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @{nickname}</span>
+                                    {
+                                        post.from.role == "business" && (
+                                            <i className="fa-solid fa-certificate text-primaryColor ml-2"></i>
+                                        )
+                                    }
                                 </h3>
                             </Link>
                         </div>
@@ -61,7 +66,8 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                             <i className="fa-solid fa-ellipsis dark:text-gray-500"></i>
                             {
                                 isOpenOptionsMenu && (
-                                    <motion.div ref={optionsRef} className="flex flex-col absolute top-9 -left-3 px-2 min-w-52 bg-white border border-slate-100 z-10 dark:bg-elements_dark  dark:shadow dark:shadow-slate-400 dark:border-none"
+                                    <motion.div ref={optionsRef} className="flex flex-col absolute top-9 -left-3 px-2 min-w-52 bg-white border border-slate-100 z-10 dark:bg-elements_dark  dark:shadow dark:shadow-slate-400 dark:border-none
+                                    max-lg:-left-36"
                                         initial={{ y: -8 }}
                                         animate={{ y: "calc(0vw + 5%)" }}
                                     >
@@ -268,7 +274,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                 <img className='img-LikesProf' src="https://images.pexels.com/photos/8219320/pexels-photo-8219320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Anna Bianchi" />
                             </li>
                             <li className='-ml-4'>
-                                <img className='img-LikesProf' src="https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Luigi Verdi" />
+                                <img className='img-LikesProf' src="https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Gino Fluffy" />
                             </li>
                             <li className='-ml-4'>
                                 <img className='img-LikesProf' src="https://images.pexels.com/photos/6617683/pexels-photo-6617683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Sara Gialli" />
@@ -280,28 +286,28 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                 <div className="flex flex-col mt-5 pt-3 border-t border-slate-100 rounded-b-lg">
                     <div className='flex justify-between'>
                         <button className='group'>
-                            <i className="fa-regular fa-compass icon group-hover:text-primayColor"></i>
-                            <span className='icon-text group-hover:text-primayColor'>100 Mi Piace</span>
+                            <i className="fa-regular fa-compass icon group-hover:text-primaryColor"></i>
+                            <span className='icon-text group-hover:text-primaryColor'>100 Mi Piace</span>
                         </button>
                         <div>
                             <button onClick={toggleCommentsBox} className='group'>
-                                <i className="fa-regular fa-comment-dots icon group-hover:text-primayColor"></i>
-                                <span className='icon-text group-hover:text-primayColor'>20 Commenti</span>
+                                <i className="fa-regular fa-comment-dots icon group-hover:text-primaryColor"></i>
+                                <span className='icon-text group-hover:text-primaryColor'>20 Commenti</span>
                             </button>
                             <button className='group'>
-                                <i className="fa-regular fa-calendar-days icon group-hover:text-primayColor"></i>
-                                <span className='icon-text group-hover:text-primayColor'>Aggiungi</span>
+                                <i className="fa-regular fa-calendar-days icon group-hover:text-primaryColor"></i>
+                                <span className='icon-text group-hover:text-primaryColor'>Aggiungi</span>
                             </button>
                             <button className='group'>
-                                <i className="fa-solid fa-suitcase-rolling icon group-hover:text-primayColor"></i>
-                                <span className='icon-text group-hover:text-primayColor'>Salva</span>
+                                <i className="fa-solid fa-suitcase-rolling icon group-hover:text-primaryColor"></i>
+                                <span className='icon-text group-hover:text-primaryColor'>Salva</span>
                             </button>
                             {
                                 <PopUpModal title={"Invia a..."} sizeModal={"md"}
                                     showBtn={(openModal) => {
                                         return <button onClick={() => openModal(true)} className="group">
-                                            <i className="fa-regular fa-paper-plane icon group-hover:text-primayColor"></i>
-                                            <span className='icon-text group-hover:text-primayColor'>Invia</span>
+                                            <i className="fa-regular fa-paper-plane icon group-hover:text-primaryColor"></i>
+                                            <span className='icon-text group-hover:text-primaryColor'>Invia</span>
                                         </button>;
                                     }}
                                 >
@@ -371,12 +377,12 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                         ...
                                                     </motion.span>
                                                 </div>
-                                                <i className="fa-solid fa-icons icon group-hover:text-primayColor"></i>
-                                                <span className='icon-text group-hover:text-primayColor'>Reazioni</span>
+                                                <i className="fa-solid fa-icons icon group-hover:text-primaryColor"></i>
+                                                <span className='icon-text group-hover:text-primaryColor'>Reazioni</span>
                                             </button>
                                             <button onClick={toggleReplyComments} className='group'>
-                                                <i className="fa-solid fa-reply icon group-hover:text-primayColor" ></i>
-                                                <span className='icon-text group-hover:text-primayColor'>Rispondi...</span>
+                                                <i className="fa-solid fa-reply icon group-hover:text-primaryColor" ></i>
+                                                <span className='icon-text group-hover:text-primaryColor'>Rispondi...</span>
                                             </button>
                                         </div>
                                     </div>
