@@ -165,16 +165,16 @@ const EditProfile = () => {
                 {/* Tab */}
                 <div className="flex bg-white rounded-lg shadow m-5 justify-around text-center dark:bg-elements_dark">
                     <div className="py-4 px-2 cursor-pointer" onClick={() => showTab(activeTab.personalInfo)}>
-                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.personalInfo ? " border-b-4 border-b-primaryColor" : "")}>Personal Information</span>
+                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.personalInfo ? " border-b-4 border-b-primaryColor" : "")}>{dictionary.editProfile.PERSONAL}</span>
                     </div>
                     <div className="py-4 px-2 cursor-pointer" onClick={() => showTab(activeTab.changePassword)}>
-                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.changePassword ? " border-b-4 border-b-primaryColor" : "")}>Change Password</span>
+                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.changePassword ? " border-b-4 border-b-primaryColor" : "")}>{dictionary.editProfile.CHANGE}</span>
                     </div>
                     <div className="py-4 px-2 cursor-pointer" onClick={() => showTab(activeTab.manageNickname)}>
-                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.manageNickname ? " border-b-4 border-b-primaryColor" : "")}>Manage Nickname</span>
+                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.manageNickname ? " border-b-4 border-b-primaryColor" : "")}>{dictionary.editProfile.NICKNAME}</span>
                     </div>
                     <div className="py-4 px-2 cursor-pointer dark:text-slate-100" onClick={() => showTab(activeTab.manageContact)}>
-                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.manageContact ? " border-b-4 border-b-primaryColor" : "")}>Manage Contact</span>
+                        <span className={"text-lg px-2 dark:text-slate-100" + (tabToOpen == activeTab.manageContact ? " border-b-4 border-b-primaryColor" : "")}>{dictionary.editProfile.CONTACT}</span>
                     </div>
                 </div>
                 {/* Information Container */}

@@ -77,7 +77,8 @@ export default {
             FOLLOW: "Segui",
             UNFOLLOW: "Non seguire più",
             MESSAGE: "Messaggio",
-            UNLOCK_USER: "Sblocca questo utente per vedere i suoi contenuti"
+            UNLOCK_USER: "Sblocca questo utente per vedere i suoi contenuti",
+            NO_REV: "Recensioni non trovate",
         },
         editProfile: {
             PERSONAL: "Informazioni Personali",
@@ -272,7 +273,8 @@ export default {
             FOLLOW: "Follow",
             UNFOLLOW: "Unfollow",
             MESSAGE: "Chat",
-            UNLOCK_USER: "Unblock this user to see their content"
+            UNLOCK_USER: "Unblock this user to see their content",
+            NO_REV: "No Reviews",
         },
         editProfile: {
             PERSONAL: "Personal Information",

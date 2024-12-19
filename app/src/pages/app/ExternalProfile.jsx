@@ -91,7 +91,7 @@ const ExternalProfile = () => {
             dispatch(setCurrentProfileReviews(reviews))
         } catch (error) {
             console.log(error);
-            toast.error("Reviews non trovate");
+            toast.error(`${dictionary.profile.NO_REV}`);
         }
     }
 
@@ -198,7 +198,7 @@ const ExternalProfile = () => {
                                                     </div>
                                                 </div>
                                                 <div className="">
-                                                    <p className="m-2 dark:text-slate-100">{dictionary.settings.TITLE_ACCOUNT}</p>
+                                                    <p className="m-2 dark:text-slate-100">{dictionary.settings.TITLE_SOCIAL}</p>
                                                     <div className="flex gap-1">
                                                         {
                                                             socialActive && (
