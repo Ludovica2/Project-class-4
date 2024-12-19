@@ -1,12 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDrawer } from "../../hooks/useDrawer"
+import PopUpModal from "./PopUpModal";
+import { motion } from "framer-motion"
 
 const titleMAP = {
     review: "Reviews",
 }
 
-const Drawer = ({ children, type, showNewBtn = false, newBtnLabel = "Create", onNewClick = () => {} }) => {
+const reviews = [1, 2, 3, 4, 5];
+
+const Drawer = ({ children, type, showNewBtn = false, newBtnLabel = "Nuova Recensione", onNewClick = () => { } }) => {
     const [isOpen, setIsOpen] = useDrawer(type);
+    const [valueReview, setValueReview] = useState(0);
 
     return (
         <div className={`flex justify-end absolute top-0 left-0 w-screen h-screen z-50 bg-black bg-opacity-60 transition-all ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}>
@@ -15,9 +20,35 @@ const Drawer = ({ children, type, showNewBtn = false, newBtnLabel = "Create", on
                     <div className="flex gap-4 items-center">
                         {
                             showNewBtn && (
-                                <button className="btn" onClick={() => onNewClick(setIsOpen)}>
-                                    {newBtnLabel}
-                                </button>
+                                <PopUpModal title={"Aggiungi Recensione"} sizeModal={"lg"}
+                                    showBtn={(openModal) => {
+                                        return <button className="btn" onClick={() => openModal(true)}> {/* onClick={() => onNewClick(setIsOpen)} */}
+                                            {newBtnLabel}
+                                        </button>;
+                                    }}
+                                >
+                                    {
+                                        <form /* onSubmit={handleSubmit} */>
+                                            {
+                                                reviews.map((star, index) => (
+                                                    <button className="cursor-default" onClick={() => handleReview(index)}>
+                                                        <i className={"fa-solid fa-star text-text_secondaryColor hover:text-yellow-300" + (index <= valueReview ? " text-yellow-300" : "")}></i>
+                                                    </button>
+                                                ))
+                                            }
+                                            <div className="flex flex-col">
+                                                <textarea name="bio" id="bio" /* onInput={handleInput} value={form.personal.bio} */ placeholder="La tua recensione..." className="my-2 p-2 input_field max-lg:min-h-20"></textarea>
+                                            </div>
+                                            <div className="mt-8">
+                                                <motion.button type="submit" className="btn"
+                                                    whileTap={{ scale: 0.95 }}
+                                                >
+                                                    Salva
+                                                </motion.button>
+                                            </div>
+                                        </form>
+                                    }
+                                </PopUpModal>
                             )
                         }
                     </div>
