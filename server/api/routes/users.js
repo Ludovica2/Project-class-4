@@ -67,7 +67,11 @@ app.post("/profile/reviews/:user_id", authUser(), async (req, res) => {
     try {
         const data = await schema.validateAsync(req.body);
 
-        const review = (await new UserReview({ user, author, ...data }).save()).toObject();
+        const _review = (await new UserReview({ user, author, ...data }).save()).toObject();
+
+        const review = await UserReview.findOne({ _id: _review._id }, null, { lean: true, sort: { createdAt: -1 } })
+            .populate({ path: "user", select: "first_name last_name avatar nickname metadata role" })
+            .populate({ path: "author", select: "first_name last_name avatar nickname metadata role" });
 
         return res.status(201).json(review);
     } catch(error) {
@@ -105,7 +109,7 @@ app.get("/profile/reviews/:user_id", authUser(), async (req, res) => {
     const user = req.params.user_id;
 
     try {
-        const reviews = await UserReview.find({ user }, null, { lean: true })
+        const reviews = await UserReview.find({ user }, null, { lean: true, sort: { createdAt: -1 } })
             .populate({ path: "user", select: "first_name last_name avatar nickname metadata role" })
             .populate({ path: "author", select: "first_name last_name avatar nickname metadata role" });
 

@@ -1,5 +1,8 @@
+import { formatDistance } from "date-fns";
+import { it } from "date-fns/locale";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { capitalize } from "../../utilities/text";
 
 const ReviewBox = ({ review }) => {
     const { token } = useSelector((state) => state.auth);
@@ -15,7 +18,7 @@ const ReviewBox = ({ review }) => {
                     <div style={{ backgroundImage: `url(${review.author.avatar}?token=${token})` }} className="imgProfile-notification bg-cover bg-center"></div>
                 </Link>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
                 <Link className="cursor-pointer flex items-center justify-start" to={`/app/profile/${review.author.nickname.replace("@", "")}`}>
                     <h3 className="dark:text-white">
                         {formatPostAuthorName(review.author)} - <span className='text-xs text-black font-bold self-end ml-1 mb-[2px] dark:text-slate-300'> @{review.author.nickname}</span>
@@ -29,7 +32,7 @@ const ReviewBox = ({ review }) => {
                 <div className="">
                     {
                         Array.from(new Array(review.rating)).map((_, i) => (
-                            <button className="cursor-default">
+                            <button key={`star-${i}-${new Date().getTime()}`} className="cursor-default">
                                 <i className={`fa-solid fa-star ${i < (review.rating) ? "text-yellow-300" : "text-text_secondaryColor"}`}></i>
                             </button>
                         ))
@@ -38,6 +41,9 @@ const ReviewBox = ({ review }) => {
                 </div>
                 <div className="mt-2">
                     <p>{review.content}</p>
+                </div>
+                <div className="mt-2 flex justify-end">
+                    <p className="text-xs text-slate-400">{capitalize(formatDistance(review.createdAt, new Date(), { locale: it }))} fa</p>
                 </div>
             </div>
         </div>

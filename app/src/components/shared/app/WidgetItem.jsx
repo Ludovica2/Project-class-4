@@ -11,7 +11,7 @@ const WidgetItem = ({ to = "", img, alt, text, wgt }) => {
                     <div className='flex gap-3 items-center'>
                         <div>
                             <Link to={to}>
-                                <img src={img} alt={alt} className='rounded-full max-w-[45px]' />
+                                <img crossOrigin="anonymous" src={img} alt={alt} className='rounded-full max-w-[45px]' />
                             </Link>
                         </div>
                         <div className='flex gap-3'>
@@ -53,7 +53,7 @@ const WidgetItem = ({ to = "", img, alt, text, wgt }) => {
                             <PopUpModal title={"Recensione"} sizeModal={"2xl"}
                                 showBtn={(openModal) => {
                                     return <div onClick={() => openModal(true)} className="flex gap-2 cursor-pointer">
-                                        <img src={img} alt={alt} className='rounded-full max-w-[45px]' />
+                                        <div crossOrigin="anonymous" style={{ backgroundImage: `url(${img})` }} className='imgProfile-notification rounded-full bg-cover bg-center'></div>
                                         <span className='text-sm text-left max-w-48 self-center truncate dark:text-dark'>{text}</span>
                                     </div>;
                                 }}

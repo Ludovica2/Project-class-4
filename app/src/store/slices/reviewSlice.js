@@ -8,10 +8,13 @@ const reviewSlice = createSlice({
     reducers: {
         setCurrentProfileReviews: (state, { payload }) => {
             state.currentProfileReviews = payload;
+        },
+        setCurrentProfileNewReview: (state, { payload }) => {
+            state.currentProfileReviews.unshift(payload);
         }
     }
 });
 
-export const { setCurrentProfileReviews } = reviewSlice.actions;
+export const { setCurrentProfileReviews, setCurrentProfileNewReview } = reviewSlice.actions;
 
 export default reviewSlice.reducer;

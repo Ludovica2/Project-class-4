@@ -24,6 +24,7 @@ const widget = {
 const ExternalProfile = ({ nickname }) => {
     const dispatch = useDispatch();
     const { rooms } = useSelector((state) => state.chat);
+    const { currentProfileReviews } = useSelector((state) => state.review);
     const { token, user: currentUser } = useSelector((state) => state.auth);
     const { social } = useSelector((state) => state.settings);
     const [user, setUser] = useState(null);
@@ -32,6 +33,10 @@ const ExternalProfile = ({ nickname }) => {
     const [blockUser, setBlockUser] = useState(false);
 
     const socialActive = getSocialActive(social);
+
+    const formatRatingNumner = (number) => {
+        return number.toFixed(1).replace(".", ",");
+    }
 
     const handleFollow = async () => {
         try {
@@ -280,8 +285,8 @@ const ExternalProfile = ({ nickname }) => {
                                                 user.role == "user" ? (
                                                     <Widget title={"Luoghi Visitati"} wgt={widget.city} />
                                                 ) : (
-                                                    <Widget title={"Recensioni"} wgt={widget.review} role={user.role} val_review={
-                                                        <span>4,5 <i className="fa-solid fa-star text-yellow-300"></i></span>
+                                                    <Widget title={"Recensioni"} show={3} wgt={widget.review} role={user.role} val_review={
+                                                        <span>{formatRatingNumner(currentProfileReviews?.reduce((prev, curr) => prev + curr.rating, 0) / currentProfileReviews?.length)} ({currentProfileReviews?.length}) <i className="fa-solid fa-star text-yellow-300"></i></span>
                                                     } />
                                                 )
                                             }
