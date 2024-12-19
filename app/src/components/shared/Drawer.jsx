@@ -8,18 +8,23 @@ import SDK from "../../SDK";
 import { useDispatch, useSelector } from "react-redux";
 import { getFormData } from "../../utilities/formData";
 import { setCurrentProfileNewReview } from "../../store/slices/reviewSlice";
+import { useDictionary } from "../../provider/Language"
 
 const titleMAP = {
     review: "Reviews",
 }
 
-const Drawer = ({ children, type, showNewBtn = false, newBtnLabel = "Nuova Recensione", onNewClick = () => { } }) => {
+
+const Drawer = ({ children, type, showNewBtn = false, newBtnLabel = null , onNewClick = () => { } }) => {
     const dispatch = useDispatch();
+    const [dictionary] = useDictionary()
     const { token } = useSelector((state) => state.auth);
     const { currentProfileId } = useSelector((state) => state.settings);
     const [isOpen, setIsOpen] = useDrawer(type);
     const [isOpenModalReview, setIsOpenModalReview] = useState(false);
     
+    newBtnLabel = `${dictionary.review.NEW}`;
+
     const handleRatingSubmit = async (event) => {
         event.preventDefault();
 
@@ -32,7 +37,7 @@ const Drawer = ({ children, type, showNewBtn = false, newBtnLabel = "Nuova Recen
 
             dispatch(setCurrentProfileNewReview(review));
             setIsOpenModalReview(false);
-            toast.success("Recensione salvata.")
+            toast.success(`${dictionary.success.REVIEW}`)
         } catch(error) {
             console.log(error);
             toast.error(error.message);
@@ -46,7 +51,7 @@ const Drawer = ({ children, type, showNewBtn = false, newBtnLabel = "Nuova Recen
                     <div className="flex gap-4 items-center">
                         {
                             showNewBtn && (
-                                <PopUpModal isOpen={isOpenModalReview} setIsOpen={setIsOpenModalReview} title={"Aggiungi Recensione"} sizeModal={"lg"}
+                                <PopUpModal isOpen={isOpenModalReview} setIsOpen={setIsOpenModalReview} title={dictionary.review.ADD} sizeModal={"lg"}
                                     showBtn={(openModal) => {
                                         return <button className="btn" onClick={() => openModal(true)}> {/* onClick={() => onNewClick(setIsOpen)} */}
                                             {newBtnLabel}
@@ -55,16 +60,16 @@ const Drawer = ({ children, type, showNewBtn = false, newBtnLabel = "Nuova Recen
                                 >
                                     {
                                         <form onSubmit={handleRatingSubmit}>
-                                            <StarsInput stars={5} name="rating" label="Valutazione" />
+                                            <StarsInput stars={5} name="rating" label={dictionary.review.RATING} />
                                             <div className="flex flex-col mt-6">
-                                                <label htmlFor="content">Recensione</label>
-                                                <textarea name="content" id="content" placeholder="La tua recensione..." className="my-2 p-2 input_field max-lg:min-h-20"></textarea>
+                                                <label htmlFor="content">{dictionary.review.REVIEW}</label>
+                                                <textarea name="content" id="content" placeholder={dictionary.review.PH_RREVIEW} className="my-2 p-2 input_field max-lg:min-h-20"></textarea>
                                             </div>
                                             <div className="mt-8 flex justify-center">
                                                 <motion.button type="submit" className="btn"
                                                     whileTap={{ scale: 0.95 }}
                                                 >
-                                                    Salva
+                                                    {dictionary.btn.SAVE}
                                                 </motion.button>
                                             </div>
                                         </form>

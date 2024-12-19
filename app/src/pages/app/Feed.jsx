@@ -5,6 +5,7 @@ import Widget from "../../components/shared/Widget";
 import { useDispatch, useSelector } from "react-redux";
 import SDK from "../../SDK";
 import { setAllPosts } from "../../store/slices/postSlice";
+import { useDictionary } from "../../provider/Language";
 
 const widget = {
     events: "events",
@@ -13,6 +14,7 @@ const widget = {
 
 const Feed = () => {
     const dispatch = useDispatch();
+    const [dictionary] = useDictionary()
     const { user, token } = useSelector((state) => state.auth);
     const { all: allPosts } = useSelector((state) => state.posts);
 
@@ -53,8 +55,8 @@ const Feed = () => {
                 </div>
                 <div className="w-full lg:max-w-[360px] 2xl:max-w-[450px] max-lg:order-1 max-lg:w-full">
                     <div className="sticky top-4 max-lg:flex max-lg:justify-evenly">
-                        <Widget title={"Eventi Suggeriti"} wgt={widget.events} role={user.role}/>
-                        <Widget title={"Account Suggeriti"} wgt={widget.account} role={user.role}/>
+                        <Widget title={dictionary.profile.SUGG_EVENTS} wgt={widget.events} role={user.role}/>
+                        <Widget title={dictionary.profile.SUGG_ACCOUNT} wgt={widget.account} role={user.role}/>
                     </div>
                 </div>
             </div>

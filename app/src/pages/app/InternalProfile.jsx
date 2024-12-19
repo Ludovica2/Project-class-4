@@ -7,6 +7,8 @@ import ImageModal from "../../components/shared/ImageModal";
 import { useSelector } from "react-redux";
 import CustomActiveSocial from "../../components/shared/CustomActiveSocial";
 import { getSocialActive } from "../../utilities/settings";
+import { useDictionary } from "../../provider/Language";
+
 
 const widget = {
     events: "events",
@@ -15,6 +17,7 @@ const widget = {
 }
 
 const InternalProfile = () => {
+    const [dictionary] = useDictionary()
     const { user, token } = useSelector((state) => state.auth);
     const { social } = useSelector((state) => state.settings);
     const socialActive = getSocialActive(social);
@@ -63,7 +66,7 @@ const InternalProfile = () => {
                                                     <button className="relative btn-tooltip">
                                                         <i className="fa-solid fa-user-pen text-text_primaryColor dark:text-gray-500"></i>
                                                         <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
-                                                            Modifica Profilo
+                                                            {dictionary.profile.EDIT_P}
                                                             <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
                                                         </div>
                                                     </button>
@@ -74,7 +77,7 @@ const InternalProfile = () => {
                                                     <button className="relative btn-tooltip">
                                                         <i className="fa-solid fa-gear text-text_primaryColor dark:text-gray-500"></i>
                                                         <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
-                                                            Impostazioni
+                                                            {dictionary.profile.SETTING}
                                                             <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
                                                         </div>
                                                     </button>
@@ -82,7 +85,7 @@ const InternalProfile = () => {
                                             </div>
                                         </div>
                                         <div className="">
-                                            <p className="m-2 dark:text-slate-100">Altri Social</p>
+                                            <p className="m-2 dark:text-slate-100">{dictionary.settings.TITLE_ACCOUNT}</p>
                                             <div className="flex gap-1">
                                                 {
                                                     socialActive && (
@@ -99,13 +102,13 @@ const InternalProfile = () => {
                                     <ul className="flex w-full">
                                         <li className="border-r border-r-slate-100 px-8 py-4 max-md:px-5 max-md:py-2">
                                             <div className="flex flex-col justify-center">
-                                                <span className="font-bold dark:text-slate-300">Post</span>
+                                                <span className="font-bold dark:text-slate-300">Posts</span>
                                                 <span className="text-center text-dark">20</span>
                                             </div>
                                         </li>
                                         <li className="border-r border-r-slate-100 px-8 py-4 max-md:px-5 max-md:py-2">
                                             <div className="flex flex-col">
-                                                <span className="font-bold dark:text-slate-300">Eventi</span>
+                                                <span className="font-bold dark:text-slate-300">{dictionary.profile.EVENTS}</span>
                                                 <span className="text-center text-dark">5</span>
                                             </div>
                                         </li>
@@ -117,13 +120,13 @@ const InternalProfile = () => {
                                         </li>
                                         <li className="border-r border-r-slate-100 px-8 py-4 max-md:px-5 max-md:py-2">
                                             <div className="flex flex-col">
-                                                <span className="font-bold dark:text-slate-300">Seguiti</span>
+                                                <span className="font-bold dark:text-slate-300">{dictionary.profile.FOLLOWING}</span>
                                                 <span className="text-center text-dark">50</span>
                                             </div>
                                         </li>
                                         <li className=" px-8 py-4 max-md:px-5 max-md:py-2">
                                             <div className="flex flex-col">
-                                                <span className="font-bold dark:text-slate-300">Luoghi</span>
+                                                <span className="font-bold dark:text-slate-300">{dictionary.profile.PLACES}</span>
                                                 <span className="text-center text-dark">9</span>
                                             </div>
                                         </li>
@@ -145,12 +148,12 @@ const InternalProfile = () => {
                 </div>
                 <div className="flex gap-4 max-lg:flex-col">
                     <div className="w-1/4 max-lg:flex max-lg:w-full max-lg:justify-evenly">
-                        <Widget title={"Eventi in Programma"} wgt={widget.events} role={user.role} />
+                        <Widget title={dictionary.profile.EVENTS_} wgt={widget.events} role={user.role} />
                         {
                             user.role == "user" ? (
-                                <Widget title={"Luoghi Visitati"} wgt={widget.city} />
+                                <Widget title={dictionary.profile.VISITED} wgt={widget.city} />
                             ) : (
-                                <Widget title={"Recensioni"} wgt={widget.review} role={user.role} val_review={
+                                <Widget title={dictionary.profile.REVIEWS} wgt={widget.review} role={user.role} val_review={
                                     <span>4,5 <i className="fa-solid fa-star text-yellow-300"></i></span>
                                 } />
                             )

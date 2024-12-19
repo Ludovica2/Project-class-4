@@ -11,11 +11,13 @@ import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import SDK from "../../SDK";
 import { createNewEvent, deleteEvent, setAllEvents, updateEvent } from '../../store/slices/eventSlice';
+import { useDictionary } from '../../provider/Language';
 
 const localizer = momentLocalizer(moment);
 
 const FoundCalendar = () => {
     const dispatch = useDispatch();
+    const [dictionary] = useDictionary()
     const events = useSelector((state) => state.event.all);
 
     const { token } = useSelector((state) => state.auth);
@@ -87,7 +89,7 @@ const FoundCalendar = () => {
             } catch (error) {
                 console.log(error);
 
-                toast.error("Errore interno del server");
+                toast.error(`${dictionary.errors.SERVER}`);
             }
         }
     };
@@ -99,7 +101,7 @@ const FoundCalendar = () => {
                 dispatch(deleteEvent(selectedEvent._id));
                 setPopupIsOpen(false);
             } catch (error) {
-                toast.error("Errore interno del server");
+                toast.error(`${dictionary.errors.SERVER}`);
             }
         }
     };
@@ -134,7 +136,7 @@ const FoundCalendar = () => {
             dispatch(setAllEvents(data));
         } catch (error) {
             console.log(error);
-            toast.error("Errore interno del server");
+            toast.error(`${dictionary.errors.SERVER}`);
         }
     };
 
@@ -146,7 +148,7 @@ const FoundCalendar = () => {
     return (
         <>
             <div className="p-5 w-full max-w-6xl mx-auto">
-                <h2 className='dark:text-white text-2xl text-center'>Calendario</h2>
+                <h2 className='dark:text-white text-2xl text-center'>{dictionary.globals.createNewEvent}</h2>
                 <div className="overflow-auto">
                     <Calendar
                         localizer={localizer}
@@ -231,7 +233,7 @@ const FoundCalendar = () => {
                             )
                         }
                         <div className='flex flex-col'>
-                            <label className='dark:text-white'>Titolo: </label>
+                            <label className='dark:text-white'>{dictionary.calendar.TITLE}: </label>
                             <input
                                 type="text"
                                 value={eventDetails.title}
@@ -241,7 +243,7 @@ const FoundCalendar = () => {
                             />
                         </div>
                         <div className='flex flex-col'>
-                            <label className='dark:text-white'>Inizio: </label>
+                            <label className='dark:text-white'>{dictionary.calendar.START}: </label>
                             <input
                                 type="datetime-local"
                                 value={moment(eventDetails.start).format("YYYY-MM-DDTHH:mm")}
@@ -251,7 +253,7 @@ const FoundCalendar = () => {
                             />
                         </div>
                         <div className='flex flex-col'>
-                            <label className='dark:text-white'>Fine: </label>
+                            <label className='dark:text-white'>{dictionary.calendar.END}: </label>
                             <input
                                 type="datetime-local"
                                 value={moment(eventDetails.end).format("YYYY-MM-DDTHH:mm")}
@@ -261,7 +263,7 @@ const FoundCalendar = () => {
                             />
                         </div>
                         <div className='flex flex-col items-center'>
-                            <label className='dark:text-white'>Descrizione:</label>
+                            <label className='dark:text-white'>{dictionary.calendar.DESCRIPTION}:</label>
                             <textarea className='w-full max-w-md dark:bg-slate-600 dark:text-white p-2 border border-gray-300 rounded'
                                 value={eventDetails.description}
                                 onChange={(e) => setEventDetails({ ...eventDetails, description: e.target.value })}

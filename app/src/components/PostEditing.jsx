@@ -7,6 +7,7 @@ import { useClickOutside } from "../hooks/useClickOutside";
 import { toast } from "react-toastify";
 import SDK from "../SDK";
 import moment from "moment";
+import { useDictionary } from "../provider/Language";
 
 const postType = {
     basicType: "basic",
@@ -15,6 +16,7 @@ const postType = {
 }
 
 const PostEditing = ({ onNewPost }) => {
+    const [dictionary] = useDictionary()
     const { user, token } = useSelector((state) => state.auth);
     const [field, setField] = useState("");
     const [isOpenDragDdrop, setIsOpenDragDdrop] = useState(false);
@@ -129,7 +131,7 @@ const PostEditing = ({ onNewPost }) => {
             });
             setImagesPreview([]);
             setShowLocality(false);
-            toast.success("Post created");
+            toast.success(`${dictionary.success.POST}`);
             setField("");
             onNewPost();
         } catch (error) {
@@ -146,13 +148,13 @@ const PostEditing = ({ onNewPost }) => {
         <>
             <div className="m-5 max-w-[1000px] rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600 max-lg:mx-4 max-md:max-w-[600px] max-lg:max-w-[700px]">
                 <div className="flex justify-between items-center rounded-t-lg">
-                    <h3 className="p-4 dark:text-slate-100">Aggiungi un post</h3>
+                    <h3 className="p-4 dark:text-slate-100">{dictionary.postEditing.ADD}</h3>
                     <div className="flex m-3">
-                        <label htmlFor="typePost" className="mr-1 self-center dark:text-dark"> Tipologia </label>
+                        <label htmlFor="typePost" className="mr-1 self-center dark:text-dark"> {dictionary.postEditing.TYPE} </label>
                         <div>
                             <select id="typePost" onChange={handleTypePost} value={post.typePost} className="input_field">
-                                <option value={postType.basicType} className=" dark:text-slate-300">Base</option>
-                                <option value={postType.eventType} className=" dark:text-slate-300">Evento</option>
+                                <option value={postType.basicType} className=" dark:text-slate-300">{dictionary.postEditing.BASIC}</option>
+                                <option value={postType.eventType} className=" dark:text-slate-300">{dictionary.postEditing.EVENT}</option>
                             </select>
                         </div>
                     </div>
@@ -178,7 +180,7 @@ const PostEditing = ({ onNewPost }) => {
                     {
                         showLocality && (
                             <div className="flex mb-3 items-center">
-                                <label className="mr-4 text-dark">Dove sei stato?</label>
+                                <label className="mr-4 text-dark">{dictionary.postEditing.PLACE}</label>
                                 <input type="text" className="input_field" onChange={handleLocalityPost} />
                             </div>
                         )
@@ -187,7 +189,7 @@ const PostEditing = ({ onNewPost }) => {
                         post.typePost == postType.eventType && (
                             <div className="mb-2">
                                 <div className='flex flex-col'>
-                                    <label className='text-dark'>Titolo: </label>
+                                    <label className='text-dark'>{dictionary.calendar.TITLE}: </label>
                                     <input
                                         type="text"
                                         value={post.title}
@@ -198,7 +200,7 @@ const PostEditing = ({ onNewPost }) => {
                                 </div>
                                 <div className="flex gap-5 my-5">
                                     <div className='flex flex-col w-1/2'>
-                                        <label className='text-dark'>Inizio: </label>
+                                        <label className='text-dark'>{dictionary.calendar.START}: </label>
                                         <input
                                             type="datetime-local"
                                             value={moment(post.start).format("YYYY-MM-DDTHH:mm")}
@@ -208,7 +210,7 @@ const PostEditing = ({ onNewPost }) => {
                                         />
                                     </div>
                                     <div className='flex flex-col w-1/2'>
-                                        <label className='text-dark'>Fine: </label>
+                                        <label className='text-dark'>{dictionary.calendar.END}: </label>
                                         <input
                                             type="datetime-local"
                                             value={moment(post.end).format("YYYY-MM-DDTHH:mm")}
@@ -218,7 +220,7 @@ const PostEditing = ({ onNewPost }) => {
                                         />
                                     </div>
                                 </div>
-                                <span className='text-dark'>Descrizione:</span>
+                                <span className='text-dark'>{dictionary.calendar.DESCRIPTION}:</span>
                             </div>
                         )
                     }
@@ -296,7 +298,7 @@ const PostEditing = ({ onNewPost }) => {
                         >
                             <i className="fa-solid fa-camera text-secondaryColor text-xl hover:text-secondaryColor_Hover"></i>
                             <div className="tooltip-container tooltip-top dark:bg-elements_dark dark:text-slate-400">
-                                Aggiungi Foto
+                                {dictionary.postEditing.PHOTO}
                                 <div className="arrow-tooltip arrow-tlt-top dark:bg-elements_dark dark:text-elements_dark"></div>
                             </div>
                         </motion.button>
@@ -306,7 +308,7 @@ const PostEditing = ({ onNewPost }) => {
                         >
                             <i className="fa-solid fa-video text-secondaryColor text-xl hover:text-secondaryColor_Hover"></i>
                             <div className="tooltip-container tooltip-top dark:bg-elements_dark dark:text-slate-400">
-                                Aggiungi Video
+                                {dictionary.postEditing.VIDEO}
                                 <div className="arrow-tooltip arrow-tlt-top dark:bg-elements_dark dark:text-elements_dark"></div>
                             </div>
                         </motion.button>
@@ -316,7 +318,7 @@ const PostEditing = ({ onNewPost }) => {
                         >
                             <i className="fa-solid fa-location-dot text-secondaryColor text-xl hover:text-secondaryColor_Hover"></i>
                             <div className="tooltip-container tooltip-top dark:bg-elements_dark dark:text-slate-400">
-                                Aggiungi Luogo
+                                {dictionary.postEditing.ADD_PLACE}
                                 <div className="arrow-tooltip arrow-tlt-top dark:bg-elements_dark dark:text-elements_dark"></div>
                             </div>
                         </motion.button>

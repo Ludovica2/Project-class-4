@@ -1,8 +1,10 @@
+import { useDictionary } from "../provider/Language";
 import PopUpModal from "./shared/PopUpModal";
 import { motion } from "framer-motion"
 
 
 const SupportTicket = ({ tickets }) => {
+    const [dictionary] = useDictionary()
 
     return (
         <>
@@ -11,10 +13,10 @@ const SupportTicket = ({ tickets }) => {
                     <thead className="bg-slate-100 rounded-t-lg text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-6 py-3">ID</th>
-                            <th scope="col" className="px-6 py-3">Descrizione</th>
-                            <th scope="col" className="px-6 py-3">Data</th>
-                            <th scope="col" className="px-6 py-3">Categoria</th>
-                            <th scope="col" className="px-6 py-3">Stato</th>
+                            <th scope="col" className="px-6 py-3">{dictionary.tickets.DESCRIPTION}</th>
+                            <th scope="col" className="px-6 py-3">{dictionary.tickets.DATE}</th>
+                            <th scope="col" className="px-6 py-3">{dictionary.tickets.TYPE}</th>
+                            <th scope="col" className="px-6 py-3">{dictionary.tickets.STATUS}</th>
                             <th scope="col" className="px-6 py-3"></th>
                         </tr>
                     </thead>
@@ -36,35 +38,36 @@ const SupportTicket = ({ tickets }) => {
             </div>
             <div className="flex justify-center mt-6">
                 {
-                    <PopUpModal title={"Inserimento Nuovo Ticket"} sizeModal={"lg"}
+                    <PopUpModal title={dictionary.tickets.NEW_TITLE} sizeModal={"lg"}
                         showBtn={(openModal) => {
-                            return <button onClick={() => openModal(true)} className="btn min-w-40">Nuovo Ticket</button>;
+                            return <button onClick={() => openModal(true)} className="btn min-w-40">{dictionary.tickets.NEW}</button>;
                         }}
                     >
                         {
                             <>
                                 <form className="w-full" /* onSubmit={handleSignIn} */>
                                     <div className="flex w-full justify-between mb-8">
-                                        <label htmlFor="category" className="mt-1"> Categoria </label>
+                                        <label htmlFor="category" className="mt-1"> {dictionary.tickets.TYPE} </label>
                                         <div>
                                             <select id="category" className="input_field">
-                                                <option value="profile">Profilo</option>
-                                                <option value="feed">Bacheca</option>
-                                                <option value="calendar">Calendario</option>
-                                                <option value="chat">Chat</option>
-                                                <option value="groups">Gruppi</option>
+                                                <option value="profile">{dictionary.globals.PROFILE}</option>
+                                                <option value="feed">{dictionary.globals.FEED}</option>
+                                                <option value="calendar">{dictionary.globals.CALENDAR}</option>
+                                                <option value="chat">{dictionary.globals.CHAT}</option>
+                                                <option value="groups">{dictionary.globals.GROUPS}</option>
+                                                <option value="groups">{dictionary.globals.FAVORITES}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div className="flex flex-col">
-                                        <label htmlFor="ticketDescription" className="mt-1 mb-2"> Descrivi il problema </label>
+                                        <label htmlFor="ticketDescription" className="mt-1 mb-2"> {dictionary.tickets.PROBLEM} </label>
                                         <textarea name="ticketDescription" id="ticketDescription" className="input_field"></textarea>
                                     </div>
                                     <div className="mt-8">
                                         <motion.button type="submit" className="btn"
                                             whileTap={{ scale: 0.95 }}
                                         >
-                                            Inserisci
+                                            {dictionary.btn.SEND}
                                         </motion.button>
                                     </div>
                                 </form>
