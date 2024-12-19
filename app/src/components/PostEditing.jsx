@@ -148,15 +148,19 @@ const PostEditing = ({ onNewPost }) => {
             <div className="m-5 min-w-[450px] max-w-[1000px] rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600 max-lg:mx-4 max-md:max-w-[600px] max-lg:max-w-[700px]">
                 <div className="flex justify-between items-center rounded-t-lg">
                     <h3 className="p-4 dark:text-slate-100">{dictionary.postEditing.ADD}</h3>
-                    <div className="flex m-3">
-                        <label htmlFor="typePost" className="mr-1 self-center dark:text-dark"> {dictionary.postEditing.TYPE} </label>
-                        <div>
-                            <select id="typePost" onChange={handleTypePost} value={post.typePost} className="input_field">
-                                <option value={postType.basicType} className=" dark:text-slate-300">{dictionary.postEditing.BASIC}</option>
-                                <option value={postType.eventType} className=" dark:text-slate-300">{dictionary.postEditing.EVENT}</option>
-                            </select>
-                        </div>
-                    </div>
+                    {
+                        user.role == "business" && (
+                            <div className="flex m-3">
+                                <label htmlFor="typePost" className="mr-1 self-center dark:text-dark"> {dictionary.postEditing.TYPE} </label>
+                                <div>
+                                    <select id="typePost" onChange={handleTypePost} value={post.typePost} className="input_field">
+                                        <option value={postType.basicType} className=" dark:text-slate-300">{dictionary.postEditing.BASIC}</option>
+                                        <option value={postType.eventType} className=" dark:text-slate-300">{dictionary.postEditing.EVENT}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
                 <div className="w-full h-[1px] mb-5 bg-slate-100"></div>
                 <div className="m-4 p-1 min-h-16">
