@@ -49,24 +49,10 @@ const WidgetItem = ({ to = "", img, alt, text, wgt }) => {
             {
                 wgt == "review" && (
                     <div className='flex justify-between border-b-slate-100'>
-                        {
-                            <PopUpModal title={"Recensione"} sizeModal={"2xl"}
-                                showBtn={(openModal) => {
-                                    return <div onClick={() => openModal(true)} className="flex gap-2 cursor-pointer">
-                                        <div crossOrigin="anonymous" style={{ backgroundImage: `url(${img})` }} className='imgProfile-notification rounded-full bg-cover bg-center'></div>
-                                        <span className='text-sm text-left max-w-48 self-center truncate dark:text-dark'>{text}</span>
-                                    </div>;
-                                }}
-                            >
-                                {
-                                    <>
-                                        <CustomBox profile="Ludovica Spinelli" imgProfile="https://images.pexels.com/photos/12421204/pexels-photo-12421204.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" nickname="_luvi_" dataPost="5 minuti fa">
-                                            <p className="dark:text-dark">Bellissimo locale a tema piratesco, cibo molto buono e ottimo intrattenimento.</p>
-                                        </CustomBox>
-                                    </>
-                                }
-                            </PopUpModal>
-                        }
+                        <div className="flex gap-2">
+                            <div crossOrigin="anonymous" style={{ backgroundImage: `url(${img})` }} className='imgProfile-notification rounded-full bg-cover bg-center'></div>
+                            <span className='text-sm text-left max-w-48 self-center truncate dark:text-dark'>{text}</span>
+                        </div>
                     </div>
                 )
             }

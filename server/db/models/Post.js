@@ -93,7 +93,19 @@ const PostSchema = new Schema({
     locality: {
         type: String,
         default: null,
-    }
+    },
+    title: {
+        type: String,
+        default: null,
+    },
+    start: {
+        type: Date,
+        default: null,
+    },
+    end: {
+        type: Date,
+        default: null,
+    },
 }, { strict: true, timestamps: true, versionKey: false });
 
 const Post = model("Post", PostSchema);

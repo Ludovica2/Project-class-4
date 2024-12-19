@@ -4,9 +4,14 @@ import Widget from "../../components/shared/Widget";
 import { motion } from "framer-motion"
 import { Link, useParams } from "react-router-dom";
 import ImageModal from "../../components/shared/ImageModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomActiveSocial from "../../components/shared/CustomActiveSocial";
 import { getSocialActive } from "../../utilities/settings";
+import { setCurrentProfileReviews } from "../../store/slices/reviewSlice";
+import { setCurrentProfileId } from "../../store/slices/settingsSlice";
+import SDK from "../../SDK";
+import { toast } from "react-toastify";
+import CustomBox from "../../components/shared/CustomBox";
 
 const widget = {
     events: "events",
@@ -15,13 +20,45 @@ const widget = {
 }
 
 const InternalProfile = () => {
+    const dispatch = useDispatch();
     const { user, token } = useSelector((state) => state.auth);
     const { social } = useSelector((state) => state.settings);
+    const [posts, setPosts] = useState([]);
+    const { currentProfileReviews } = useSelector((state) => state.review);
     const socialActive = getSocialActive(social);
 
+    const formatRatingNumner = (number) => {
+        return number.toFixed(1).replace(".", ",");
+    }
+
+    const fetchPosts = async () => {
+        try {
+            const _posts = await SDK.post.getAllProfile(user._id, token);
+            console.log(_posts)
+            setPosts(_posts);
+        } catch (error) {
+            console.log(error);
+            toast.error("Post non trovati");
+        }
+    }
+
+    const fetchReviews = async () => {
+        try {
+            const reviews = await SDK.profile.getAllReviews(user._id, token);
+            dispatch(setCurrentProfileReviews(reviews))
+        } catch (error) {
+            console.log(error);
+            toast.error("Reviews non trovate");
+        }
+    }
+
     useEffect(() => {
-        document.title = "Profile - Found!";
-    }, []);
+        if (user) {
+            dispatch(setCurrentProfileId(user._id));
+            fetchPosts();
+            fetchReviews();
+        }
+    }, [user]);
 
     return (
         <>
@@ -143,22 +180,37 @@ const InternalProfile = () => {
                         }
                     </div>
                 </div>
-                <div className="flex gap-4 max-lg:flex-col">
+                <div className="flex gap-8 max-lg:flex-col">
                     <div className="w-1/4 max-lg:flex max-lg:w-full max-lg:justify-evenly">
                         <Widget title={"Eventi in Programma"} wgt={widget.events} role={user.role} />
                         {
                             user.role == "user" ? (
                                 <Widget title={"Luoghi Visitati"} wgt={widget.city} />
                             ) : (
-                                <Widget title={"Recensioni"} wgt={widget.review} role={user.role} val_review={
-                                    <span>4,5 <i className="fa-solid fa-star text-yellow-300"></i></span>
+                                <Widget title={"Recensioni"} show={3} wgt={widget.review} role={user.role} val_review={
+                                    <span className="text-dark">{formatRatingNumner(currentProfileReviews?.reduce((prev, curr) => prev + curr.rating, 0) / currentProfileReviews?.length)} <i className="fa-solid fa-star text-yellow-300"></i>
+                                        <span className="text-slate-500 ml-1">({currentProfileReviews?.length})</span>
+                                    </span>
                                 } />
                             )
                         }
                     </div>
                     <div className="w-full">
-                        <div className="flex justify-center flex-1">
+                        <div className="w-full md:max-w-[640px] xl:max-w-[660px] 2xl:max-w-[830px]">
                             <PostEditing />
+                            {
+                                posts?.map(post => (
+                                    <CustomBox
+                                        key={post._id}
+                                        imgProfile={post.from.avatar}
+                                        nickname={post.from.nickname}
+                                        dataPost="5 minuti fa"
+                                        post={post}
+                                    >
+                                        <p className="dark:text-dark w-full post-p" dangerouslySetInnerHTML={{ __html: post.html }}></p>
+                                    </CustomBox>
+                                ))
+                            }
                         </div>
                     </div>
                 </div>
