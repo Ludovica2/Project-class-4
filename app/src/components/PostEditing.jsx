@@ -145,7 +145,7 @@ const PostEditing = ({ onNewPost }) => {
 
     return (
         <>
-            <div className="m-5 max-w-[1000px] rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600 max-lg:mx-4 max-md:max-w-[600px] max-lg:max-w-[700px]">
+            <div className="m-5 min-w-[450px] max-w-[1000px] rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600 max-lg:mx-4 max-md:max-w-[600px] max-lg:max-w-[700px]">
                 <div className="flex justify-between items-center rounded-t-lg">
                     <h3 className="p-4 dark:text-slate-100">{dictionary.postEditing.ADD}</h3>
                     <div className="flex m-3">
