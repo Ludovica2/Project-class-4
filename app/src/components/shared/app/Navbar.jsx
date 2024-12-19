@@ -141,7 +141,7 @@ const Navbar = (imgProfile = "",) => {
                                         <ul className="text-xs">
                                             {notifications.length > 0 ? (
                                                 notifications.map((notification) => (
-                                                    <Link className="cursor-pointer flex items-center justify-center" to={notification.link}>
+                                                    <Link className="cursor-pointer flex items-center justify-between" to={notification.link}>
                                                         <li key={notification._id} className="flex items-center gap-2 mb-1">
                                                             <div style={{ backgroundImage: `url(${notification.from.avatar}?token=${token})` }} className="imgProfile-notification bg-cover bg-center border-[1px]"></div>
                                                             <p className=" dark:text-white">{notification.content}</p>
