@@ -3,6 +3,7 @@ import WidgetItem from './app/WidgetItem'
 import Drawer from './Drawer';
 import { useDrawer } from '../../hooks/useDrawer';
 import { useSelector } from 'react-redux';
+import { useDictionary } from '../../provider/Language';
 
 const visbility = {
     more: "Vedi più",
@@ -10,6 +11,7 @@ const visbility = {
 }
 
 const Widget = ({ title, show, wgt, role = "", val_review = "", className = "" }) => {
+    const [dictionary] = useDictionary()
     const { token } = useSelector((state) => state.auth);
     const [showMore, setShowMore] = useState(false);
     const [_, setIsOpen] = useDrawer("review");
@@ -54,7 +56,7 @@ const Widget = ({ title, show, wgt, role = "", val_review = "", className = "" }
                                 />
                                 {
                                     role == "business" && (
-                                        <button className='btn'>Crea Evento</button>
+                                        <button className='btn'>{dictionary.customBox.CREATE_EVENT}</button>
                                     )
                                 }
                             </>

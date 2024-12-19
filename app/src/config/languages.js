@@ -136,7 +136,8 @@ export default {
             TITLE: "Titolo",
             START: "Inizio",
             END: "Fine",
-            DESCRIPTION: "Descrizione"
+            DESCRIPTION: "Descrizione",
+            TIME: "Orario"
         },
         chat: {
             FIND: "Cerca Chat...",
@@ -182,7 +183,9 @@ export default {
             TIME: "2 Minuti fa",
             REACTIONS: "Reazioni",
             REPLY: "Rispondi...", 
-            ADD_COMMENT: "Aggiungi un commento..."
+            ADD_COMMENT: "Aggiungi un commento...",
+            SEND: "Invia a...",
+            CREATE_EVENT: "Crea Evento"
         },
         success: {
             IMAGE: "Immagine Profilo Caricata",
@@ -192,7 +195,9 @@ export default {
             NICKNAME: "Nickname Aggiornato",
             NEW_ACCOUNT: "Utente registrato con successo, puoi accedere al tuo nuovo account!",
             POST: "Post creato",
-            REVIEW: "Recensione Inviata"
+            REVIEW: "Recensione Inviata",
+            EVENT: "Evento aggiunto al calendario",
+            FAVORITES: "Post aggiunto ai preferiti"
         },
         errors: {
             WRONG: "Ops! Qualcosa è andato storto.",
@@ -326,7 +331,8 @@ export default {
             TITLE: "Title",
             START: "Start",
             END: "End",
-            DESCRIPTION: "Description"
+            DESCRIPTION: "Description",
+            TIME: "Time"
         },
         chat: {
             FIND: "Search Chat...",
@@ -372,7 +378,9 @@ export default {
             TIME: "2 Minuts ago",
             REACTIONS: "Reactions",
             REPLY: "Reply", 
-            ADD_COMMENT: "Add a comment..."
+            ADD_COMMENT: "Add a comment...",
+            SEND: "Send to...",
+            CREATE_EVENT: "New Event"
         },
         success: {
             IMAGE: "Profile Image Updated",
@@ -382,7 +390,9 @@ export default {
             NICKNAME: "Nickname Updated",
             NEW_ACCOUNT: "User successful subscribed, you can log now!",
             POST: "Post created",
-            REVIEW: "Review Submitted"
+            REVIEW: "Review Submitted",
+            EVENT: "Added event to calendar",
+            FAVORITES: "Added post to favorites"
         },
         errors: {
             WRONG: "Something Went Wrog",

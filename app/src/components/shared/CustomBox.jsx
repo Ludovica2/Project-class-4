@@ -46,7 +46,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
     const handleAddRefs = async (event_id) => {
         try {
             await SDK.events.addToRefs(event_id, token);
-            toast.success("Evento aggiunto al calendario");
+            toast.success(`${dictionary.success.EVENT}`);
         } catch(error) {
             console.log(error);
             toast.error(error.message)
@@ -56,7 +56,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
     const addToFavorites = async (post_id) => {
         try {
             await SDK.post.favorites.create(post_id, token);
-            toast.success("Post aggiunto ai preferiti");
+            toast.success(`${dictionary.success.FAVORITES}`);
         } catch(error) {
             console.log(error);
             toast.error(error.message)
@@ -220,24 +220,24 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                         <div className='flex flex-col gap-2'>
                                             <div>
                                                 <i className="fa-solid fa-calendar-check text-sm text-secondaryColor mr-1"></i>
-                                                <label className='text-dark'>Inizio: </label>
+                                                <label className='text-dark'>{dictionary.calendar.START}: </label>
                                                 <span className='p-2 text-dark'>{moment(post.start).format("DD/MM/YYYY")}</span>
                                             </div>
                                             <div>
                                                 <i className="fa-solid fa-clock text-sm text-secondaryColor mr-1"></i>
-                                                <label className='text-dark'>Orario: </label>
+                                                <label className='text-dark'>{dictionary.calendar.TIME}: </label>
                                                 <span className='p-2 text-dark'>{moment(post.start).format("HH:mm")}</span>
                                             </div>
                                         </div>
                                         <div className='flex flex-col gap-2 '>
                                             <div>
                                                 <i className="fa-solid fa-calendar-xmark text-sm text-secondaryColor mr-1"></i>
-                                                <label className='text-dark'>Fine: </label>
+                                                <label className='text-dark'>{dictionary.calendar.END}: </label>
                                                 <span className='p-2 text-dark'>{moment(post.end).format("DD/MM/YYYY")}</span>
                                             </div>
                                             <div>
                                                 <i className="fa-solid fa-clock text-sm text-secondaryColor mr-1"></i>
-                                                <label className='text-dark'>Orario: </label>
+                                                <label className='text-dark'>{dictionary.calendar.TIME}: </label>
                                                 <span className='p-2 text-dark'>{moment(post.end).format("HH:mm")}</span>
                                             </div>
                                         </div>
@@ -370,7 +370,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                 <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.SAVE}</span>
                             </button>
                             {
-                                <PopUpModal title={"Invia a..."} sizeModal={"md"}
+                                <PopUpModal title={dictionary.customBox.SEND} sizeModal={"md"}
                                     showBtn={(openModal) => {
                                         return <button onClick={() => openModal(true)} className="group">
                                             <i className="fa-regular fa-paper-plane icon group-hover:text-primaryColor"></i>
@@ -463,7 +463,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                     <motion.button className="btn"
                                                         whileTap={{ scale: 0.95 }}
                                                     >
-                                                        Invia
+                                                        {dictionary.btn.SEND}
                                                     </motion.button>
                                                 </div>
                                             </div>
@@ -473,11 +473,11 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                 <div className='flex mt-4'>
                                     <div className='img-CommentsProf bg-cover bg-center' crossOrigin="anonymous" style={{ backgroundImage: `url(${user.avatar}?token=${token})` }} alt="Profile"></div>
                                     <div className="flex flex-1 justify-between items-center ml-3 p-1 h-16 border border-slate-100 rounded-md ">
-                                        <textarea onChange={handleChange} disabled={false} value={field} placeholder="Aggiungi un commento..." className="outline-none w-full h-full border-0 focus:ring-0 textSmall-gray"></textarea>
+                                        <textarea onChange={handleChange} disabled={false} value={field} placeholder={dictionary.customBox.ADD_COMMENT} className="outline-none w-full h-full border-0 focus:ring-0 textSmall-gray"></textarea>
                                         <motion.button className="btn"
                                             whileTap={{ scale: 0.95 }}
                                         >
-                                            Invia
+                                            {dictionary.btn.SEND}
                                         </motion.button>
                                     </div>
                                 </div>
