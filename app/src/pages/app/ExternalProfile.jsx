@@ -14,6 +14,7 @@ import { setRooms } from "../../store/slices/chatSlice";
 import Drawer from "../../components/shared/Drawer";
 import { setCurrentProfileReviews } from "../../store/slices/reviewSlice";
 import { setCurrentProfileId } from "../../store/slices/settingsSlice";
+import { useDictionary } from "../../provider/Language";
 
 const widget = {
     events: "events",
@@ -24,6 +25,7 @@ const widget = {
 const ExternalProfile = () => {
     const dispatch = useDispatch();
     const { nickname } = useParams();
+    const [dictionary] = useDictionary()
     const { rooms } = useSelector((state) => state.chat);
     const { currentProfileReviews } = useSelector((state) => state.review);
     const { token, user: currentUser } = useSelector((state) => state.auth);
@@ -179,13 +181,13 @@ const ExternalProfile = () => {
                                                                 blockUser ? <>
                                                                     <i className="fa-solid fa-user-check text-text_primaryColor dark:text-gray-500"></i>
                                                                     <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
-                                                                        Sblocca Utente
+                                                                        {dictionary.profile.UNLOCK}
                                                                         <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
                                                                     </div>
                                                                 </> : <>
                                                                     <i className="fa-solid fa-user-xmark text-text_primaryColor dark:text-gray-500"></i>
                                                                     <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
-                                                                        Blocca Utente
+                                                                        {dictionary.profile.BLOCK}
                                                                         <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
                                                                     </div>
                                                                 </>
@@ -196,7 +198,7 @@ const ExternalProfile = () => {
                                                     </div>
                                                 </div>
                                                 <div className="">
-                                                    <p className="m-2 dark:text-slate-100">Altri Social</p>
+                                                    <p className="m-2 dark:text-slate-100">{dictionary.settings.TITLE_ACCOUNT}</p>
                                                     <div className="flex gap-1">
                                                         {
                                                             socialActive && (
@@ -219,7 +221,7 @@ const ExternalProfile = () => {
                                                 </li>
                                                 <li className="border-r border-r-slate-100 px-8 py-4 max-md:px-5 max-md:py-2">
                                                     <div className="flex flex-col">
-                                                        <span className="font-bold dark:text-slate-300">Eventi</span>
+                                                        <span className="font-bold dark:text-slate-300">{dictionary.profile.EVENTS}</span>
                                                         <span className="text-center text-dark">5</span>
                                                     </div>
                                                 </li>
@@ -231,13 +233,13 @@ const ExternalProfile = () => {
                                                 </li>
                                                 <li className="border-r border-r-slate-100 px-8 py-4 max-md:px-5 max-md:py-2">
                                                     <div className="flex flex-col">
-                                                        <span className="font-bold dark:text-slate-300">Seguiti</span>
+                                                        <span className="font-bold dark:text-slate-300">{dictionary.profile.FOLLOWING}</span>
                                                         <span className="text-center text-dark">50</span>
                                                     </div>
                                                 </li>
                                                 <li className=" px-8 py-4 max-md:px-5 max-md:py-2">
                                                     <div className="flex flex-col">
-                                                        <span className="font-bold dark:text-slate-300">Luoghi</span>
+                                                        <span className="font-bold dark:text-slate-300">{dictionary.profile.PLACES}</span>
                                                         <span className="text-center text-dark">9</span>
                                                     </div>
                                                 </li>
@@ -248,17 +250,17 @@ const ExternalProfile = () => {
                                                 {
                                                     follow ? <>
                                                         <i className="fa-solid fa-user-minus text-white mr-2"></i>
-                                                        <span className="text-white">Non seguire più</span>
+                                                        <span className="text-white">{dictionary.profile.UNFOLLOW}</span>
                                                     </> : <>
                                                         <i className="fa-solid fa-user-plus text-white mr-2"></i>
-                                                        <span className="text-white">Segui</span>
+                                                        <span className="text-white">{dictionary.profile.FOLLOW}</span>
                                                     </>
                                                 }
                                             </button>
                                             <Link to={"/app/chat"} target="_blank" className="w-1/2">
                                                 <button onClick={handleCreateRoom} className="w-full px-4 py-2 end-2.5 bottom-2.5 font-medium border border-slate-300 rounded-lg text-[#767d89] hover:bg-slate-100  dark:text-slate-300 dark:bg-zinc-600 dark:hover:bg-zinc-700 dark:hover:border-none">
                                                     <i className="fa-solid fa-comments mr-2 text-secondaryColor"></i>
-                                                    Messaggio
+                                                    {dictionary.profile.MESSAGE}
                                                 </button>
                                             </Link>
                                         </div>
@@ -280,16 +282,16 @@ const ExternalProfile = () => {
                         <div className="flex gap-8 max-lg:flex-col">
                             {
                                 blockUser ? <div className="w-full h-24 flex justify-center items-center text-2xl bg-white rounded-lg shadow m-5 dark:bg-elements_dark dark:shadow-slate-600">
-                                    <span className="text-slate-600">Sblocca questo utente per vedere i suoi contenuti</span>
+                                    <span className="text-slate-600">{dictionary.profile.UNLOCK_USER}</span>
                                 </div> : <>
                                     <div className="w-1/4 max-lg:w-full">
                                         <div className="sticky top-4 max-lg:flex max-lg:justify-evenly">
-                                            <Widget title={"Eventi in Programma"} wgt={widget.events} role="user" />
+                                            <Widget title={dictionary.profile.EVENTS_} wgt={widget.events} role="user" />
                                             {
                                                 user.role == "user" ? (
-                                                    <Widget title={"Luoghi Visitati"} wgt={widget.city} />
+                                                    <Widget title={dictionary.profile.VISITED} wgt={widget.city} />
                                                 ) : (
-                                                    <Widget title={"Recensioni"} show={3} wgt={widget.review} role={user.role} val_review={
+                                                    <Widget title={dictionary.profile.REVIEWS} show={3} wgt={widget.review} role={user.role} val_review={
                                                         <span>{formatRatingNumner(currentProfileReviews.length == 0 ? 0 : currentProfileReviews?.reduce((prev, curr) => prev + curr.rating, 0) / currentProfileReviews?.length)} ({currentProfileReviews?.length}) <i className="fa-solid fa-star text-yellow-300"></i></span>
                                                     } />
                                                 )

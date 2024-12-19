@@ -74,7 +74,7 @@ const SettingsProfile = () => {
                             <div className="w-11/12">
                                 <h2 className="text-lg mt-1 mb-6 dark:text-slate-100">{dictionary.settings.TITLE_ACCOUNT}:</h2>
                                 <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
-                                    <label htmlFor="lang" className="mt-1 text-dark"> Lingua </label>
+                                    <label htmlFor="lang" className="mt-1 text-dark"> {dictionary.settings.LANGUAGE} </label>
                                     <div>
                                         <select id="lang" name="lang" value={lang} onChange={handleChangeLanguage} className="input_field ">
                                             {
@@ -86,7 +86,7 @@ const SettingsProfile = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center w-3/4 justify-between mb-8 max-xl:w-full">
-                                    <span className="text-dark"> Tema </span>
+                                    <span className="text-dark"> {dictionary.settings.THEME} </span>
                                     <div className="switch dark:bg-zinc-600" data-ison={darkMode} onClick={toggleSwitchDark}>
                                         <motion.div className={"w-5 h-5 rounded-[40px] flex justify-center items-center" + (darkMode ? " bg-primaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring}>
                                             {
@@ -96,16 +96,16 @@ const SettingsProfile = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center w-3/4 justify-between mb-8 max-xl:w-full">
-                                    <span className="text-dark"> Notifiche </span>
+                                    <span className="text-dark"> {dictionary.settings.NOTIFICATIONS} </span>
                                     <div className="switch dark:bg-zinc-600" data-ison={notify} onClick={toggleSwitchNotify}>
                                         <motion.div className={"w-5 h-5 rounded-[40px]" + (notify ? " bg-primaryColor" : " bg-white dark:bg-slate-400")} layout transition={spring} />
                                     </div>
                                 </div>
                                 <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
-                                    <span className="text-dark">Autorizzazioni Dispositivo</span>
+                                    <span className="text-dark">{dictionary.settings.DEVICE_AUTHORIZATION}</span>
                                     <div>
                                         {
-                                            <PopUpModal title={"Autorizzazioni Dispositivo"} sizeModal={"md"}
+                                            <PopUpModal title={dictionary.settings.DEVICE_AUTHORIZATION} sizeModal={"md"}
                                                 showBtn={(openModal) => {
                                                     return <div onClick={() => openModal(true)} className="cursor-pointer">
                                                         <i className="fa-regular fa-circle-right text-primaryColor"></i>
@@ -126,10 +126,10 @@ const SettingsProfile = () => {
                                     </div>
                                 </div>
                                 <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
-                                    <span className="text-dark">Utenti Bloccati</span>
+                                    <span className="text-dark">{dictionary.settings.BLOCKED}</span>
                                     <div>
                                         {
-                                            <PopUpModal title={"Utenti Bloccati"} sizeModal={"md"}
+                                            <PopUpModal title={dictionary.settings.BLOCKED} sizeModal={"md"}
                                                 showBtn={(openModal) => {
                                                     return <div onClick={() => openModal(true)} className="cursor-pointer">
                                                         <i className="fa-regular fa-circle-right text-primaryColor"></i>
@@ -139,7 +139,7 @@ const SettingsProfile = () => {
                                                 {
                                                     <>
                                                         <div className="flex items-center w-full justify-between mb-8">
-                                                            <span className="text-dark"> Nessun Utente Bloccato </span>
+                                                            <span className="text-dark">{dictionary.settings.NO_BLOCKED} </span>
                                                         </div>
                                                     </>
                                                 }
@@ -148,10 +148,10 @@ const SettingsProfile = () => {
                                     </div>
                                 </div>
                                 <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
-                                    <span className="text-dark">Assistenza</span>
+                                    <span className="text-dark">{dictionary.settings.SERVICE}</span>
                                     <div>
                                         {
-                                            <PopUpModal title={"Ticket Aperti"} sizeModal={"5xl"}
+                                            <PopUpModal title={dictionary.settings.TICKET} sizeModal={"5xl"}
                                                 showBtn={(openModal) => {
                                                     return <div onClick={() => openModal(true)} className="cursor-pointer">
                                                         <i className="fa-regular fa-circle-right text-primaryColor"></i>
@@ -172,7 +172,7 @@ const SettingsProfile = () => {
                                     </div>
                                 </div>
                                 <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
-                                    <span className="text-dark">Elimina Account</span>
+                                    <span className="text-dark">{dictionary.settings.DELETE}</span>
                                     <div>
                                         <button onClick={openPopup} >
                                             <i className="fa-regular fa-circle-right text-primaryColor"></i>
@@ -183,18 +183,18 @@ const SettingsProfile = () => {
                                                 <div className="text-center">
                                                     <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 stroke-slate-400" />
                                                     <h3 className="mb-5 text-lg dark:text-slate-100">
-                                                        Sei sicuro di voler eliminare l'account?
+                                                        {dictionary.settings.SURE}
                                                     </h3>
                                                     <div className="flex justify-center gap-4">
                                                         <motion.button type="submit" className="btn"
                                                             whileTap={{ scale: 0.95 }}
                                                         >
-                                                            Elimina Account
+                                                            {dictionary.settings.DELETE}
                                                         </motion.button>
                                                         <motion.button type="submit" onClick={openPopup} className="px-4 py-2 end-2.5 bottom-2.5 font-medium border rounded-lg  hover:bg-slate-200 dark:text-slate-100 dark:bg-slate-600 dark:hover:bg-slate-500"
                                                             whileTap={{ scale: 0.95 }}
                                                         >
-                                                            Annulla
+                                                            {dictionary.btn.CANCEL}
                                                         </motion.button>
                                                     </div>
                                                 </div>

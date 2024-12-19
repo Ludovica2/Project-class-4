@@ -1,4 +1,7 @@
+import { useDictionary } from '../../provider/Language';
+
 const Footer = () => {
+  const [dictionary] = useDictionary()
   return (
     <>
       <footer className="flex flex-col items-center w-full dark:bg-bg_dark">
@@ -6,10 +9,10 @@ const Footer = () => {
         </div>
         <div className="flex flex-col text-xs max-xs:px-2">
           <div className="flex justify-center gap-8">
-            <span className="link">Condizioni d'uso</span>
-            <span className="link">Informativa sulla privacy</span>
-            <span className="link">Aiuto</span>
-            <span className="link">Informativa sui Cookie</span>
+            <span className="link">{dictionary.footer.TERMS}</span>
+            <span className="link">{dictionary.footer.PRIVACY}</span>
+            <span className="link">{dictionary.footer.HELP}</span>
+            <span className="link">{dictionary.footer.COOKIES}</span>
           </div>
           <div className="text-center mt-3 pb-2 dark:pb-5">
               <i className="fa-regular fa-copyright text-dark"></i>

@@ -100,11 +100,11 @@ export const renderSidebarItem = (item, index) => {
             )
         case "item":
             return (
-                <SidebarItem key={`side-item-${index}`} to={item.to} label={dictionary.menu[item.label]}>
+                <SidebarItem key={`side-item-${index}`} to={item.to} label={dictionary.globals[item.label]}>
                     <div className='w-5 mr-1 max-xl:m-0 max-xl:flex max-xl:justify-center max-xl:items-center'>
                         <i className={item.iconClassName}></i>
                     </div>
-                    <span className="dark:text-slate-500 max-xl:hidden">{dictionary.menu[item.label]}</span>
+                    <span className="dark:text-slate-500 max-xl:hidden">{dictionary.globals[item.label]}</span>
                 </SidebarItem>
             )
         case "separator":

@@ -8,6 +8,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import ButtonBack from "../../components/ButtonBack";
 import PopUpModal from "../../components/shared/PopUpModal";
 import { FileInput, Label } from "flowbite-react";
+import { useDictionary } from "../../provider/Language";
 
 const activeTab = {
     personalInfo: "personal",
@@ -18,6 +19,7 @@ const activeTab = {
 
 const EditProfile = () => {
     const dispatch = useDispatch();
+    const [dictionary] = useDictionary()
     const [searchParams, setSearchParams] = useSearchParams();
     const { user, token } = useSelector((state) => state.auth);
     const [tabToOpen, setTabToOpen] = useState(searchParams.get("et") || activeTab.personalInfo);
@@ -83,12 +85,12 @@ const EditProfile = () => {
         try {
             const { avatar: imageUrl } = await SDK.profile.updateImage({ avatar: imagePreview }, token);
             dispatch(updateUser({ avatar: imageUrl }));
-            toast.success("Profile Image Updated");
+            toast.success(`${dictionary.success.IMAGE}`);
             setImagePreview(null);
             setIsOpenProfileImageModal(false);
         } catch (error) {
             console.log(error);
-            toast.error("Something Went Wrong");
+            toast.error(`${dictionary.errors.WRONG}`);
         }
     }
 
@@ -124,7 +126,7 @@ const EditProfile = () => {
                 
                 await SDK.profile.update(payload, token);
                 dispatch(updateUser(payload));
-                toast.success("Profile Informations Updated");
+                toast.success(`${dictionary.success.PROFILE}`);
             } else if (tabToOpen == activeTab.changePassword) {
                 const { conf_password, ...payload } = form[tabToOpen];
                 await SDK.account.updatePassword(payload, token);
@@ -136,19 +138,19 @@ const EditProfile = () => {
                         conf_password: "",
                     }
                 }))
-                toast.success("Password Updated");
+                toast.success(`${dictionary.success.PASSWORD}`);
             } else if (tabToOpen == activeTab.manageContact) {
                 await SDK.account.updateEmail(form[tabToOpen], token);
                 dispatch(updateUser(form[tabToOpen]));
-                toast.success("Email Updated");
+                toast.success(`${dictionary.success.EMAIL}`);
             } else if (tabToOpen == activeTab.manageNickname) {
                 await SDK.account.updateNickname(form[tabToOpen], token);
                 dispatch(updateUser(form[tabToOpen]));
-                toast.success("Nickname Updated");
+                toast.success(`${dictionary.success.NICKNAME}`);
             }
         } catch (error) {
             console.log(error);
-            toast.error("Something Went Wrong");
+            toast.error(`${dictionary.errors.WRONG}`);
         }
     }
 
@@ -181,14 +183,14 @@ const EditProfile = () => {
                         {
                             tabToOpen == activeTab.personalInfo && (
                                 <div>
-                                    <h2 className="text-lg mb-6 dark:text-slate-100">Informazioni Personali:</h2>
+                                    <h2 className="text-lg mb-6 dark:text-slate-100">{dictionary.editProfile.PERSONAL}:</h2>
                                     <div className="flex mb-5 max-md:flex-col max-md:items-center">
                                         <div className="flex justify-center items-center min-w-32 h-32 relative bg-white rounded-[50%] shadow my-14 ml-14 mr-16 dark:bg-elements_dark dark:shadow-slate-400">
                                             <div style={{ backgroundImage: `url(${user.avatar}?token=${token})` }} className="imgProfile bg-cover bg-center"></div>
                                             <div className="relative">
                                                 {
                                                     <PopUpModal 
-                                                        title={"Modifica Immagine Profilo"} 
+                                                        title={dictionary.editProfile.IMAGE} 
                                                         sizeModal={"md"}
                                                         onCloseModal={() => setImagePreview(null)}
                                                         isOpen={isOpenProfileImageModal}
@@ -197,7 +199,7 @@ const EditProfile = () => {
                                                             return <div onClick={() => openModal(true)} className="flex justify-center items-center absolute w-10 h-10 -bottom-16 right-1 cursor-pointer bg-primaryColor rounded-[50%] btn-tooltip">
                                                                 <i className="fa-solid fa-pen text-white"></i>
                                                                 <div className="tooltip-container tooltip-bottom dark:bg-elements_dark dark:text-slate-400">
-                                                                    Modifica
+                                                                    {dictionary.editProfile.EDIT}
                                                                     <div className="arrow-tooltip arrow-tlt-bottom dark:bg-elements_dark dark:text-elements_dark"></div>
                                                                 </div>
                                                             </div>;
@@ -223,7 +225,7 @@ const EditProfile = () => {
                                                                                     className="btn"
                                                                                     whileTap={{ scale: 0.95 }}
                                                                                 >
-                                                                                    Salva
+                                                                                    {dictionary.btn.SAVE}
                                                                                 </motion.button>
                                                                             </div>
                                                                         </div>
@@ -270,44 +272,44 @@ const EditProfile = () => {
                                                 user.role == "business" && (
                                                     <>
                                                         <div className="flex flex-col w-2/5">
-                                                            <label htmlFor="company_name" className="font-semibold mt-1 dark:text-slate-300">Ragione Sociale</label>
+                                                            <label htmlFor="company_name" className="font-semibold mt-1 dark:text-slate-300">{dictionary.globals.COMPANY_NAME}</label>
                                                             <input type="text" name="company_name" id="company_name" onInput={handleInput} value={form.personal.metadata.company_name} className="my-2 p-2 input_field" />
                                                         </div>
                                                         <div className="flex flex-col w-2/5">
-                                                            <label htmlFor="vat_number" className="font-semibold mt-1 dark:text-slate-300">Partita IVA</label>
+                                                            <label htmlFor="vat_number" className="font-semibold mt-1 dark:text-slate-300">{dictionary.globals.VAT_NUMBER}</label>
                                                             <input type="text" name="vat_number" id="vat_number" onInput={handleInput} value={form.personal.metadata.vat_number} className="my-2 p-2 input_field" />
                                                         </div>
                                                     </>
                                                 )
                                             }
                                             <div className="flex flex-col w-2/5">
-                                                <label htmlFor="first_name" className="font-semibold mt-1 dark:text-slate-300">Nome</label>
+                                                <label htmlFor="first_name" className="font-semibold mt-1 dark:text-slate-300">{dictionary.globals.NAME}</label>
                                                 <input type="text" name="first_name" id="first_name" onInput={handleInput} value={form.personal.first_name} className="my-2 p-2 input_field" />
                                             </div>
                                             <div className="flex flex-col w-2/5">
-                                                <label htmlFor="last_name" className="font-semibold mt-1 dark:text-slate-300">Cognome</label>
+                                                <label htmlFor="last_name" className="font-semibold mt-1 dark:text-slate-300">{dictionary.globals.SURNAME}</label>
                                                 <input type="text" name="last_name" id="last_name" onInput={handleInput} value={form.personal.last_name} className="my-2 p-2 input_field" />
                                             </div>
                                             <div className="flex flex-col w-2/5">
-                                                <label htmlFor="tel" className="font-semibold mt-1 dark:text-slate-300">Numero di Telefono</label>
+                                                <label htmlFor="tel" className="font-semibold mt-1 dark:text-slate-300">{dictionary.editProfile.PHONE}</label>
                                                 <input type="text" name="tel" id="tel" onInput={handleInput} value={form.personal.tel} className="my-2 p-2 input_field" />
                                             </div>
                                             <div className="flex flex-col w-2/5">
-                                                <label htmlFor="birth_date" className="font-semibold mt-1 dark:text-slate-300">Data Nascita</label>
+                                                <label htmlFor="birth_date" className="font-semibold mt-1 dark:text-slate-300">{dictionary.editProfile.BIRTHDAY}</label>
                                                 <input type="date" name="birth_date" id="birth_date" onInput={handleInput} value={form.personal.birth_date} className="my-2 p-2 input_field" />
                                             </div>
                                             <div className="flex flex-col w-2/5">
-                                                <label htmlFor="nation" className="font-semibold mt-1 dark:text-slate-300">Nazione</label>
+                                                <label htmlFor="nation" className="font-semibold mt-1 dark:text-slate-300">{dictionary.editProfile.COUNTRY}</label>
                                                 <input type="text" name="nation" id="nation" onInput={handleInput} value={form.personal.nation} className="my-2 p-2 input_field" />
                                             </div>
                                             <div className="flex flex-col w-2/5">
-                                                <label htmlFor="city" className="font-semibold mt-1 dark:text-slate-300">Città</label>
+                                                <label htmlFor="city" className="font-semibold mt-1 dark:text-slate-300">{dictionary.editProfile.CITY}</label>
                                                 <input type="text" name="city" id="city" onInput={handleInput} value={form.personal.city} className="my-2 p-2 input_field" />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col">
-                                        <label htmlFor="bio" className="font-semibold mt-1 dark:text-slate-300">Biografia</label>
+                                        <label htmlFor="bio" className="font-semibold mt-1 dark:text-slate-300">{dictionary.editProfile.BIO}</label>
                                         <textarea name="bio" id="bio" onInput={handleInput} value={form.personal.bio} placeholder="Racconta qualcosa di te..." className="my-2 p-2 input_field max-lg:min-h-20"></textarea>
                                     </div>
                                 </div>
@@ -316,18 +318,18 @@ const EditProfile = () => {
                         {
                             tabToOpen == activeTab.changePassword && (
                                 <div>
-                                    <h2 className="text-lg mb-6 dark:text-slate-100">Cambio Password</h2>
+                                    <h2 className="text-lg mb-6 dark:text-slate-100">{dictionary.editProfile.CHANGE}</h2>
                                     <div className="flex justify-around gap-5">
                                         <div className="flex flex-col w-1/3">
-                                            <label htmlFor="current-password" className="font-semibold mt-2 dark:text-slate-300">Password Attuale</label>
+                                            <label htmlFor="current-password" className="font-semibold mt-2 dark:text-slate-300">{dictionary.editProfile.CURRENT_PW}</label>
                                             <input type="password" name="current_password" id="current-password" onInput={handleInput} value={form.password.current_password} placeholder="........" className="my-2 p-2 input_field" />
                                         </div>
                                         <div className="flex flex-col w-1/3">
-                                            <label htmlFor="new-password" className="font-semibold mt-2 dark:text-slate-300">Nuova Password</label>
+                                            <label htmlFor="new-password" className="font-semibold mt-2 dark:text-slate-300">{dictionary.editProfile.NEW_PW}</label>
                                             <input type="password" name="new_password" id="new-password" onInput={handleInput} value={form.password.new_password} placeholder="........" className="my-2 p-2 input_field" />
                                         </div>
                                         <div className="flex flex-col w-1/3">
-                                            <label htmlFor="conf_password" className="font-semibold mt-2 dark:text-slate-300">Conferma Password</label>
+                                            <label htmlFor="conf_password" className="font-semibold mt-2 dark:text-slate-300">{dictionary.globals.PW_CONFIRM}</label>
                                             <input type="password" name="conf_password" id="conf_password" onInput={handleInput} value={form.password.conf_password} placeholder="........" className="my-2 p-2 input_field" />
                                         </div>
                                     </div>
@@ -337,7 +339,7 @@ const EditProfile = () => {
                         {
                             tabToOpen == activeTab.manageNickname && (
                                 <div>
-                                    <h2 className="text-lg mb-6 dark:text-slate-100">Gestisci Nickname</h2>
+                                    <h2 className="text-lg mb-6 dark:text-slate-100">{dictionary.editProfile.manageNickname}</h2>
                                     <div className="flex flex-col">
                                         <div className="flex flex-col w-1/2">
                                             <label htmlFor="nickname" className="font-semibold mt-1 dark:text-slate-300">Nickname</label>
@@ -350,10 +352,10 @@ const EditProfile = () => {
                         {
                             tabToOpen == activeTab.manageContact && (
                                 <div>
-                                    <h2 className="text-lg mb-6 dark:text-slate-100">Gestisci Contatti</h2>
+                                    <h2 className="text-lg mb-6 dark:text-slate-100">{dictionary.editProfile.CONTACT}</h2>
                                     <div className="flex flex-col">
                                         <div className="flex flex-col w-1/2">
-                                            <label htmlFor="email" className="font-semibold mt-1 dark:text-slate-300">Indirizzo Email</label>
+                                            <label htmlFor="email" className="font-semibold mt-1 dark:text-slate-300">{dictionary.globals.EMAIL}</label>
                                             <input type="email" name="email" id="email" value={form.contact.email} onInput={handleInput} className="my-2 p-2 input_field" />
                                         </div>
                                     </div>
@@ -364,7 +366,7 @@ const EditProfile = () => {
                             <motion.button type="submit" className="btn"
                                 whileTap={{ scale: 0.95 }}
                             >
-                                Salva
+                                {dictionary.btn.SAVE}
                             </motion.button>
                         </div>
                     </form>

@@ -12,9 +12,12 @@ import { it } from 'date-fns/locale';
 import { useSocket } from '../../provider/Socket';
 import { useSearchParams } from 'react-router-dom';
 import { capitalize } from '../../utilities/text';
+import { useDictionary } from "../../provider/Language";
+
 
 const Chat = () => {
     const dispatch = useDispatch();
+    const [dictionary] = useDictionary()
     const socket = useSocket();
     const { token, user } = useSelector(state => state.auth);
     const rooms = useSelector(state => state.chat.rooms);
@@ -143,7 +146,7 @@ const Chat = () => {
                 <div className='sm:w-1/4 w-full bg-white overflow-y-auto border-r-[1px]'>
                     <div className='flex items-center bg-slate-100 dark:bg-elements_dark p-2 w-11/12 mx-auto mt-4 rounded-md mb-1 border'>
                         <FaSearch />
-                        <input className='bg-transparent p-2 w-full focus:outline-none' placeholder='Cerca persona...' />
+                        <input className='bg-transparent p-2 w-full focus:outline-none' placeholder={dictionary.chat.FIND} />
                     </div>
                     { /* Chat list */ }
                     {rooms.map(({ _id, users, messages }) => {
@@ -182,13 +185,13 @@ const Chat = () => {
                                 activeRoom ? (
                                     <a href={`/app/profile/${activeRoom?.roomUser?.nickname?.replace("@", "")}`} target="__blank" className='flex items-center'>
                                         <img className='h-10 w-10 rounded-full object-cover' src={`${activeRoom?.roomUser?.avatar}?token=${token}`} alt={`Profile picture of ${activeRoom?.roomUser?.first_name} ${activeRoom?.roomUser?.last_name}`} />
-                                        <span className='ml-4'>Chat con {
+                                        <span className='ml-4'>{dictionary.chat.WITH} {
                                             activeRoom?.roomUser?.role === "user" ? `${activeRoom?.roomUser?.first_name} ${activeRoom?.roomUser?.last_name}` : activeRoom?.roomUser?.metadata?.company_name
                                         }</span>
                                     </a>
                                 ) : (
                                     <>
-                                        <span className='ml-4'>Inizia a Chattare</span>
+                                        <span className='ml-4'>{dictionary.chat.START}</span>
                                     </>
                                 )
                             }
@@ -206,8 +209,8 @@ const Chat = () => {
                                                 <i className="fa-solid fa-eraser text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                             </div>
                                             <div className='flex flex-col ml-2'>
-                                                <h3 className='text-sm font-semibold text-start'>Svuota Chat</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor group-hover:text-secondaryColor_Hover'>Pulisci la chat</span>
+                                                <h3 className='text-sm font-semibold text-start'>{dictionary.chat.CLEAN}</h3>
+                                                <span className='mb-2 text-xs text-text_secondaryColor group-hover:text-secondaryColor_Hover'>{dictionary.chat.CLEAN_CHAT}</span>
                                             </div>
                                         </button>
                                         <button className='flex mt-2 border-b border-b-slate-100 group'>
@@ -215,8 +218,8 @@ const Chat = () => {
                                                 <i className="fa-solid fa-ban text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                             </div>
                                             <div className='flex flex-col ml-2'>
-                                                <h3 className='text-sm font-semibold text-start'>Segnala e Blocca</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover'>Segnala e blocca l'utente</span>
+                                                <h3 className='text-sm font-semibold text-start'>{dictionary.chat.REPORT}</h3>
+                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover'>{dictionary.chat.REPORT_ACC}</span>
                                             </div>
                                         </button>
                                         <button className='flex mt-2 border-b border-b-slate-100 group'>
@@ -224,8 +227,8 @@ const Chat = () => {
                                                 <i className="fa-regular fa-circle-xmark text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                             </div>
                                             <div className='flex flex-col ml-2'>
-                                                <h3 className='text-sm font-semibold text-start'>Elimina la chat</h3>
-                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover'>Elimina definitivamente la chat</span>
+                                                <h3 className='text-sm font-semibold text-start'>{dictionary.chat.DELETE}</h3>
+                                                <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover'>{dictionary.chat.DELETE_CHAT}</span>
                                             </div>
                                         </button>
                                     </motion.div>

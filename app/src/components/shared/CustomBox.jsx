@@ -12,8 +12,10 @@ import { config } from '../../config/config';
 import moment from "moment";
 import { toast } from "react-toastify";
 import SDK from '../../SDK';
+import { useDictionary } from '../../provider/Language';
 
 const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = "" }) => {
+    const [dictionary] = useDictionary()
     const { token, user } = useSelector((state) => state.auth);
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
@@ -91,13 +93,13 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                         <div>
                                                             <i className="fa-solid fa-pen-to-square text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                                         </div>
-                                                        <h3 className='text-sm ml-2 mt-1 font-semibold align-middle text-start dark:text-slate-300'>Modifica Post</h3>
+                                                        <h3 className='text-sm ml-2 mt-1 font-semibold align-middle text-start dark:text-slate-300'>{dictionary.customBox.EDIT}</h3>
                                                     </button>
                                                     <button className='flex mt-2 mb-2 group' >
                                                         <div>
                                                             <i className="fa-solid fa-trash text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                                         </div>
-                                                        <h3 className='text-sm ml-2 mt-1 font-semibold align-middle text-start dark:text-slate-300'>Elimina Post</h3>
+                                                        <h3 className='text-sm ml-2 mt-1 font-semibold align-middle text-start dark:text-slate-300'>{dictionary.customBox.DELETE}</h3>
                                                     </button>
                                                 </>
                                             ) : (
@@ -107,8 +109,8 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                             <i className="fa-regular fa-circle-xmark text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                                         </div>
                                                         <div className='flex flex-col ml-2'>
-                                                            <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Nascondi Post</h3>
-                                                            <span className='mb-2 text-xs text-start text-text_secondaryColor group-hover:text-secondaryColor_Hover text-dark'>Mostra meno post come questo.</span>
+                                                            <h3 className='text-sm font-semibold text-start dark:text-slate-300'>{dictionary.customBox.HIDE}</h3>
+                                                            <span className='mb-2 text-xs text-start text-text_secondaryColor group-hover:text-secondaryColor_Hover text-dark'>{dictionary.customBox.SHOW}</span>
                                                         </div>
                                                     </button>
                                                     <button className='flex mt-2 border-b border-b-slate-100 group'>
@@ -116,8 +118,8 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                             <i className="fa-solid fa-user-minus text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                                         </div>
                                                         <div className='flex flex-col ml-2'>
-                                                            <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Non seguire più</h3>
-                                                            <span className='mb-2 text-xs text-start text-text_secondaryColor group-hover:text-secondaryColor_Hover text-dark'>Non vedrai più i post di questo utente.</span>
+                                                            <h3 className='text-sm font-semibold text-start dark:text-slate-300'>{dictionary.profile.UNFOLLOW}</h3>
+                                                            <span className='mb-2 text-xs text-start text-text_secondaryColor group-hover:text-secondaryColor_Hover text-dark'>{dictionary.customBox.UNFOLLOW}</span>
                                                         </div>
                                                     </button>
                                                     <button className='flex mt-2 border-b border-b-slate-100 group'>
@@ -125,8 +127,8 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                             <i className="fa-solid fa-bell text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                                         </div>
                                                         <div className='flex flex-col ml-2'>
-                                                            <h3 className='text-sm font-semibold text-start dark:text-slate-300'>Attiva Notifiche</h3>
-                                                            <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover text-dark'>Riceverai notifiche per i nuovi post di questo utente.</span>
+                                                            <h3 className='text-sm font-semibold text-start dark:text-slate-300'>{dictionary.customBox.NOTIFICATIONS}</h3>
+                                                            <span className='mb-2 text-xs text-text_secondaryColor text-start group-hover:text-secondaryColor_Hover text-dark'>{dictionary.customBox.MORE}</span>
                                                         </div>
                                                     </button>
                                                 </>
@@ -140,7 +142,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                             <i className="fa-solid fa-share-nodes text-text_secondaryColor text-xl group-hover:text-secondaryColor_Hover"></i>
                                                         </div>
 
-                                                        <h3 className='text-sm ml-2 mt-1 font-semibold align-middle text-start dark:text-slate-300'>Condividi Post</h3>
+                                                        <h3 className='text-sm ml-2 mt-1 font-semibold align-middle text-start dark:text-slate-300'>{dictionary.customBox.SHARE}</h3>
 
 
                                                     </button>;
@@ -170,7 +172,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                         </div>
                                                         <div className='relative'>
                                                             <input type="text" value={`${config.CLIENT_URL}/app/feed/${post._id}`} className="w-full input_field h-14" readOnly />
-                                                            <button className="btn absolute bottom-2 right-2">Copia</button>
+                                                            <button className="btn absolute bottom-2 right-2">{dictionary.customBox.COPY}</button>
                                                         </div>
                                                     </>
                                                 }
@@ -330,38 +332,38 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                 <img className='img-LikesProf' src="https://images.pexels.com/photos/6617683/pexels-photo-6617683.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Sara Gialli" />
                             </li>
                         </ul>
-                        <span className='font-bold text-sm mr-1 mt-2 text-dark'>Mario Rossi </span> <span className='mt-2 textSmall-gray'> e altri 99 hanno messo Mi Piace</span>
+                        <span className='font-bold text-sm mr-1 mt-2 text-dark'>Mario Rossi </span> <span className='mt-2 textSmall-gray'> {dictionary.customBox.LIKES}</span>
                     </div>
                 </div>
                 <div className="flex flex-col mt-5 pt-3 border-t border-slate-100 rounded-b-lg">
                     <div className='flex justify-between'>
                         <button className='group'>
                             <i className="fa-regular fa-compass icon group-hover:text-primaryColor"></i>
-                            <span className='icon-text group-hover:text-primaryColor'>100 Mi Piace</span>
+                            <span className='icon-text group-hover:text-primaryColor'>{dictionary.customBox.N_LIKES}</span>
                         </button>
                         <div>
                             <button onClick={toggleCommentsBox} className='group'>
                                 <i className="fa-regular fa-comment-dots icon group-hover:text-primaryColor"></i>
-                                <span className='icon-text group-hover:text-primaryColor'>20 Commenti</span>
+                                <span className='icon-text group-hover:text-primaryColor'>{dictionary.customBox.N_COMMENTS}</span>
                             </button>
                             {
                                 post.post_type === "event" && (
                                     <button className='group' onClick={() => handleAddRefs(post.event)}>
                                         <i className="fa-regular fa-calendar-days icon group-hover:text-primaryColor"></i>
-                                        <span className='icon-text group-hover:text-primaryColor'>Aggiungi</span>
+                                        <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.ADD}</span>
                                     </button>
                                 )
                             }
                             <button className='group'>
                                 <i className="fa-solid fa-suitcase-rolling icon group-hover:text-primaryColor"></i>
-                                <span className='icon-text group-hover:text-primaryColor'>Salva</span>
+                                <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.SAVE}</span>
                             </button>
                             {
                                 <PopUpModal title={"Invia a..."} sizeModal={"md"}
                                     showBtn={(openModal) => {
                                         return <button onClick={() => openModal(true)} className="group">
                                             <i className="fa-regular fa-paper-plane icon group-hover:text-primaryColor"></i>
-                                            <span className='icon-text group-hover:text-primaryColor'>Invia</span>
+                                            <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.SAVE}</span>
                                         </button>;
                                     }}
                                 >
@@ -394,7 +396,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                         <img className='img-CommentsProf' src={"https://images.pexels.com/photos/2287129/pexels-photo-2287129.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} alt="Profile" />
                                         <div className="rounded-t-lg flex ml-4 items-center">
                                             <h3 className="dark:text-slate-300">Alex Bryan</h3>
-                                            <span className='textSmall-gray ml-2'>2 minuti fa</span>
+                                            <span className='textSmall-gray ml-2'>{dictionary.customBox.TIME}</span>
                                         </div>
                                     </div>
                                     <div className=' mt-2 ml-4 p-2 text-sm bg-slate-100 rounded-b-lg dark:bg-elements_dark'>
@@ -433,11 +435,11 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                     </motion.span>
                                                 </div>
                                                 <i className="fa-solid fa-icons icon group-hover:text-primaryColor"></i>
-                                                <span className='icon-text group-hover:text-primaryColor'>Reazioni</span>
+                                                <span className='icon-text group-hover:text-primaryColor'>{dictionary.customBox.REACTIONS}</span>
                                             </button>
                                             <button onClick={toggleReplyComments} className='group'>
                                                 <i className="fa-solid fa-reply icon group-hover:text-primaryColor" ></i>
-                                                <span className='icon-text group-hover:text-primaryColor'>Rispondi...</span>
+                                                <span className='icon-text group-hover:text-primaryColor'>{dictionary.customBox.REPLY}</span>
                                             </button>
                                         </div>
                                     </div>
@@ -446,7 +448,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                             <div className='flex mt-4 ml-4'>
                                                 <img className='img-CommentsProf' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
                                                 <div className="flex flex-1 justify-between items-center ml-3 p-1 h-14 border border-slate-100 rounded-md ">
-                                                    <textarea onChange={handleChange} disabled={false} value={field} placeholder="Rispondi al commento..." className="outline-none w-full h-full border-0 focus:ring-0 textSmall-gray"></textarea>
+                                                    <textarea onChange={handleChange} disabled={false} value={field} placeholder={dictionary.customBox.ADD_COMMENT} className="outline-none w-full h-full border-0 focus:ring-0 textSmall-gray"></textarea>
                                                     <motion.button className="btn"
                                                         whileTap={{ scale: 0.95 }}
                                                     >

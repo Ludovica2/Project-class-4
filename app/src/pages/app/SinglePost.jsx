@@ -7,12 +7,14 @@ import SDK from "../../SDK";
 import { setAllPosts } from "../../store/slices/postSlice";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { useDictionary } from "../../provider/Language";
 
 const widget = {
     events: "events",
 }
 
 const SinglePost = () => {
+    const [dictionary] = useDictionary()
     const { post_id } = useParams();
     const { user, token } = useSelector((state) => state.auth);
     const [post, setPost] = useState(null);
@@ -50,7 +52,7 @@ const SinglePost = () => {
                         </CustomBox>
                     </div>
                     <div className="w-full lg:max-w-[360px] 2xl:max-w-[450px]">
-                        <Widget title={"Eventi Suggeriti"} wgt={widget.events} role={user.role}/>
+                        <Widget title={dictionary.profile.SUGG_EVENTS} wgt={widget.events} role={user.role}/>
                     </div>
                 </div>
             )
