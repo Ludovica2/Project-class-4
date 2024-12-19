@@ -292,7 +292,9 @@ const ExternalProfile = () => {
                                                     <Widget title={dictionary.profile.VISITED} wgt={widget.city} />
                                                 ) : (
                                                     <Widget title={dictionary.profile.REVIEWS} show={3} wgt={widget.review} role={user.role} val_review={
-                                                        <span>{formatRatingNumner(currentProfileReviews.length == 0 ? 0 : currentProfileReviews?.reduce((prev, curr) => prev + curr.rating, 0) / currentProfileReviews?.length)} ({currentProfileReviews?.length}) <i className="fa-solid fa-star text-yellow-300"></i></span>
+                                                        <span className="text-dark">{formatRatingNumner(currentProfileReviews?.reduce((prev, curr) => prev + curr.rating, 0) / currentProfileReviews?.length)} <i className="fa-solid fa-star text-yellow-300"></i>
+                                                            <span className="text-slate-500 ml-1">({currentProfileReviews?.length})</span>
+                                                        </span>
                                                     } />
                                                 )
                                             }
