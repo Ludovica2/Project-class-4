@@ -22,12 +22,12 @@ const Widget = ({ title, show, wgt, role = "", val_review = "", className = "" }
 
     return (
         <>
-            <div className={" m-5 rounded-lg bg-white w-full shadow relative dark:bg-elements_dark dark:shadow-slate-600 max-lg:max-w-[400px]" + " " + className + (showMore ? " max-h-96 overflow-y-scroll" : " max-h-80 overflow-hidden")}>
+            <div className={"flex flex-col m-5 rounded-lg bg-white w-full shadow relative dark:bg-elements_dark dark:shadow-slate-600 max-lg:max-w-[400px]" + " " + className + (showMore ? " max-h-[400px] overflow-y-scroll" : " max-h-80 overflow-hidden")}>
                 <div className='flex justify-between pt-4 px-4'>
                     <h2 className='dark:text-slate-100'> {title}</h2>
                     {val_review}
                 </div>
-                <div className='mt-4 flex flex-col gap-3 px-4'>
+                <div className='mt-4 py-4 flex flex-col gap-3 px-4 overflow-y-auto' style={{ height: "calc(100% - 80px)" }}>
                     {
                         wgt == "events" && (
                             <>
@@ -145,8 +145,8 @@ const Widget = ({ title, show, wgt, role = "", val_review = "", className = "" }
                     }
                 </div>
                 {
-          /* !role == "business" && !wgt == "events" &&  */(
-                        <div onClick={handleShowMore} className='sticky -bottom-px h-10 w-full shadow rounded-b-lg text-center content-center cursor-pointer z-10 bg-white dark:bg-elements_dark'>
+                    wgt == "review" && (
+                        <div onClick={handleShowMore} className='-bottom-px h-10 w-full shadow rounded-b-lg text-center content-center cursor-pointer z-10 bg-white dark:bg-elements_dark'>
                             <span className='text-primaryColor'>{showMore ? visbility.less : visbility.more}</span>
                         </div>
                     )

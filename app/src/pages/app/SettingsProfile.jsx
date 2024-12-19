@@ -79,7 +79,7 @@ const SettingsProfile = () => {
                                         <select id="lang" name="lang" value={lang} onChange={handleChangeLanguage} className="input_field ">
                                             {
                                                 availableLanguages.map(({ lang, label }) => (
-                                                    <option value={lang} className=" dark:text-slate-300">{label}</option>
+                                                    <option key={lang} value={lang} className=" dark:text-slate-300">{label}</option>
                                                 ))
                                             }
                                         </select>

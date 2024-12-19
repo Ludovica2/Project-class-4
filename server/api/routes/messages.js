@@ -2,7 +2,7 @@ const express = require("express");
 const app = express.Router();
 
 const { authUser } = require("../../middleware/auth");
-const { Message, Room } = require("../../db");
+const { Message, Notification } = require("../../db");
 const { io } = require("../../utilities/socket");
 const Joi = require("joi");
 
@@ -46,7 +46,17 @@ app.post("/:room_id", authUser(), async (req, res) => {
             .populate({ path: "from", select: "first_name last_name avatar" })
             .populate({ path: "to", select: "first_name last_name avatar" });
 
-        io.to(data.to).emit("new-chat-message", { room, message });
+        // create notification for user
+        const dataNotification = {
+            user: message.to._id,
+            image: message.to.avatar,
+            title: "New chat message",
+            content: `${message.to.first_name} ${message.to.last_name} has just send a new message`,
+            link: `${process.env.CLIENT_HOST}/app/chat?recipient=${message.to._id}`
+        };
+        const notification = (await new Notification({ from: user._id, ...dataNotification }).save()).toObject();
+
+        io.to(data.to).emit("new-chat-message", { room, message, notification });
 
         return res.status(201).json(message);
     } catch (error) {

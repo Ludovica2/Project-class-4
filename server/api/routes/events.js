@@ -63,9 +63,27 @@ app.get("/", authUser(), async (req, res) => {
     const user = req.user;
 
     try {
-        const events = await Event.find({ user: user._id }, null, { lean: true }).populate("post");
+        const events = await Event.find({ $or: [{ user: user._id }, { refs: user._id }] }, null, { lean: true }).populate("post");
 
         return res.status(201).json(events);
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" })
+    }
+});
+
+/**
+ * @path /api/events/:id
+ * @method PATCH
+ */
+app.patch("/:id", authUser(), async (req, res) => {
+    const user = req.user;
+    const _id = req.params.id;
+
+    try {
+        await Event.updateOne({ _id }, { refs: user._id });
+
+        return res.status(200).json({ message: "Event updated" });
     } catch(error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" })

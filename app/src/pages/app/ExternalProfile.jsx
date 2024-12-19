@@ -123,7 +123,7 @@ const ExternalProfile = () => {
         document.title = "Profile - Found!";
 
         fetchData();
-    }, []);
+    }, [nickname]);
 
     useEffect(() => {
         if (user) {
@@ -290,7 +290,7 @@ const ExternalProfile = () => {
                                                     <Widget title={"Luoghi Visitati"} wgt={widget.city} />
                                                 ) : (
                                                     <Widget title={"Recensioni"} show={3} wgt={widget.review} role={user.role} val_review={
-                                                        <span>{formatRatingNumner(currentProfileReviews?.reduce((prev, curr) => prev + curr.rating, 0) / currentProfileReviews?.length)} ({currentProfileReviews?.length}) <i className="fa-solid fa-star text-yellow-300"></i></span>
+                                                        <span>{formatRatingNumner(currentProfileReviews.length == 0 ? 0 : currentProfileReviews?.reduce((prev, curr) => prev + curr.rating, 0) / currentProfileReviews?.length)} ({currentProfileReviews?.length}) <i className="fa-solid fa-star text-yellow-300"></i></span>
                                                     } />
                                                 )
                                             }

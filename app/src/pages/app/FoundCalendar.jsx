@@ -172,20 +172,28 @@ const FoundCalendar = () => {
                     <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
                         {
                             imagePreview && (
-                                <div className="flex flex-wrap gap-[2%] my-2 pt-2">
-                                    <div key={imagePreview.id} className="relative w-[31.33%]">
-                                        <span
-                                            onClick={() => handleDeleteImages(imagePreview.id)}
-                                            className="absolute cursor-pointer right-[-12.5px] top-[-12.5px] h-[25px] w-[25px] bg-slate-100 text-slate-500 rounded-full flex justify-center items-center border-2 border-slate-300">
-                                            x
-                                        </span>
-                                        <img src={imagePreview.src} className="w-full" />
+                                !selectedEvent?.refs ? (
+                                    <div className="flex flex-wrap gap-[2%] my-2 pt-2">
+                                        <div key={imagePreview.id} className="relative w-[31.33%]">
+                                            <span
+                                                onClick={() => handleDeleteImages(imagePreview.id)}
+                                                className="absolute cursor-pointer right-[-12.5px] top-[-12.5px] h-[25px] w-[25px] bg-slate-100 text-slate-500 rounded-full flex justify-center items-center border-2 border-slate-300">
+                                                x
+                                            </span>
+                                            <img src={imagePreview.src} className="w-full" />
+                                        </div>
                                     </div>
-                                </div>
+                                ) : (
+                                    <div className="flex flex-wrap gap-[2%] my-2 pt-2">
+                                        <div key={imagePreview.id} className="relative w-full max-h-[300px] flex justify-center items-center overflow-hidden">
+                                            <img src={imagePreview.src} className="w-full" />
+                                        </div>
+                                    </div>
+                                )
                             )
                         }
                         {
-                            isOpenDragDdrop && !imagePreview && (
+                            isOpenDragDdrop && !imagePreview && !selectedEvent?.refs &&  (
                                 <div className="flex w-full items-center flex-col justify-center">
                                     <Label
                                         htmlFor="dropzone-file"
@@ -218,7 +226,7 @@ const FoundCalendar = () => {
                             )
                         }
                         {
-                            !imagePreview && (
+                            !imagePreview && !selectedEvent?.refs && (
                                 <motion.button type="button" className="p-2 mr-2 relative btn-tooltip" onClick={handleDragDrop}
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.95 }}
@@ -238,6 +246,7 @@ const FoundCalendar = () => {
                                 onChange={(e) => setEventDetails({ ...eventDetails, title: e.target.value })}
                                 required
                                 className='dark:bg-slate-600 dark:text-white p-2 border border-gray-300 rounded'
+                                disabled={!!selectedEvent?.refs}
                             />
                         </div>
                         <div className='flex flex-col'>
@@ -248,6 +257,7 @@ const FoundCalendar = () => {
                                 onChange={(e) => setEventDetails({ ...eventDetails, start: new Date(e.target.value) })}
                                 required
                                 className='dark:bg-slate-600 dark:text-white p-2 border border-gray-300 rounded'
+                                disabled={!!selectedEvent?.refs}
                             />
                         </div>
                         <div className='flex flex-col'>
@@ -258,6 +268,7 @@ const FoundCalendar = () => {
                                 onChange={(e) => setEventDetails({ ...eventDetails, end: new Date(e.target.value) })}
                                 required
                                 className='dark:bg-slate-600 dark:text-white p-2 border border-gray-300 rounded'
+                                disabled={!!selectedEvent?.refs}
                             />
                         </div>
                         <div className='flex flex-col items-center'>
@@ -265,13 +276,18 @@ const FoundCalendar = () => {
                             <textarea className='w-full max-w-md dark:bg-slate-600 dark:text-white p-2 border border-gray-300 rounded'
                                 value={eventDetails.description}
                                 onChange={(e) => setEventDetails({ ...eventDetails, description: e.target.value })}
+                                disabled={!!selectedEvent?.refs}
                             />
                         </div>
                         <div className='flex justify-between gap-2 mt-1'>
-                            <button className="btn" type="submit">
-                                <i className="fa-solid fa-check dark:text-white"></i>
-                            </button>
-                            {selectedEvent && (
+                            {
+                                !selectedEvent?.refs && (
+                                    <button className="btn" type="submit">
+                                        <i className="fa-solid fa-check dark:text-white"></i>
+                                    </button>
+                                )
+                            }
+                            {selectedEvent && !selectedEvent?.refs && (
                                 <motion.button
                                     className="btn"
                                     type="button"

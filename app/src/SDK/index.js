@@ -104,7 +104,16 @@ export default {
                     "Authorization": `Bearer ${token}`
                 },
             })).data;
-        }
+        },
+        addToRefs: async (_id, token) => {
+            return (await axios({
+                url: buildApiUrl(`/events/${_id}`),
+                method: "PATCH",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })).data;
+        },
     },
     profile: {
         update: async (payload, token) => {

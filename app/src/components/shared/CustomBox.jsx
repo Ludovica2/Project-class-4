@@ -10,6 +10,8 @@ import { formatDistance } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { config } from '../../config/config';
 import moment from "moment";
+import { toast } from "react-toastify";
+import SDK from '../../SDK';
 
 const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = "" }) => {
     const { token, user } = useSelector((state) => state.auth);
@@ -36,6 +38,16 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
 
     const formatPostAuthorName = (post) => {
         return post.from.role == "user" ? `${post.from.first_name} ${post.from.last_name}` : post.from?.metadata?.company_name;
+    }
+
+    const handleAddRefs = async (event_id) => {
+        try {
+            await SDK.events.addToRefs(event_id, token);
+            toast.success("Evento aggiunto al calendario");
+        } catch(error) {
+            console.log(error);
+            toast.error(error.message)
+        }
     }
 
     return (
@@ -334,7 +346,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                             </button>
                             {
                                 post.post_type === "event" && (
-                                    <button className='group'>
+                                    <button className='group' onClick={() => handleAddRefs(post.event)}>
                                         <i className="fa-regular fa-calendar-days icon group-hover:text-primaryColor"></i>
                                         <span className='icon-text group-hover:text-primaryColor'>Aggiungi</span>
                                     </button>

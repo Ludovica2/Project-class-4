@@ -1,4 +1,4 @@
-const ChatIsWriting = (name) => {
+const ChatIsWriting = ({ name }) => {
     return (
         <div className='flex justify-start items-center p-4 gap-2 mt-4'>
             <p className='text-sm opacity-70'>{name} sta scrivendo</p>

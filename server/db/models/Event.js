@@ -6,6 +6,11 @@ const EventSchema = new Schema({
         ref: "User",
         required: true,
     },
+    refs: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: null,
+    },
     post: {
         type: Schema.Types.ObjectId,
         ref: "Post",

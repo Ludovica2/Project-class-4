@@ -77,6 +77,15 @@ const connect = (app) => {
             }
         });
 
+        socket.on('write-message', async ({ room, user }) => {
+            try {
+                io.emit('write-message', { room, user });
+            } catch (error) {
+                console.error(error);
+                io.emit('notification-error', { message: "Something went wrong, try to reload the page" });
+            }
+        });
+
         socket.on('disconnect', async () => {
             // Leave the room
             socket.leave(socket.user.id);

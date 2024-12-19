@@ -4,6 +4,10 @@ const chatSlice = createSlice({
     name: "chat",
     initialState: {
         rooms: [],
+        writing: {
+            room: null,
+            user: null,
+        }
     },
     reducers: {
         setRooms: (state, { payload }) => {
@@ -15,6 +19,13 @@ const chatSlice = createSlice({
             }
 
             state.rooms.push(payload);
+        },
+        setUserStatus: (state, { payload }) => { // { user, status }
+            state.rooms.forEach(({ users }) => {
+                users.forEach(user => {
+                    if (user._id == payload.user) user.chat_status = payload.status;
+                })
+            });
         },
         addMessage: (state, { payload }) => { // { room_id, message }
             const room = state.rooms.find(room => room._id === payload.room_id);
@@ -31,10 +42,13 @@ const chatSlice = createSlice({
                     if (message.to._id == payload.to) message.is_read = true;
                 });
             }
+        },
+        setWritinMessage: (state, { payload }) => { // { room, user }
+            state.writing = { ...payload };
         }
     }
 });
 
-export const { setRooms, addRoom, addMessage, readMessage } = chatSlice.actions;
+export const { setRooms, addRoom, setUserStatus, addMessage, readMessage, setWritinMessage } = chatSlice.actions;
 
 export default chatSlice.reducer;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 import { config } from "../config/config";
 import { useNotify } from "../hooks/useNotify";
-import { addMessage, readMessage } from "../store/slices/chatSlice";
+import { addMessage, readMessage, setUserStatus, setWritinMessage } from "../store/slices/chatSlice";
 
 export const SocketContext = createContext();
 
@@ -24,14 +24,16 @@ export const SocketProvider = ({ children }) => {
             socket.on("new-user-offline", ({ user: _user }) => {
                 // Set online/offline status -> JUST EXAMPLE
                 if (user._id !== _user._id) {
-                    notify({ image: _user.avatar, title: `${_user.first_name} ${_user.last_name}`, content: "is now offline" });
+                    // notify({ image: _user.avatar, title: `${_user.first_name} ${_user.last_name}`, content: "is now offline" });
+                    dispatch(setUserStatus({ user: _user._id, status: "offline" }));
                 }
             });
 
             socket.on("new-user-online", ({ user: _user }) => {
                 // Set online/offline status -> JUST EXAMPLE
                 if (user._id !== _user._id) {
-                    notify({ image: _user.avatar, title: `${_user.first_name} ${_user.last_name}`, content: "is now online" });
+                    // notify({ image: _user.avatar, title: `${_user.first_name} ${_user.last_name}`, content: "is now online" });
+                    dispatch(setUserStatus({ user: _user._id, status: "online" }));
                 }
             });
 
@@ -48,6 +50,10 @@ export const SocketProvider = ({ children }) => {
 
             socket.on("new-notification", (notification) => {
                 notify(notification);
+            });
+            
+            socket.on("write-message", ({ room, user }) => {
+                dispatch(setWritinMessage({ room, user }));
             });
         } else {
             socket.disconnect();

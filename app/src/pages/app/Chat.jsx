@@ -18,14 +18,17 @@ const Chat = () => {
     const socket = useSocket();
     const { token, user } = useSelector(state => state.auth);
     const rooms = useSelector(state => state.chat.rooms);
+    const { writing } = useSelector(state => state.chat);
     const [searchParams, setSearchParams] = useSearchParams();
     const [activeRoom, setActiveRoom] = useState(null);
     const { active: isOpenOptionsMenu, setActive: setIsOpenOptionsMenu, elRef: optionsRef } = useClickOutside(false);
+    const [writingMess, setWritingMess] = useState("");
 
     const { recipient, share } = Object.fromEntries(searchParams.entries());
 
     const inputRef = useRef();
     const messagesRef = useRef();
+    const isWritingTimerRef = useRef();
 
     const scrollMessagesToBottom = () => {
         messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
@@ -33,6 +36,10 @@ const Chat = () => {
 
     const toggleOptionsChat = () => {
         setIsOpenOptionsMenu(true);
+    }
+
+    const handleWriteMessage = (event) => {
+        setWritingMess(event.target.value);
     }
 
     const fetchRooms = async () => {
@@ -86,6 +93,19 @@ const Chat = () => {
     }, []);
 
     useEffect(() => {
+        if (writingMess.length > 0) {
+            socket.emit("write-message", { room: activeRoom.roomId, user: user._id });
+            clearTimeout(isWritingTimerRef.current);
+            isWritingTimerRef.current = setTimeout(() => {
+                socket.emit("write-message", { room: null, user: null });
+            }, 1000);
+        } else {
+            clearTimeout(isWritingTimerRef.current);
+            socket.emit("write-message", { room: null, user: null });
+        }
+    }, [writingMess]);
+
+    useEffect(() => {
         scrollMessagesToBottom();
     }, [rooms, activeRoom])
     
@@ -118,7 +138,7 @@ const Chat = () => {
     }, [activeRoom])
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-center bg-slate-50'>
             <div className='flex max-w-[1480px] h-screen w-full shadow'>
                 <div className='sm:w-1/4 w-full bg-white overflow-y-auto border-r-[1px]'>
                     <div className='flex items-center bg-slate-100 dark:bg-elements_dark p-2 w-11/12 mx-auto mt-4 rounded-md mb-1 border'>
@@ -132,7 +152,15 @@ const Chat = () => {
                         
                         return (
                             <div onClick={() => setActiveRoom({ roomId: _id, roomUser })} key={_id} className={`flex items-center p-4 hover:bg-gradient-to-r from-secondaryColor via-[#D1D7F0] to-white rounded-xl cursor-pointer${activeRoom?.roomUser?._id == roomUser._id ? " bg-gradient-to-r" : ""}`}>
-                                <img crossOrigin="anonymous" className='h-10 w-10 rounded-full object-cover hidden md:block' src={`${roomUser.avatar}?token=${token}`} alt={`Profile picture of ${name}`} />
+                                <div className="relative">
+                                    <img crossOrigin="anonymous" className='h-10 w-10 rounded-full object-cover hidden md:block' src={`${roomUser.avatar}?token=${token}`} alt={`Profile picture of ${name}`} />
+                                    {
+                                        roomUser.chat_status == "online" ? 
+                                            <span className="absolute bottom-0 right-0 h-3 w-3 border border-white bg-green-500 rounded-full"></span>
+                                            :
+                                            <span className="absolute bottom-0 right-0 h-3 w-3 border border-white bg-slate-400 rounded-full"></span>
+                                    }
+                                </div>
                                 <div className='ml-4 flex-1'>
                                     <p className='text-sm font-semibold'>{name}</p>
                                 </div>
@@ -148,7 +176,7 @@ const Chat = () => {
                     })}
                 </div>
                 <div className='flex-1 flex flex-col'>
-                    <div className='p-4 flex items-center border-b justify-between'>
+                    <div className='p-4 flex items-center border-b justify-between bg-white'>
                         <div className='flex items-center'>
                             {
                                 activeRoom ? (
@@ -215,10 +243,14 @@ const Chat = () => {
                                 </div>
                             </div>
                         ))}
-                        { /* <ChatIsWriting /> */ }
+                        {
+                            writing.user && writing.room && writing.user != user._id && writing.room == activeRoom.roomId && (
+                                <ChatIsWriting name={activeRoom?.roomUser?.first_name} />
+                            )
+                        }
                     </div>
-                    <form className='p-4 flex' onSubmit={handleSendMessage}>
-                        <input ref={inputRef} disabled={!activeRoom} name="message" className='flex-1 border p-2 rounded-lg focus:border-transparent focus:outline-transparent disabled:opacity-60' type='text' placeholder='Scrivi un messaggio...' required />
+                    <form className='p-4 flex bg-white' onSubmit={handleSendMessage}>
+                        <input ref={inputRef} disabled={!activeRoom} onInput={handleWriteMessage} name="message" className='flex-1 border p-2 rounded-lg focus:border-transparent focus:outline-transparent disabled:opacity-60' type='text' placeholder='Scrivi un messaggio...' required />
                         <button disabled={!activeRoom} className='ml-2 bg-primaryColor px-4 rounded-lg disabled:opacity-60'>
                             <i className="fa-regular fa-paper-plane text-white"></i>
                         </button>
