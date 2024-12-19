@@ -25,8 +25,8 @@ const FoundCalendar = () => {
     const [popupIsOpen, setPopupIsOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [eventDetails, setEventDetails] = useState({
-        images: '',
-        title: '',
+        cover_image: { name: "", src: "" },
+        title: "",
         start: new Date(),
         end: new Date(),
         description: ''
@@ -39,11 +39,21 @@ const FoundCalendar = () => {
     };
 
     const handleEventClick = (event) => {
+        if (event.cover_img) {
+            console.log(event.cover_img)
+            setImagePreview({
+                id: `image-preview-${new Date().getTime()}`,
+                name: event.cover_img.split("/").at(-1),
+                src: `${event.cover_img}?token=${token}`
+            })
+        } else {
+            setImagePreview(null);
+        }
         setEventDetails({
             title: event.title,
             start: event.start,
             end: event.end,
-            description: event.description || ''
+            description: event.description || '',
         });
         setSelectedEvent(event);
         setPopupIsOpen(true);
@@ -53,10 +63,15 @@ const FoundCalendar = () => {
         event.preventDefault();
         const payload = { ...eventDetails };
 
+        if (imagePreview) payload.cover_image = { ...imagePreview };
+
         if (payload.description == "") delete payload.description
         if (payload.title == "") delete payload.title
 
         if (payload.title) {
+            if (typeof payload.start === "object") payload.start = payload.start.toString();
+            if (typeof payload.end === "object") payload.end = payload.end.toString();
+            
             try {
                 if (selectedEvent) {
                     await SDK.events.update(selectedEvent._id, payload, token);
@@ -67,6 +82,8 @@ const FoundCalendar = () => {
                     dispatch(createNewEvent(newEvent.event));
                 }
                 setPopupIsOpen(false);
+                setImagePreview(null);
+                fetchData();
             } catch (error) {
                 console.log(error);
 
@@ -96,11 +113,10 @@ const FoundCalendar = () => {
             const reader = new FileReader();
             reader.addEventListener("load", () => {
                 setImagePreview({
-                        id: `image-preview-${i}-${new Date().getTime()}`,
-                        name: `image-${i}-${new Date().getTime()}.${reader.result.split(":")[1].split("/")[1].replace(";base64,", "")}`,
-                        src: reader.result
-                    }
-                );
+                    id: `image-preview-${i}-${new Date().getTime()}`,
+                    name: `image-${i}-${new Date().getTime()}.${reader.result.split(",")[0].split("/")[1].split(";")[0]}`,
+                    src: reader.result
+                });
             }, false);
             reader.readAsDataURL(event.target.files[i]);
         }
@@ -124,9 +140,7 @@ const FoundCalendar = () => {
 
     useEffect(() => {
         document.title = "Calendar - Found!";
-        if (events.length === 0) {
-            fetchData();
-        }
+        fetchData();
     }, []);
 
     return (

@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import { RoleProvider } from './provider/Role.jsx';
 import { SocketProvider } from './provider/Socket.jsx';
 import { Toaster } from 'react-hot-toast';
+import { LanguageProvider } from './provider/Language.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -18,9 +19,11 @@ createRoot(document.getElementById('root')).render(
         <BrowserRouter>
             <SocketProvider>
                 <RoleProvider>
-                    <App />
-                    <Toaster position="top-right" />
-                    <ToastContainer />
+                    <LanguageProvider>
+                        <App />
+                        <Toaster position="top-right" />
+                        <ToastContainer />
+                    </LanguageProvider>
                 </RoleProvider>
             </SocketProvider>
         </BrowserRouter>

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { toast } from "react-toastify";
 import SDK from "../SDK";
-import EmojiPicker from "emoji-picker-react";
+import moment from "moment";
 
 const postType = {
     basicType: "basic",
@@ -30,7 +30,10 @@ const PostEditing = ({ onNewPost }) => {
         video: [],
         images: [],
         locality: "",
-        val_review: null
+        val_review: null,
+        title: "",
+        end: "",
+        start: "",
     });
 
     const reviews = [1, 2, 3, 4, 5];
@@ -41,7 +44,6 @@ const PostEditing = ({ onNewPost }) => {
     };
 
     const handleChange = (event) => {
-        console.log(event)
         setField(event.target.value);
 
         setPost((post) => ({ ...post, content: event.target.value }));
@@ -71,7 +73,7 @@ const PostEditing = ({ onNewPost }) => {
                     ...f,
                     {
                         id: `image-preview-${i}-${new Date().getTime()}`,
-                        name: `image-${i}-${new Date().getTime()}.${reader.result.split(":")[1].split("/")[1].replace(";base64,", "")}`,
+                        name: `image-${i}-${new Date().getTime()}.${reader.result.split(",")[0].split("/")[1].split(";")[0]}`,
                         src: reader.result
                     }
                 ]));
@@ -94,13 +96,24 @@ const PostEditing = ({ onNewPost }) => {
     };*/
 
     const handleCreatePost = async () => {
+        const payload = { 
+            content: btoa(field), 
+            images: post.images, 
+            typePost: post.typePost || "basic",
+        };
+
+        if (post.locality != "") {
+            payload.locality = post.locality;
+        }
+
+        if (post.typePost == "event") {
+            payload.title = post.title;
+            payload.end = post.end;
+            payload.start = post.start;
+        }
+
         try {
-            await SDK.post.create({ 
-                content: btoa(field), 
-                images: post.images, 
-                typePost: post.typePost,
-                locality: post.locality,
-            }, token);
+            await SDK.post.create(payload, token);
             setPost({
                 userId: user._id,
                 date: "",
@@ -109,7 +122,10 @@ const PostEditing = ({ onNewPost }) => {
                 video: [],
                 images: [],
                 locality: "",
-                val_review: null
+                val_review: null,
+                title: "",
+                end: "",
+                start: "",
             });
             setImagesPreview([]);
             setShowLocality(false);
@@ -134,9 +150,8 @@ const PostEditing = ({ onNewPost }) => {
                     <div className="flex m-3">
                         <label htmlFor="typePost" className="mr-1 self-center dark:text-dark"> Tipologia </label>
                         <div>
-                            <select id="typePost" onChange={handleTypePost} className="input_field">
+                            <select id="typePost" onChange={handleTypePost} value={post.typePost} className="input_field">
                                 <option value={postType.basicType} className=" dark:text-slate-300">Base</option>
-                                <option value={postType.reviewType} className=" dark:text-slate-300">Recensione</option>
                                 <option value={postType.eventType} className=" dark:text-slate-300">Evento</option>
                             </select>
                         </div>
@@ -175,8 +190,8 @@ const PostEditing = ({ onNewPost }) => {
                                     <label className='text-dark'>Titolo: </label>
                                     <input
                                         type="text"
-                                        /* value={eventDetails.title}
-                                        onChange={(e) => setEventDetails({ ...eventDetails, title: e.target.value })} */
+                                        value={post.title}
+                                        onChange={(e) => setPost({ ...post, title: e.target.value })}
                                         required
                                         className='input_field p-2 border border-gray-300 rounded'
                                     />
@@ -186,8 +201,8 @@ const PostEditing = ({ onNewPost }) => {
                                         <label className='text-dark'>Inizio: </label>
                                         <input
                                             type="datetime-local"
-                                            /* value={moment(eventDetails.start).format("YYYY-MM-DDTHH:mm")}
-                                            onChange={(e) => setEventDetails({ ...eventDetails, start: new Date(e.target.value) })} */
+                                            value={moment(post.start).format("YYYY-MM-DDTHH:mm")}
+                                            onChange={(e) => setPost({ ...post, start: new Date(e.target.value) })}
                                             required
                                             className='input_field p-2 border border-gray-300 rounded'
                                         />
@@ -196,8 +211,8 @@ const PostEditing = ({ onNewPost }) => {
                                         <label className='text-dark'>Fine: </label>
                                         <input
                                             type="datetime-local"
-                                            /* value={moment(eventDetails.end).format("YYYY-MM-DDTHH:mm")}
-                                            onChange={(e) => setEventDetails({ ...eventDetails, end: new Date(e.target.value) })} */
+                                            value={moment(post.end).format("YYYY-MM-DDTHH:mm")}
+                                            onChange={(e) => setPost({ ...post, end: new Date(e.target.value) })}
                                             required
                                             className='input_field p-2 border border-gray-300 rounded'
                                         />

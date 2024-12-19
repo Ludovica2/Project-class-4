@@ -7,6 +7,7 @@ const settingsSlice = createSlice({
         notify: false,
         lastUserRole: "user",
         currentProfileId: null,
+        lang: "it",
         social: {
             instagram: {
                 title: "Instagram",
@@ -93,8 +94,11 @@ const settingsSlice = createSlice({
         setCurrentProfileId: (state, { payload }) => {
             state.currentProfileId = payload;
         },
+        setLang: (state, { payload }) => {
+            state.lang = payload;
+        }
     }
 });
 
-export const { toggleDarkMode, toggleNotify, changeSocialSettings, changeDeviceSettings, changeLastUserRole, setCurrentProfileId } = settingsSlice.actions;
+export const { toggleDarkMode, toggleNotify, changeSocialSettings, changeDeviceSettings, changeLastUserRole, setCurrentProfileId, setLang } = settingsSlice.actions;
 export default settingsSlice.reducer;

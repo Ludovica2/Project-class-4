@@ -294,10 +294,14 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                 <i className="fa-regular fa-comment-dots icon group-hover:text-primaryColor"></i>
                                 <span className='icon-text group-hover:text-primaryColor'>20 Commenti</span>
                             </button>
-                            <button className='group'>
-                                <i className="fa-regular fa-calendar-days icon group-hover:text-primaryColor"></i>
-                                <span className='icon-text group-hover:text-primaryColor'>Aggiungi</span>
-                            </button>
+                            {
+                                post.post_type === "event" && (
+                                    <button className='group'>
+                                        <i className="fa-regular fa-calendar-days icon group-hover:text-primaryColor"></i>
+                                        <span className='icon-text group-hover:text-primaryColor'>Aggiungi</span>
+                                    </button>
+                                )
+                            }
                             <button className='group'>
                                 <i className="fa-solid fa-suitcase-rolling icon group-hover:text-primaryColor"></i>
                                 <span className='icon-text group-hover:text-primaryColor'>Salva</span>

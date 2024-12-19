@@ -17,7 +17,7 @@ const Widget = ({ title, show, wgt, role = "", val_review = "", className = "" }
 
     const handleShowMore = () => {
         // setShowMore((more) => !more);
-        setIsOpen(true);
+        if (wgt == "review") setIsOpen(true);
     }
 
     return (

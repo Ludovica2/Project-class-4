@@ -9,6 +9,8 @@ import ButtonBack from "../../components/ButtonBack";
 import { useDispatch, useSelector } from "react-redux";
 import { changeDeviceSettings, changeSocialSettings, toggleDarkMode, toggleNotify } from "../../store/slices/settingsSlice";
 import CustomSlideInput from "../../components/shared/CustomSlideInput";
+import { useDictionary } from "../../provider/Language";
+import { availableLanguages } from "../../config/languages";
 
 const spring = {
     type: "spring",
@@ -18,6 +20,7 @@ const spring = {
 
 const SettingsProfile = () => {
     const dispatch = useDispatch();
+    const [dictionary, setLang, lang] = useDictionary();
     const { darkMode, notify, social: socialSettings, device: deviceSettings } = useSelector((state) => state.settings);
     const [popupIsOpen, setpopupIsOpen] = useState(false);
 
@@ -50,13 +53,16 @@ const SettingsProfile = () => {
                     <form className="w-full" /* onSubmit={handleSignIn} */>
                         <div className="flex justify-between">
                             <div className="w-11/12">
-                                <h2 className="text-lg mt-1 mb-6 dark:text-slate-100">Imopostazioni Account:</h2>
+                                <h2 className="text-lg mt-1 mb-6 dark:text-slate-100">{dictionary.settings.TITLE_ACCOUNT}:</h2>
                                 <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
                                     <label htmlFor="lang" className="mt-1 text-dark"> Lingua </label>
                                     <div>
-                                        <select id="lang" className="input_field ">
-                                            <option value="it" className=" dark:text-slate-300">Italiano</option>
-                                            <option value="eng" className=" dark:text-slate-300">Inglese</option>
+                                        <select id="lang" name="lang" value={lang} onChange={(e) => setLang(e.target.value)} className="input_field ">
+                                            {
+                                                availableLanguages.map(({ lang, label }) => (
+                                                    <option value={lang} className=" dark:text-slate-300">{label}</option>
+                                                ))
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -180,7 +186,7 @@ const SettingsProfile = () => {
                             </div>
                             <div className="mx-7 border border-slate-200 dark:border-slate-500"></div>
                             <div className="w-11/12">
-                                <h2 className="text-lg mt-1 mb-6 dark:text-slate-100">Altri Social:</h2>
+                                <h2 className="text-lg mt-1 mb-6 dark:text-slate-100">{dictionary.settings.TITLE_SOCIAL}:</h2>
                                 {
                                     Object.entries(socialSettings).map(([name, props]) => (
                                         <CustomSlideInput key={name} name={name} {...props} onChange={handleSocialSettingsChange} social={true} />

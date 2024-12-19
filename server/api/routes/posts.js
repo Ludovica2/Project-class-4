@@ -7,7 +7,7 @@ const path = require("path");
 const { parsePostContent } = require("../../utilities/parse");
 const { authUser } = require("../../middleware/auth");
 const { uploadPostImages } = require("../../middleware/users");
-const { Post, UserFollow, Notification } = require("../../db");
+const { Post, UserFollow, Notification, Event } = require("../../db");
 const { sendNotification } = require("../../utilities/notifications");
 
 /**
@@ -24,10 +24,20 @@ app.post("/", authUser(), async (req, res, next) => {
         typePost: Joi.string().optional(),
         locality: Joi.string().optional(),
         val_review: Joi.number().optional(),
+        title: Joi.string().optional(),
+        start: Joi.date().optional(),
+        end: Joi.date().optional(),
     });
 
     try {
         const data = await schema.validateAsync(req.body);
+
+        if (data.typePost != "event") {
+            if (data.title) delete data.title;
+            if (data.start) delete data.start;
+            if (data.end) delete data.end;
+        }
+
         let parsedData = parsePostContent(atob(data.content));
 
         parsedData = { ...parsedData, post_type: data.typePost, locality: data.locality };
@@ -54,6 +64,25 @@ app.post("/", authUser(), async (req, res, next) => {
         // parsedData.images = [...parsedData.images, ...req.files.map(file => file.path)];
 
         const post = (await _post.save()).toObject();
+
+        // Create event if is event
+        if (data.typePost == "event") {
+            const event = {
+                user: from._id,
+                post: post._id,
+                title: data.title,
+                start: new Date(data.start),
+                end: new Date(data.end),
+                description: post.content,
+            }
+            
+            if (post?.images?.length > 0) {
+                event.cover_img = post.images[0];
+            }
+
+            const _event = await new Event(event).save();
+            await Post.updateOne({ _id: post._id }, { event: _event._id });
+        }
 
         // create notification for user
         const dataNotification = {
