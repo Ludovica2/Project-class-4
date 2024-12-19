@@ -7,15 +7,16 @@ import PopUpModal from './PopUpModal';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { formatDistance } from 'date-fns';
-import { it } from 'date-fns/locale';
+import { it, enGB } from 'date-fns/locale';
 import { config } from '../../config/config';
 import moment from "moment";
 import { toast } from "react-toastify";
 import SDK from '../../SDK';
 import { useDictionary } from '../../provider/Language';
+import { capitalize } from '../../utilities/text';
 
 const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = "" }) => {
-    const [dictionary] = useDictionary()
+    const [dictionary, _, lang] = useDictionary()
     const { token, user } = useSelector((state) => state.auth);
     const [isOpenComments, setIsOpenComments] = useState(false);
     const [field, setField] = useState("Aggiungi un Commento...");
@@ -52,6 +53,16 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
         }
     }
 
+    const addToFavorites = async (post_id) => {
+        try {
+            await SDK.post.favorites.create(post_id, token);
+            toast.success("Post aggiunto ai preferiti");
+        } catch(error) {
+            console.log(error);
+            toast.error(error.message)
+        }
+    }
+
     return (
         <>
             <div className={"m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600 max-lg:mx-4 max-md:max-w-[600px] max-lg:max-w-[700px]" + (post.post_type == "event" ? " shadow-primaryColor shadow-md " : "")}>
@@ -74,7 +85,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                 </h3>
                             </Link>
                         </div>
-                        <span className='textSmall-gray dark:text-slate-300'>{formatDistance(post.createdAt, new Date(), { locale: it, addSuffix: true })}</span>
+                        <span className='textSmall-gray dark:text-slate-300'>{capitalize(formatDistance(post.createdAt, new Date(), { locale: lang == "it" ? it : enGB, addSuffix: true }))}</span>
                     </div>
                     <div className='flex'>
                         <div className="p-2 mr-2 justify-center relative cursor-pointer" onClick={toggleOptionsPost}>
@@ -354,7 +365,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                     </button>
                                 )
                             }
-                            <button className='group'>
+                            <button className='group' onClick={() => addToFavorites(post._id)}>
                                 <i className="fa-solid fa-suitcase-rolling icon group-hover:text-primaryColor"></i>
                                 <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.SAVE}</span>
                             </button>
@@ -363,7 +374,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                     showBtn={(openModal) => {
                                         return <button onClick={() => openModal(true)} className="group">
                                             <i className="fa-regular fa-paper-plane icon group-hover:text-primaryColor"></i>
-                                            <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.SAVE}</span>
+                                            <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.SEND}</span>
                                         </button>;
                                     }}
                                 >
@@ -446,7 +457,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                     {
                                         replyComments && (
                                             <div className='flex mt-4 ml-4'>
-                                                <img className='img-CommentsProf' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
+                                                <div className='img-CommentsProf bg-cover bg-center' crossOrigin="anonymous" style={{ backgroundImage: `url(${user.avatar}?token=${token})` }} alt="Profile"></div>
                                                 <div className="flex flex-1 justify-between items-center ml-3 p-1 h-14 border border-slate-100 rounded-md ">
                                                     <textarea onChange={handleChange} disabled={false} value={field} placeholder={dictionary.customBox.ADD_COMMENT} className="outline-none w-full h-full border-0 focus:ring-0 textSmall-gray"></textarea>
                                                     <motion.button className="btn"
@@ -460,7 +471,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                     }
                                 </div>
                                 <div className='flex mt-4'>
-                                    <img className='img-CommentsProf' crossOrigin="anonymous" src={`${user.avatar}?token=${token}`} alt="Profile" />
+                                    <div className='img-CommentsProf bg-cover bg-center' crossOrigin="anonymous" style={{ backgroundImage: `url(${user.avatar}?token=${token})` }} alt="Profile"></div>
                                     <div className="flex flex-1 justify-between items-center ml-3 p-1 h-16 border border-slate-100 rounded-md ">
                                         <textarea onChange={handleChange} disabled={false} value={field} placeholder="Aggiungi un commento..." className="outline-none w-full h-full border-0 focus:ring-0 textSmall-gray"></textarea>
                                         <motion.button className="btn"

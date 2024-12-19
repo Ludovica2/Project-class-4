@@ -198,7 +198,7 @@ export default {
                 },
             })).data;
         },
-        getAll:async (token) => {
+        getAll: async (token) => {
             return (await axios({
                 url: buildApiUrl(`/posts`),
                 method: "GET",
@@ -225,6 +225,35 @@ export default {
                 },
                 data: payload,
             })).data;
+        },
+        favorites: {
+            getAll: async (token) => {
+                return (await axios({
+                    url: buildApiUrl(`/posts/favorites`),
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                })).data;
+            },
+            create: async (post_id, token) => {
+                return (await axios({
+                    url: buildApiUrl(`/posts/favorites/${post_id}`),
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                })).data;
+            },
+            delete: async (post_id, token) => {
+                return (await axios({
+                    url: buildApiUrl(`/posts/favorites/${post_id}`),
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                })).data;
+            },
         },
     },
     followers: {

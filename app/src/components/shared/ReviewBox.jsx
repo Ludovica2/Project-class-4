@@ -1,11 +1,13 @@
 import { formatDistance } from "date-fns";
-import { it } from "date-fns/locale";
+import { enGB, it } from "date-fns/locale";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../utilities/text";
+import { useDictionary } from "../../provider/Language";
 
 const ReviewBox = ({ review }) => {
     const { token } = useSelector((state) => state.auth);
+    const [_, __, lang] = useDictionary();
 
     const formatPostAuthorName = (user) => {
         return user.role == "user" ? `${user.first_name} ${user.last_name}` : user?.metadata?.company_name;
@@ -43,7 +45,7 @@ const ReviewBox = ({ review }) => {
                     <p className="text-dark">{review.content}</p>
                 </div>
                 <div className="mt-2 flex justify-end">
-                    <p className="text-xs text-slate-400">{capitalize(formatDistance(review.createdAt, new Date(), { locale: it }))} fa</p>
+                    <p className="text-xs text-slate-400">{capitalize(formatDistance(review.createdAt, new Date(), { locale: lang == "it" ? it : enGB }))} fa</p>
                 </div>
             </div>
         </div>

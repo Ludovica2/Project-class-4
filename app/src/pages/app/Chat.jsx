@@ -8,7 +8,7 @@ import { addMessage, readMessage, setRooms } from '../../store/slices/chatSlice'
 import ChatIsWriting from '../../components/shared/app/ChatIsWriting';
 import { toast } from 'react-toastify';
 import { formatDistance } from 'date-fns';
-import { it } from 'date-fns/locale';
+import { enGB, it } from 'date-fns/locale';
 import { useSocket } from '../../provider/Socket';
 import { useSearchParams } from 'react-router-dom';
 import { capitalize } from '../../utilities/text';
@@ -17,7 +17,7 @@ import { useDictionary } from "../../provider/Language";
 
 const Chat = () => {
     const dispatch = useDispatch();
-    const [dictionary] = useDictionary()
+    const [dictionary, _, lang] = useDictionary()
     const socket = useSocket();
     const { token, user } = useSelector(state => state.auth);
     const rooms = useSelector(state => state.chat.rooms);
@@ -242,7 +242,7 @@ const Chat = () => {
                             <div key={message._id} className={`flex ${message.from._id === user._id ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`rounded-lg px-6 py-2 ${message.from._id === user._id ? 'bg-primaryColorMessage text-white' : 'bg-slate-200'} my-1`}>
                                     <p dangerouslySetInnerHTML={{ __html: message.message }}></p>
-                                    <span className='text-[12px]'>{capitalize(formatDistance(message.createdAt, new Date(), { locale: it }))} fa</span>
+                                    <span className='text-[12px]'>{capitalize(formatDistance(message.createdAt, new Date(), { locale: lang == "it" ? it : enGB }))} fa</span>
                                 </div>
                             </div>
                         ))}

@@ -7,7 +7,7 @@ const path = require("path");
 const { parsePostContent } = require("../../utilities/parse");
 const { authUser } = require("../../middleware/auth");
 const { uploadPostImages } = require("../../middleware/users");
-const { Post, UserFollow, Notification, Event } = require("../../db");
+const { Post, UserFollow, Notification, Event, PostFavorite } = require("../../db");
 const { sendNotification } = require("../../utilities/notifications");
 
 /**
@@ -107,6 +107,30 @@ app.post("/", authUser(), async (req, res, next) => {
 });
 
 /**
+ * @path /api/posts/favorites/:post_id
+ * @method POST
+ */
+app.post("/favorites/:post_id", authUser(), async (req, res) => {
+    const user = req.user;
+    const post = req.params.post_id;
+
+    try {
+        const fav = await PostFavorite.findOne({ user: user._id, post }, null, { lean: true });
+
+        if (!fav) {
+            const favorite = (await new PostFavorite({ user: user._id, post }).save()).toObject();
+
+            return res.status(201).json(favorite);
+        }
+
+        return res.status(200).json({ message: "Post already in your favourites list" });
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" })
+    }
+});
+
+/**
  * @path /api/posts
  * @method GET
  */
@@ -126,6 +150,24 @@ app.get("/", authUser(), async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+/**
+ * @path /api/posts/favorites
+ * @method GET
+ */
+app.get("/favorites", authUser(), async (req, res) => {
+    const user = req.user;
+
+    try {
+        const favorites = await PostFavorite.find({ user: user._id }, null, { lean: true })
+            .populate({ path: "post", populate: [{ path: "from", select: "first_name last_name nickname role avatar metadata" }] });
+
+        return res.status(200).json(favorites);
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" })
     }
 });
 
@@ -160,6 +202,24 @@ app.get("/all/:user_id", authUser(), async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+/**
+ * @path /api/posts/favorites/:post_id
+ * @method DELETE
+ */
+app.delete("/favorites/:post_id", authUser(), async (req, res) => {
+    const user = req.user;
+    const post = req.params.post_id;
+
+    try {
+        await PostFavorite.deleteOne({ user: user._id, post });
+
+        return res.status(200).json({ message: "Post deleted from your favourites list" });
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" })
     }
 });
 
