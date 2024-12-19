@@ -56,7 +56,7 @@ const StarsInput = ({ stars = 5, name = "review", className = "", label = "", on
     return (
         <div className={className}>
             {
-                label != "" && <div>{label}</div>
+                label != "" && <div className="text-dark">{label}</div>
             }
             {
                 reviewStars.map((value) => (

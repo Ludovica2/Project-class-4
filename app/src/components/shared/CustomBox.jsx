@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { formatDistance } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { config } from '../../config/config';
+import moment from "moment";
 
 const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = "" }) => {
     const { token, user } = useSelector((state) => state.auth);
@@ -39,7 +40,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
 
     return (
         <>
-            <div className="m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600 max-lg:mx-4 max-md:max-w-[600px] max-lg:max-w-[700px]">
+            <div className={"m-5 p-4 rounded-lg bg-white w-full shadow dark:bg-elements_dark dark:shadow-slate-600 max-lg:mx-4 max-md:max-w-[600px] max-lg:max-w-[700px]" + (post.post_type == "event" ? " shadow-primaryColor shadow-md " : "")}>
                 <div className='flex'>
                     <div>
                         <Link className="cursor-pointer flex items-center justify-center" to={`/app/profile/${nickname.replace("@", "")}`}>
@@ -176,10 +177,47 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                     <div>
                         {
                             post?.locality && (
-                                 <div className='mb-4'>
-                                     <i className="fa-solid fa-location-dot text-secondaryColor text-lm"></i>
-                                     <span className='ml-1 text-dark'>{post.locality}</span>
-                                 </div>
+                                <div className='mb-4'>
+                                    <i className="fa-solid fa-location-dot text-secondaryColor text-lm"></i>
+                                    <span className='ml-1 text-dark'>{post.locality}</span>
+                                </div>
+                            )
+                        }
+
+                        {
+                            post.post_type == "event" && (
+                                <div className="mb-2">
+                                    <div className='flex items-center gap-3'>
+                                        <span className='text-xl py-2 font-bold text-dark'>{post.title}</span>
+                                        <i className="fa-solid fa-envelope-open text-lg text-primaryColor"></i>
+                                    </div>
+                                    <div className="flex justify-around my-5">
+                                        <div className='flex flex-col gap-2'>
+                                            <div>
+                                                <i className="fa-solid fa-calendar-check text-sm text-secondaryColor mr-1"></i>
+                                                <label className='text-dark'>Inizio: </label>
+                                                <span className='p-2 text-dark'>{moment(post.start).format("DD/MM/YYYY")}</span>
+                                            </div>
+                                            <div>
+                                                <i className="fa-solid fa-clock text-sm text-secondaryColor mr-1"></i>
+                                                <label className='text-dark'>Orario: </label>
+                                                <span className='p-2 text-dark'>{moment(post.start).format("HH:mm")}</span>
+                                            </div>
+                                        </div>
+                                        <div className='flex flex-col gap-2 '>
+                                            <div>
+                                                <i className="fa-solid fa-calendar-xmark text-sm text-secondaryColor mr-1"></i>
+                                                <label className='text-dark'>Fine: </label>
+                                                <span className='p-2 text-dark'>{moment(post.end).format("DD/MM/YYYY")}</span>
+                                            </div>
+                                            <div>
+                                                <i className="fa-solid fa-clock text-sm text-secondaryColor mr-1"></i>
+                                                <label className='text-dark'>Orario: </label>
+                                                <span className='p-2 text-dark'>{moment(post.end).format("HH:mm")}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             )
                         }
                         {children}
@@ -322,7 +360,8 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                                     {user.following.map((item) => {
                                                         return <Link key={item._id} to={`/app/chat?share=http://localhost:5173/app/feed/${post._id}&recipient=${item._id}`} target="_blank" className='flex flex-col items-center w-1/3 cursor-pointer'>
                                                             <div className="flex justify-center items-center w-[90px] h-[90px] bg-white rounded-full shadow dark:bg-elements_dark dark:shadow-slate-400">
-                                                                <img className='w-20 h-20 rounded-full' crossOrigin="anonymous" src={`${item.user.avatar}?token=${token}`} alt="Profile" />
+                                                                <div className='w-20 h-20 rounded-[50%] bg-cover bg-center' crossOrigin="anonymous"
+                                                                style={{ backgroundImage: `url(${item.user.avatar}?token=${token})` }} ></div>
                                                             </div>
                                                             <span className='max-w-24 truncate'>{item.user.nickname}</span>
                                                         </Link>;

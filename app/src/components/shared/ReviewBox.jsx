@@ -12,7 +12,7 @@ const ReviewBox = ({ review }) => {
     }
 
     return (
-        <div className="bg-white shadow rounded-lg p-3 flex items-start w-full gap-2">
+        <div className="bg-white shadow rounded-lg p-3 flex items-start w-full gap-2 dark:bg-elements_dark ">
             <div className="flex">
                 <Link className="cursor-pointer flex items-center justify-center" to={`/app/profile/${review.author.nickname.replace("@", "")}`}>
                     <div style={{ backgroundImage: `url(${review.author.avatar}?token=${token})` }} className="imgProfile-notification bg-cover bg-center"></div>
@@ -40,7 +40,7 @@ const ReviewBox = ({ review }) => {
                     
                 </div>
                 <div className="mt-2">
-                    <p>{review.content}</p>
+                    <p className="text-dark">{review.content}</p>
                 </div>
                 <div className="mt-2 flex justify-end">
                     <p className="text-xs text-slate-400">{capitalize(formatDistance(review.createdAt, new Date(), { locale: it }))} fa</p>

@@ -23,11 +23,11 @@ const EventSchema = new Schema({
         type: String,
         default: null
     },
-    start: {
+    end: {
         type: Date,
         required: true,
     },
-    end: {
+    start: {
         type: Date,
         required: true,
     },

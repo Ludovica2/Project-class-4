@@ -103,16 +103,16 @@ const ExternalProfile = ({ nickname }) => {
         const room = rooms.find(({ users }) => {
             return users.includes(user._id) && users.includes(currentUser._id);
         });
-        
+
         try {
-            
+
             if (!room) {
                 await SDK.chat.createRoom({ to: user._id }, token);
                 await fetchRooms();
             }
-            
+
             window.open("/app/chat", "__blank");
-        } catch(error) {
+        } catch (error) {
             console.log(error);
             toast.error(error.message);
         }
@@ -123,7 +123,7 @@ const ExternalProfile = ({ nickname }) => {
 
         fetchData();
     }, []);
-    
+
     useEffect(() => {
         if (user) {
             dispatch(setCurrentProfileId(user._id));
@@ -161,7 +161,10 @@ const ExternalProfile = ({ nickname }) => {
                                                     user.role == "user" ? (
                                                         <h2 className="text-xl dark:text-slate-100">{`${user.first_name} ${user.last_name}`}</h2>
                                                     ) : (
-                                                        <h2 className="text-xl dark:text-slate-100">{user.metadata.company_name}</h2>
+                                                        <div className="flex gap-2 items-center">
+                                                            <h2 className="text-xl dark:text-slate-100">{user.metadata.company_name}</h2>
+                                                            <i className="fa-solid fa-certificate text-primaryColor"></i>
+                                                        </div>
                                                     )
                                                 }
                                                 <span className="ml-1  mb-2 text-sm font-bold dark:text-slate-300">@{user.nickname}</span>
@@ -273,7 +276,7 @@ const ExternalProfile = ({ nickname }) => {
                                 }
                             </div>
                         </div>
-                        <div className="flex gap-4 max-lg:flex-col">
+                        <div className="flex gap-8 max-lg:flex-col">
                             {
                                 blockUser ? <div className="w-full h-24 flex justify-center items-center text-2xl bg-white rounded-lg shadow m-5 dark:bg-elements_dark dark:shadow-slate-600">
                                     <span className="text-slate-600">Sblocca questo utente per vedere i suoi contenuti</span>

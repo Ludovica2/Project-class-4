@@ -40,7 +40,7 @@ app.post("/", authUser(), async (req, res, next) => {
 
         let parsedData = parsePostContent(atob(data.content));
 
-        parsedData = { ...parsedData, post_type: data.typePost, locality: data.locality };
+        parsedData = { ...parsedData, post_type: data.typePost, locality: data.locality, title: data.title, end: data.end, start: data.start };
 
         const _post = new Post({ ...parsedData, from: from._id });
 
