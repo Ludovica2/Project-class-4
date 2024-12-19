@@ -145,7 +145,7 @@ const Widget = ({ title, wgt, role = "", val_review = "", className = "" }) => {
         </div>
         {
           /* !role == "business" && !wgt == "events" &&  */(
-            <div onClick={handleShowMore} className='sticky -bottom-px h-10 w-full shadow rounded-b-lg text-center content-center cursor-pointer z-10 bg-white'>
+            <div onClick={handleShowMore} className='sticky -bottom-px h-10 w-full shadow rounded-b-lg text-center content-center cursor-pointer z-10 bg-white dark:bg-elements_dark'>
               <span className='text-primaryColor'>{showMore ? visbility.less : visbility.more}</span>
             </div>
           )
