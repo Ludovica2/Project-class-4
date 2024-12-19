@@ -320,7 +320,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                             {
                                                 <div className=' flex'>
                                                     {user.following.map((item) => {
-                                                        return <Link key={item._id} to={`/app/chat?share=http://localhost:5173/app/feed/${post._id}&recipient=${item._id}`} target="_blank" className='flex flex-col items-center w-1/3 cursor-pointer'>
+                                                        return <Link key={item._id} to={`/app/chat?share=http://localhost:5173/app/feed/${post._id}&recipient=${item.user._id}`} target="_blank" className='flex flex-col items-center w-1/3 cursor-pointer'>
                                                             <div className="flex justify-center items-center w-[90px] h-[90px] bg-white rounded-full shadow dark:bg-elements_dark dark:shadow-slate-400">
                                                                 <img className='w-20 h-20 rounded-full' crossOrigin="anonymous" src={`${item.user.avatar}?token=${token}`} alt="Profile" />
                                                             </div>

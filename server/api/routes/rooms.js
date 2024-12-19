@@ -13,10 +13,10 @@ app.get("/", authUser(), async (req, res) => {
     const user = req.user;
     
     try {
-        const rooms = await Room.find({ users: user._id }, null, { lean: true }).populate({ path: "users", select: "first_name last_name metadata role avatar chat_status " });
+        const rooms = await Room.find({ users: user._id }, null, { lean: true }).populate({ path: "users", select: "first_name last_name metadata nickname role avatar chat_status " });
         
         for (let room of rooms) {
-            room.messages = await Message.find({ room: room._id }, null, { lean: true }).populate({ path: "from", select: "first_name last_name metadata role avatar" }).populate({ path: "to", select: "first_name last_name metadata role avatar" });
+            room.messages = await Message.find({ room: room._id }, null, { lean: true }).populate({ path: "from", select: "first_name last_name nickname metadata role avatar" }).populate({ path: "to", select: "first_name last_name metadata role avatar" });
         }
 
         return res.json(rooms);
@@ -40,13 +40,13 @@ app.post("/", authUser(), async (req, res) => {
     try {
         const data = await schema.validateAsync(req.body);
 
-        const room = await Room.findOne({ users: { $in: [user._id, data.to] } }, null, { lean: true });
+        const room = await Room.findOne({ $and: [{ users: { $in: [user._id] } }, { users: { $in: [data.to] } }] }, null, { lean: true });
 
         if (!room) {
             await new Room({ users: [user._id, data.to] }).save();
         }
         
-        const rooms = await Room.find({ users: { $in: [user._id, data.to] } }, null, { lean: true }).populate({ path: "users", select: "fist_name last_name avatar chat_status " });
+        const rooms = await Room.find({ $and: [{ users: { $in: [user._id] } }, { users: { $in: [data.to] } }] }, null, { lean: true }).populate({ path: "users", select: "first_name last_name role avatar metadata nickname chat_status " });
 
         return res.status(201).json(rooms);
     } catch (error) {

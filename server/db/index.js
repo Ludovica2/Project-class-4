@@ -34,6 +34,7 @@ const models = {
     PostLike: require("./models/PostLike"),
     PostComment: require("./models/PostComment"),
     PostCommentReaction: require("./models/PostCommentReaction"),
+    Setting: require("./models/Setting"),
 }
 
 module.exports = {

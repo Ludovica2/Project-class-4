@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const Joi = require("joi");
 const { hashPassword, comparePassword } = require("../../utilities/auth");
-const { User, UserFollow, Notification, UserReview } = require("../../db");
+const { User, UserFollow, Notification, UserReview, Setting } = require("../../db");
 const { authUser } = require("../../middleware/auth");
 const { uploadAvatar } = require("../../middleware/users");
 const { sendNotification } = require("../../utilities/notifications");
@@ -33,6 +33,7 @@ app.post("/", async (req, res) => {
         data.nickname = data.nickname ? data.nickname : data.email.split("@")[0];
 
         const user = (await new User(data).save()).toObject();
+        await new Setting({ user: user._id }).save();
 
         // if directory uploads/${user._id} does not exist, create it with inside avatar and posts directories
         const userDir = path.join(__dirname, "../../uploads/", user._id.toString());
@@ -91,8 +92,8 @@ app.get("/follow/:nickname", authUser(), async (req, res) => {
     try {
         const user = await User.findOne({ nickname }, "-password", { lean: true });
 
-        const followers = await UserFollow.find({ user: user._id }, "follower", { lean: true }).populate({ path: "follower", select: "_id first_name last_name nickname avatar" });
-        const following = await UserFollow.find({ follower: user._id }, "user", { lean: true }).populate({ path: "user", select: "_id first_name last_name nickname avatar" });
+        const followers = await UserFollow.find({ user: user?._id }, "follower", { lean: true }).populate({ path: "follower", select: "_id first_name last_name nickname avatar" });
+        const following = await UserFollow.find({ follower: user?._id }, "user", { lean: true }).populate({ path: "user", select: "_id first_name last_name nickname avatar" });
 
         return res.status(200).json({ ...user, followers, following });
     } catch (error) {

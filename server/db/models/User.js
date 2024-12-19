@@ -9,6 +9,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    full_name: {
+        type: String,
+        default: "",
+    },
     email: {
         type: String,
         required: true,
@@ -78,6 +82,11 @@ const UserSchema = new Schema({
         default: "offline",
     },
 }, { strict: true, timestamps: true, versionKey: false });
+
+UserSchema.pre("save", function (next) {
+    this.full_name = `${this.first_name} ${this.last_name}`.trim();
+    next();
+});
 
 const User = model("User", UserSchema);
 

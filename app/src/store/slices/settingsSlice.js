@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const settingsSlice = createSlice({
     name: "settings",
     initialState: {
-        darkMode: false,
+        darkMode: localStorage.getItem("darkMode") === "true" || false,
         notify: false,
         lastUserRole: "user",
         currentProfileId: null,
-        lang: "it",
+        lang: localStorage.getItem("lang") || "it",
         social: {
             instagram: {
                 title: "Instagram",
@@ -76,9 +76,15 @@ const settingsSlice = createSlice({
         } 
     },
     reducers: {
+        updateSettings: (state, { payload }) => {
+            state.darkMode = payload.darkMode;
+        },
         toggleDarkMode: (state) => {
             state.darkMode = !state.darkMode;
-        }, 
+        },
+        changeDarkMode: (state, { payload }) => {
+            state.darkMode = payload;
+        },
         toggleNotify: (state) => {
             state.notify = !state.notify;
         }, 
@@ -100,5 +106,5 @@ const settingsSlice = createSlice({
     }
 });
 
-export const { toggleDarkMode, toggleNotify, changeSocialSettings, changeDeviceSettings, changeLastUserRole, setCurrentProfileId, setLang } = settingsSlice.actions;
+export const { updateSettings, toggleDarkMode, changeDarkMode, toggleNotify, changeSocialSettings, changeDeviceSettings, changeLastUserRole, setCurrentProfileId, setLang } = settingsSlice.actions;
 export default settingsSlice.reducer;

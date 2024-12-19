@@ -10,14 +10,19 @@ import { toast } from 'react-toastify';
 import { formatDistance } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { useSocket } from '../../provider/Socket';
+import { useSearchParams } from 'react-router-dom';
+import { capitalize } from '../../utilities/text';
 
 const Chat = () => {
     const dispatch = useDispatch();
     const socket = useSocket();
     const { token, user } = useSelector(state => state.auth);
     const rooms = useSelector(state => state.chat.rooms);
+    const [searchParams, setSearchParams] = useSearchParams();
     const [activeRoom, setActiveRoom] = useState(null);
     const { active: isOpenOptionsMenu, setActive: setIsOpenOptionsMenu, elRef: optionsRef } = useClickOutside(false);
+
+    const { recipient, share } = Object.fromEntries(searchParams.entries());
 
     const inputRef = useRef();
     const messagesRef = useRef();
@@ -37,6 +42,19 @@ const Chat = () => {
         dispatch(setRooms(rooms));
     }
 
+    const sendMessage = async (message) => {
+        try {
+            const _message = await SDK.chat.createMessage(activeRoom.roomId, { to: activeRoom.roomUser._id, message }, token);
+    
+            dispatch(addMessage({ room_id: activeRoom.roomId, message: _message }));
+    
+            inputRef.current.value = "";
+        } catch(error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    }
+
     const handleSendMessage = async (event) => {
         event.preventDefault();
 
@@ -45,11 +63,16 @@ const Chat = () => {
         if (!message) return;
         
         try {
-            const _message = await SDK.chat.createMessage(activeRoom.roomId, { to: activeRoom.roomUser._id, message }, token);
+            await sendMessage(message);
+        } catch(error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    }
 
-            dispatch(addMessage({ room_id: activeRoom.roomId, message: _message }));
-
-            inputRef.current.value = "";
+    const createRoomFromRecipient = async (recipient) => {
+        try {
+            await SDK.chat.createRoom({ to: recipient }, token);
         } catch(error) {
             console.log(error);
             toast.error(error.message);
@@ -67,10 +90,31 @@ const Chat = () => {
     }, [rooms, activeRoom])
     
     useEffect(() => {
-        if (activeRoom) {
-            socket.emit("read-messages", { room: activeRoom.roomId });
-            dispatch(readMessage({ room_id: activeRoom.roomId, to: user._id }));
-        }
+        (async () => {
+            if (rooms && recipient) {
+                const room = rooms.find(({ users }) => users.find((u) => u._id == recipient));
+    
+                if (room) {
+                    setActiveRoom({ roomId: room?._id || null, roomUser: room?.users.find((u) => u._id == recipient) || null });
+                } else {
+                    await createRoomFromRecipient(recipient);
+                }
+            }
+        })();
+    }, [rooms])
+    
+    useEffect(() => {
+        (async () => {
+            if (activeRoom) {
+                socket.emit("read-messages", { room: activeRoom.roomId });
+                dispatch(readMessage({ room_id: activeRoom.roomId, to: user._id }));
+            }
+            if (activeRoom && share) {
+                await sendMessage(`<a href="${share}" target="__blank">${share}</a>`);
+                setSearchParams({});
+            }
+        })()
+        console.log(activeRoom)
     }, [activeRoom])
 
     return (
@@ -87,7 +131,7 @@ const Chat = () => {
                         const name = roomUser.role === "user" ? `${roomUser.first_name} ${roomUser.last_name}` : roomUser.metadata.company_name
                         
                         return (
-                            <div onClick={() => setActiveRoom({ roomId: _id, roomUser })} key={_id} className={`flex items-center p-4 hover:bg-gradient-to-r from-secondaryColor via-[#D1D7F0] to-white rounded-xl cursor-pointer${activeRoom?.roomUser._id == roomUser._id ? " bg-gradient-to-r" : ""}`}>
+                            <div onClick={() => setActiveRoom({ roomId: _id, roomUser })} key={_id} className={`flex items-center p-4 hover:bg-gradient-to-r from-secondaryColor via-[#D1D7F0] to-white rounded-xl cursor-pointer${activeRoom?.roomUser?._id == roomUser._id ? " bg-gradient-to-r" : ""}`}>
                                 <img crossOrigin="anonymous" className='h-10 w-10 rounded-full object-cover hidden md:block' src={`${roomUser.avatar}?token=${token}`} alt={`Profile picture of ${name}`} />
                                 <div className='ml-4 flex-1'>
                                     <p className='text-sm font-semibold'>{name}</p>
@@ -108,12 +152,12 @@ const Chat = () => {
                         <div className='flex items-center'>
                             {
                                 activeRoom ? (
-                                    <>
-                                        <img className='h-10 w-10 rounded-full object-cover' src={`${activeRoom.roomUser.avatar}?token=${token}`} alt={`Profile picture of ${activeRoom.roomUser.first_name} ${activeRoom.roomUser.last_name}`} />
+                                    <a href={`/app/profile/${activeRoom?.roomUser?.nickname?.replace("@", "")}`} target="__blank" className='flex items-center'>
+                                        <img className='h-10 w-10 rounded-full object-cover' src={`${activeRoom?.roomUser?.avatar}?token=${token}`} alt={`Profile picture of ${activeRoom?.roomUser?.first_name} ${activeRoom?.roomUser?.last_name}`} />
                                         <span className='ml-4'>Chat con {
-                                            activeRoom.roomUser.role === "user" ? `${activeRoom.roomUser.first_name} ${activeRoom.roomUser.last_name}` : activeRoom.roomUser.metadata.company_name
+                                            activeRoom?.roomUser?.role === "user" ? `${activeRoom?.roomUser?.first_name} ${activeRoom?.roomUser?.last_name}` : activeRoom?.roomUser?.metadata?.company_name
                                         }</span>
-                                    </>
+                                    </a>
                                 ) : (
                                     <>
                                         <span className='ml-4'>Inizia a Chattare</span>
@@ -165,9 +209,9 @@ const Chat = () => {
                         { /* Chat messages */}
                         {activeRoom && rooms.find(({ _id }) => _id == activeRoom.roomId)?.messages.map(message => (
                             <div key={message._id} className={`flex ${message.from._id === user._id ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`rounded-lg px-6 py-2 ${message.from._id === user._id ? 'bg-primaryColor text-white' : 'bg-slate-200'} my-1`}>
-                                    <p>{message.message}</p>
-                                    <span className='text-[12px]'>{formatDistance(message.createdAt, new Date())}</span>
+                                <div className={`rounded-lg px-6 py-2 ${message.from._id === user._id ? 'bg-primaryColorMessage text-white' : 'bg-slate-200'} my-1`}>
+                                    <p dangerouslySetInnerHTML={{ __html: message.message }}></p>
+                                    <span className='text-[12px]'>{capitalize(formatDistance(message.createdAt, new Date(), { locale: it }))} fa</span>
                                 </div>
                             </div>
                         ))}

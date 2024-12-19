@@ -1,13 +1,18 @@
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from "../../../store/slices/authSlice";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "motion/react"
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { toggleDarkMode } from "../../../store/slices/settingsSlice";
+import { useEffect, useState } from "react";
+import SDK from "../../../SDK";
+import { useDebouncedCallback } from "../../../hooks/useDebouncedCallback";
+import { setIsOpenReviewDrawer } from "../../../store/slices/drawerSlice";
 
 
-const Navbar = (imgProfile = "",) => {
+const Navbar = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
     const { user, token } = useSelector((state) => state.auth);
     const { darkMode } = useSelector((state) => state.settings);
     const { active: isOpenMenu, setActive: setIsOpenMenu, elRef: menuRef } = useClickOutside(false);
@@ -15,6 +20,9 @@ const Navbar = (imgProfile = "",) => {
     const { active: isOpenMessage, setActive: setIsOpenMessage, elRef: messageRef } = useClickOutside(false);
     const { active: isOpenSearch, setActive: setIsOpenSearch, elRef: serachRef } = useClickOutside(false);
     const notifications = useSelector((state) => state.notifications.all);
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(false);
+    // const [searchResults, setSearchResults] = useState([]);
 
     const toggleProfileMenu = () => {
         setIsOpenMenu(prev => !prev);
@@ -52,27 +60,94 @@ const Navbar = (imgProfile = "",) => {
         dispatch(toggleDarkMode());
     };
 
+    const handleSearch = async () => {
+        try {
+            const results = await SDK.search.find(search, token);
+            setLoading(false);
+            return results;
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const [searchResults, setSearchResults] = useDebouncedCallback(search, handleSearch, 500);
+
+    useEffect(() => {
+        setSearch("");
+        dispatch(setIsOpenReviewDrawer(false));
+    }, [location]);
+
+    useEffect(() => {
+        if (search.length > 3) {
+            setLoading(true);
+        } else {
+            if (loading) setLoading(false);
+        }
+    }, [search]);
+    
     return (
         <nav className="flex justify-between items-center h-[65px] pr-[20px] dark:bg-elements_dark">
             <div className="pl-4">
                 {
                     user.role == "user" ? (
-                        <>
+                        <Link to="/app/feed">
                             <img src={darkMode ? "/images/LogoFullDark.png" : "/images/FoundLogoFull.png"} alt="Logo Found" className="h-[40px] w-auto max-xs:hidden" />
                             <img src={darkMode ? "/images/LogoDark.png" : "/images/FoundLogoBasic.png"} alt="Logo Found" className="h-[40px] w-auto xs:hidden" />
-                        </>
+                        </Link>
                     ) : (
-                        <>
+                        <Link to="/app/feed">
                             <img src={darkMode ? "/images/LogoBusinessDark.png" : "/images/FoundLogoBusiness.png"} alt="Logo Business" className="h-[40px] w-auto max-xs:hidden" />
                             <img src={darkMode ? "/images/LogoBDark.png" : "/images/FoundLogoB.png"} alt="Logo Business" className="h-[40px] w-auto xs:hidden" />
-                        </>
+                        </Link>
                     )
                 }
             </div>
             <form className="w-96 mx-auto max-lg:hidden">
-                <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 pr-1  dark:bg-bg_dark dark:border-gray-500">
-                    <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50 input_field dark:bg-elements_dark dark:border-gray-500 dark:focus:bg-gray-800 dark:focus:border-gray-400" placeholder="Searched and Found!" required />
-                    <button type="submit" className="btn dark:border-gray-500">Search</button>
+                <div className="relative flex items-center border-gray-300 rounded-lg bg-gray-50 pr-1  dark:bg-bg_dark dark:border-gray-500">
+                    {
+                        loading && (
+                            <div className="absolute right-4 bg-slate-50 w-6 h-6">
+                                <i className="fa-solid fa-spinner animate-spin text-primaryColor"></i>
+                            </div>
+                        )
+                    }
+                    <i className="absolute left-4 fa-solid fa-magnifying-glass text-primaryColor"></i>
+                    <input type="search" id="default-search" value={search} onInput={(e) => setSearch(e.target.value)} className="block w-full p-4 ps-10 text-sm text-gray-900 rounded-lg bg-gray-50 input_field dark:bg-elements_dark dark:border-gray-500 dark:focus:bg-gray-800 dark:focus:border-gray-400" placeholder="Searched and Found!" required />
+                    { /* <button type="submit" className="btn dark:border-gray-500">Search</button> */ }
+
+                    {
+                        searchResults && (
+                            <motion.div className="top-11 right-0 flex flex-col w-full bg-white absolute z-10 rounded shadow dark:bg-elements_dark"
+                                initial={{ y: 30 }}
+                                animate={{ y: "calc(0vw + 15%)" }}
+                            >
+                                {
+                                    searchResults?.length > 0 ? (
+                                        <div className="flex flex-col gap-3 items-start max-h-[300px] overflow-y-auto">
+                                            <ul className="text-xs w-full">
+                                                {searchResults.map((result) => (
+                                                    <Link key={result._id} className="cursor-pointer flex hover:bg-slate-50 p-4 w-full" to={`/app/profile/${result.nickname.replace("@", "")}`}>
+                                                        <li key={result._id} className="flex items-center gap-2 mb-1">
+                                                            <div style={{ backgroundImage: `url(${result.avatar}?token=${token})` }} className="imgProfile-notification bg-cover bg-center border-[1px]"></div>
+                                                            <p className=" dark:text-white">
+                                                                {result.role == "user" ? `${result.first_name} ${result.last_name}` : result.metadata.company_name} - <b>@{result.nickname}</b>
+                                                            </p>
+                                                        </li>
+                                                    </Link>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    ) : (
+                                        search.length > 3 && (
+                                            <div className="flex items-center justify-center p-4">
+                                                <p className="dark:text-white">Nessun risultato</p>
+                                            </div>
+                                        )
+                                    )
+                                }
+                            </motion.div>
+                        )
+                    }
                 </div>
             </form>
             <div ref={serachRef} className="lg:hidden">

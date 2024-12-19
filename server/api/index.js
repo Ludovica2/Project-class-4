@@ -41,4 +41,14 @@ app.use("/messages", require("./routes/messages"));
  */
 app.use("/notifications", require("./routes/notifications"));
 
+/**
+ * @path /api/settings
+ */
+app.use("/settings", require("./routes/settings"));
+
+/**
+ * @path /api/search
+ */
+app.use("/search", require("./routes/search"));
+
 module.exports = app;

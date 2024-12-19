@@ -1,11 +1,12 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import ExternalProfile from "./ExternalProfile";
 import InternalProfile from "./InternalProfile";
 
 
 const Profile = ({ isExternal = false }) => {
-    const externalUserNickname = isExternal ? useParams().nickname : null;
+    const { nickname } = useParams();
+    const [nick, setNick] = useState(nickname);
 
     useEffect(() => {
         document.title = "Profile - Found!";
@@ -14,7 +15,7 @@ const Profile = ({ isExternal = false }) => {
     return (
         <>
             {
-                externalUserNickname ? <ExternalProfile nickname={externalUserNickname} /> : <InternalProfile />
+                nick ? <ExternalProfile nickname={nick} /> : <InternalProfile />
             }
         </>
     )

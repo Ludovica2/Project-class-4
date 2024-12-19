@@ -23,6 +23,9 @@ import { useEffect } from "react"
 import SinglePost from "./pages/app/SinglePost"
 import SDK from "./SDK"
 import { setNotifications } from "./store/slices/notificationSlice"
+import { changeDarkMode, setLang, toggleDarkMode, updateSettings } from "./store/slices/settingsSlice"
+import InternalProfile from "./pages/app/InternalProfile"
+import ExternalProfile from "./pages/app/ExternalProfile"
 
 
 const ProtectedRoute = ({ children }) => {
@@ -40,7 +43,7 @@ const ProtectedRoute = ({ children }) => {
 const App = () => {
     const dispatch = useDispatch();
     const { token } = useSelector((state) => state.auth);
-    const { darkMode } = useSelector((state) => state.settings);
+    const { darkMode, lang } = useSelector((state) => state.settings);
     
     const fetchNotifications = async () => {
         try {
@@ -51,13 +54,41 @@ const App = () => {
         }
     }
 
+    const fetchSettings = async () => {
+        try {
+            const { _id, createdAt, updatedAt, user, ...payload } = await SDK.settings.getAll(token);
+            localStorage.setItem("lang", payload.lang);
+            localStorage.setItem("darkMode", payload.darkMode);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const saveSettingsUpdates = async (payload) => {
+        try {
+            await SDK.settings.update(payload, token);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         document.body.classList[darkMode ? "add" : "remove"]("dark");
+        localStorage.setItem("darkMode", darkMode);
+        (async () => {
+            saveSettingsUpdates({ darkMode: darkMode });
+            dispatch(changeDarkMode(darkMode));
+        })();
     }, [darkMode]);
+
+    useEffect(() => {
+        localStorage.setItem("lang", lang);
+    }, [lang]);
 
     useEffect(() => {
         if (token) {
             fetchNotifications();
+            fetchSettings();
         } else {
             dispatch(setNotifications([]));
         }
@@ -80,10 +111,10 @@ const App = () => {
                 }>
                     <Route path="/app/feed" element={<Feed />} />
                     <Route path="/app/feed/:post_id" element={<SinglePost />} />
-                    <Route path="/app/profile" element={<Profile />} />
+                    <Route path="/app/profile" element={<InternalProfile />} />
                     <Route path="/app/profile/editprofile" element={<EditProfile />} />
                     <Route path="/app/profile/settingsprofile" element={<SettingsProfile />} />
-                    <Route path="/app/profile/:nickname" element={<Profile isExternal={true} />} />
+                    <Route path="/app/profile/:nickname" element={<ExternalProfile />} />
                     <Route path="/app/groups" element={<Groups />} />
                     <Route path="/app/calendar" element={<FoundCalendar />} />
                     <Route path="/app/favorites" element={<Favorites />} />

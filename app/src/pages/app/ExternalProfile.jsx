@@ -21,8 +21,9 @@ const widget = {
     review: "review"
 }
 
-const ExternalProfile = ({ nickname }) => {
+const ExternalProfile = () => {
     const dispatch = useDispatch();
+    const { nickname } = useParams();
     const { rooms } = useSelector((state) => state.chat);
     const { currentProfileReviews } = useSelector((state) => state.review);
     const { token, user: currentUser } = useSelector((state) => state.auth);
@@ -122,7 +123,7 @@ const ExternalProfile = ({ nickname }) => {
         document.title = "Profile - Found!";
 
         fetchData();
-    }, []);
+    }, [nickname]);
     
     useEffect(() => {
         if (user) {

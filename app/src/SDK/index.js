@@ -307,4 +307,36 @@ export default {
             })).data;
         }
     },
+    settings: {
+        getAll: async (token) => {
+            return (await axios({
+                url: buildApiUrl(`/settings`),
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })).data;
+        },
+        update: async (payload, token) => {
+            return (await axios({
+                url: buildApiUrl(`/settings`),
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                data: payload,
+            })).data;
+        },
+    },
+    search: {
+        find: async (query, token) => {
+            return (await axios({
+                url: buildApiUrl(`/search?q=${query.replace(/\s/ig, "+")}`),
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })).data;
+        },
+    }
 }

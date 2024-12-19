@@ -90,6 +90,7 @@ const Widget = ({ title, show, wgt, role = "", val_review = "", className = "" }
                                 {
                                     currentProfileReviews.slice(0, show).map(({ content, author }) => (
                                         <WidgetItem
+                                            key={content}
                                             to={`/app/profile/${author.nickname.replace("@", "")}`}
                                             img={`${author.avatar}?token=${token}`}
                                             alt={content}

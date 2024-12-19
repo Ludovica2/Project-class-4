@@ -11,6 +11,7 @@ import { changeDeviceSettings, changeSocialSettings, toggleDarkMode, toggleNotif
 import CustomSlideInput from "../../components/shared/CustomSlideInput";
 import { useDictionary } from "../../provider/Language";
 import { availableLanguages } from "../../config/languages";
+import SDK from "../../SDK";
 
 const spring = {
     type: "spring",
@@ -21,28 +22,46 @@ const spring = {
 const SettingsProfile = () => {
     const dispatch = useDispatch();
     const [dictionary, setLang, lang] = useDictionary();
+    const { token } = useSelector((state) => state.auth);
     const { darkMode, notify, social: socialSettings, device: deviceSettings } = useSelector((state) => state.settings);
     const [popupIsOpen, setpopupIsOpen] = useState(false);
 
+    const saveSettingsUpdates = async (payload) => {
+        try {
+            await SDK.settings.update(payload, token);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const handleSocialSettingsChange = (payload) => {
         dispatch(changeSocialSettings(payload));
+        saveSettingsUpdates({ social: { ...socialSettings, ...payload } });
     };
-
+    
     const handleDeviceSettingsChange = (payload) => {
         dispatch(changeDeviceSettings(payload));
+        saveSettingsUpdates({ device: { ...deviceSettings, ...payload } });
     };
 
     const toggleSwitchDark = () => {
+        saveSettingsUpdates({ darkMode: !darkMode });
         dispatch(toggleDarkMode());
     };
 
     const toggleSwitchNotify = () => {
+        saveSettingsUpdates({ notify: !notify });
         dispatch(toggleNotify());
     };
 
     const openPopup = (event) => {
         event.preventDefault();
         setpopupIsOpen((popupIsOpen) => !popupIsOpen);
+    }
+
+    const handleChangeLanguage = (event) => {
+        setLang(event.target.value);
+        saveSettingsUpdates({ lang: event.target.value });
     }
 
     return (
@@ -57,7 +76,7 @@ const SettingsProfile = () => {
                                 <div className="flex w-3/4 justify-between mb-8 max-xl:w-full">
                                     <label htmlFor="lang" className="mt-1 text-dark"> Lingua </label>
                                     <div>
-                                        <select id="lang" name="lang" value={lang} onChange={(e) => setLang(e.target.value)} className="input_field ">
+                                        <select id="lang" name="lang" value={lang} onChange={handleChangeLanguage} className="input_field ">
                                             {
                                                 availableLanguages.map(({ lang, label }) => (
                                                     <option value={lang} className=" dark:text-slate-300">{label}</option>
