@@ -20,8 +20,10 @@ const Favorites = () => {
 
     const fetchFavoritePosts = async () => {
         try {
-            const results = await SDK.post.favorites.getAll(token);
-            console.log(results)
+            let results = await SDK.post.favorites.getAll(token);
+            results = results.filter(({ post}) => post);
+
+            // console.log(results)
             setPosts(results);
         } catch (error) {
             console.log(error);
@@ -38,8 +40,8 @@ const Favorites = () => {
     return (
         <>
         {
-            posts && posts.map(({ post }) => (
-                <div className="flex gap-6">
+            posts && posts.map(({ post, _id }) => (
+                <div key={_id} className="flex gap-6">
                     <div className="w-full min-w-[640px] md:max-w-[640px] xl:max-w-[660px] 2xl:max-w-[830px]">
                         <CustomBox
                             key={post._id}
