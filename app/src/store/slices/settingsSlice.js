@@ -81,6 +81,7 @@ const settingsSlice = createSlice({
         },
         toggleDarkMode: (state) => {
             state.darkMode = !state.darkMode;
+            localStorage.setItem("darkMode", !state.darkMode);
         },
         changeDarkMode: (state, { payload }) => {
             state.darkMode = payload;

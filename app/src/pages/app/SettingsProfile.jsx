@@ -7,11 +7,12 @@ import PopUpModal from "../../components/shared/PopUpModal";
 import SupportTicket from "../../components/SupportTicket";
 import ButtonBack from "../../components/ButtonBack";
 import { useDispatch, useSelector } from "react-redux";
-import { changeDeviceSettings, changeSocialSettings, toggleDarkMode, toggleNotify } from "../../store/slices/settingsSlice";
+import { changeDeviceSettings, changeSocialSettings, toggleDarkMode, toggleNotify, setLang as setLangRedux, updateSettings } from "../../store/slices/settingsSlice";
 import CustomSlideInput from "../../components/shared/CustomSlideInput";
 import { useDictionary } from "../../provider/Language";
 import { availableLanguages } from "../../config/languages";
 import SDK from "../../SDK";
+import { toast } from "react-toastify";
 
 const spring = {
     type: "spring",
@@ -29,6 +30,7 @@ const SettingsProfile = () => {
     const saveSettingsUpdates = async (payload) => {
         try {
             await SDK.settings.update(payload, token);
+            toast.success("Impostazioni salvate con successo");
         } catch (error) {
             console.log(error);
         }
@@ -36,22 +38,23 @@ const SettingsProfile = () => {
 
     const handleSocialSettingsChange = (payload) => {
         dispatch(changeSocialSettings(payload));
-        saveSettingsUpdates({ social: { ...socialSettings, ...payload } });
+        // saveSettingsUpdates({ social: { ...socialSettings, ...payload } });
     };
     
     const handleDeviceSettingsChange = (payload) => {
         dispatch(changeDeviceSettings(payload));
-        saveSettingsUpdates({ device: { ...deviceSettings, ...payload } });
+        // saveSettingsUpdates({ device: { ...deviceSettings, ...payload } });
     };
 
     const toggleSwitchDark = () => {
         saveSettingsUpdates({ darkMode: !darkMode });
-        dispatch(toggleDarkMode());
+        dispatch(updateSettings({ darkMode: !darkMode }));
     };
 
     const toggleSwitchNotify = () => {
         saveSettingsUpdates({ notify: !notify });
         dispatch(toggleNotify());
+        localStorage.setItem("notify", !notify);
     };
 
     const openPopup = (event) => {
@@ -64,12 +67,36 @@ const SettingsProfile = () => {
         saveSettingsUpdates({ lang: event.target.value });
     }
 
+    const handleSaveSettings = (event) => {
+        event.preventDefault();
+
+        const payload = { darkMode, notify, social: socialSettings, device: deviceSettings, lang };
+        saveSettingsUpdates(payload);
+    }
+
+    /*const fetchSettings = async () => {
+        try {
+            const { _id, createdAt, updatedAt, user, ...payload } = await SDK.settings.getAll(token);
+            dispatch(changeSocialSettings(payload.social));
+            dispatch(changeDeviceSettings(payload.device));
+            dispatch(toggleDarkMode(payload.darkMode));
+            dispatch(toggleNotify(payload.notify));
+            dispatch(setLangRedux(payload.lang));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchSettings();
+    }, []);*/
+
     return (
         <>
             <div className="flex flex-col w-full max-w-[1280px] lg:max-w-[1320px]">
                 <ButtonBack to={"/app/profile"} />
                 <div className="flex bg-white rounded-lg shadow m-5 p-6 dark:bg-elements_dark dark:shadow-slate-600">
-                    <form className="w-full" /* onSubmit={handleSignIn} */>
+                    <form className="w-full" onSubmit={handleSaveSettings}>
                         <div className="flex justify-between">
                             <div className="w-11/12">
                                 <h2 className="text-lg mt-1 mb-6 dark:text-slate-100">{dictionary.settings.TITLE_ACCOUNT}:</h2>

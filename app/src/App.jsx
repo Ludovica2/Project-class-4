@@ -72,14 +72,22 @@ const App = () => {
         }
     }
 
+    /*
     useEffect(() => {
         if (token) {
             document.body.classList[darkMode ? "add" : "remove"]("dark");
-            localStorage.setItem("darkMode", darkMode);
             (async () => {
                 saveSettingsUpdates({ darkMode: darkMode });
                 dispatch(changeDarkMode(darkMode));
             })();
+        }
+    }, [darkMode]);
+    */
+    
+    useEffect(() => {
+        if (token) {
+            document.body.classList[darkMode ? "add" : "remove"]("dark");
+            localStorage.setItem("darkMode", darkMode);
         }
     }, [darkMode]);
 
