@@ -358,17 +358,21 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                 <span className='icon-text group-hover:text-primaryColor'>{dictionary.customBox.N_COMMENTS}</span>
                             </button>
                             {
-                                post.post_type === "event" && (
+                                post.post_type === "event" && user.role != "business" && (
                                     <button className='group' onClick={() => handleAddRefs(post.event)}>
                                         <i className="fa-regular fa-calendar-days icon group-hover:text-primaryColor"></i>
                                         <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.ADD}</span>
                                     </button>
                                 )
                             }
-                            <button className='group' onClick={() => addToFavorites(post._id)}>
-                                <i className="fa-solid fa-suitcase-rolling icon group-hover:text-primaryColor"></i>
-                                <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.SAVE}</span>
-                            </button>
+                            {
+                                user.role != "business" && (
+                                    <button className='group' onClick={() => addToFavorites(post._id)}>
+                                        <i className="fa-solid fa-suitcase-rolling icon group-hover:text-primaryColor"></i>
+                                        <span className='icon-text group-hover:text-primaryColor'>{dictionary.btn.SAVE}</span>
+                                    </button>
+                                )
+                            }
                             {
                                 <PopUpModal title={dictionary.customBox.SEND} sizeModal={"md"}
                                     showBtn={(openModal) => {
