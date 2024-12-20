@@ -132,7 +132,7 @@ const PostEditing = ({ onNewPost }) => {
             setShowLocality(false);
             toast.success(`${dictionary.success.POST}`);
             setField("");
-            onNewPost();
+            if (typeof onNewPost === "function") onNewPost();
         } catch (error) {
             console.log(error);
             toast.error(error.message);

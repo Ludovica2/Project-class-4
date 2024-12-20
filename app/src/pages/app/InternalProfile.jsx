@@ -196,7 +196,7 @@ const InternalProfile = () => {
                     </div>
                     <div className="w-full">
                         <div className="w-full md:max-w-[640px] xl:max-w-[660px] 2xl:max-w-[830px]">
-                            <PostEditing />
+                            <PostEditing onNewPost={fetchPosts} />
                             {
                                 posts?.map(post => (
                                     <CustomBox
