@@ -208,12 +208,12 @@ export default {
     },
     en: {
         login: {
-            WELCOME_USER: "Welcome to Found!, a perfect social to plan your trips better!",
+            WELCOME_USER: "Welcome to Found!, a perfect social to better plan your trips!",
             FORGET_PW: "Forgotten password?",
             RESET_PW_MESSAGE: "Enter your email address, we will send you instructions to reset your password",
             REGISTER: "Don't have an account yet?",
             REDIRECT_BUSINESS: "Are you a company?",
-            WELCOME_BUSINESS: "Welcome to Found!Business, a perfect social  to promote your business",
+            WELCOME_BUSINESS: "Welcome to Found!Business, a perfect social to promote your business",
             TRY: "Try our",
             NO_BUSINESS: "Not a Company?",
             HELP: "Do you need help?",
