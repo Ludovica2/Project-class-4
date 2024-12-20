@@ -8,9 +8,11 @@ import { useEffect, useState } from "react";
 import SDK from "../../../SDK";
 import { useDebouncedCallback } from "../../../hooks/useDebouncedCallback";
 import { setIsOpenReviewDrawer } from "../../../store/slices/drawerSlice";
+import { useDictionary } from "../../../provider/Language"
 
 
 const Navbar = () => {
+    const [dictionary] = useDictionary()
     const dispatch = useDispatch();
     const location = useLocation();
     const { user, token } = useSelector((state) => state.auth);
@@ -140,7 +142,7 @@ const Navbar = () => {
                                     ) : (
                                         search.length > 3 && (
                                             <div className="flex items-center justify-center p-4">
-                                                <p className="dark:text-white">Nessun risultato</p>
+                                                <p className="dark:text-white">{dictionary.navbar.NO_RESULT}</p>
                                             </div>
                                         )
                                     )
@@ -210,7 +212,7 @@ const Navbar = () => {
                                     animate={{ y: "calc(0vw + 10%)" }}
                                 >
                                     <div className="mb-4">
-                                        <h4 className="dark:text-slate-100">Notifiche</h4>
+                                        <h4 className="dark:text-slate-100">{dictionary.navbar.NOTIFICATION}</h4>
                                     </div>
                                     <div className="flex flex-col gap-3 items-start">
                                         <ul className="text-xs">
@@ -224,7 +226,7 @@ const Navbar = () => {
                                                     </Link>
                                                 ))
                                             ) : (
-                                                <li className="dark:text-white">Nessuna notifica</li>
+                                                <li className="dark:text-white">{dictionary.navbar.NO_NOTIFICATION}</li>
                                             )}
                                         </ul>
                                     </div>
@@ -256,7 +258,7 @@ const Navbar = () => {
                                         animate={{ y: "calc(0vw + 10%)" }}
                                     >
                                         <div className="mb-4">
-                                            <h4 className="dark:text-slate-100">Ciao {user.first_name}</h4>
+                                            <h4 className="dark:text-slate-100">{dictionary.navbar.GREETINGS} {user.first_name}</h4>
                                         </div>
                                         <div className="flex flex-col gap-3 items-start">
                                             <div>
@@ -264,7 +266,7 @@ const Navbar = () => {
                                                     <div className='w-5 mr-1'>
                                                         <i className="fa-solid fa-passport dark:text-gray-500"></i>
                                                     </div>
-                                                    <span className="dark:text-dark">Profilo</span>
+                                                    <span className="dark:text-dark">{dictionary.globals.PROFILE}</span>
                                                 </Link>
                                             </div>
                                             <div>
@@ -272,7 +274,7 @@ const Navbar = () => {
                                                     <div className='w-5 mr-1'>
                                                         <i className="fa-solid fa-user-pen text-sm dark:text-gray-500"></i>
                                                     </div>
-                                                    <span className="dark:text-dark">Modifica Profilo</span>
+                                                    <span className="dark:text-dark">{dictionary.profile.EDIT_P}</span>
                                                 </Link>
                                             </div>
                                             <div>
@@ -280,7 +282,7 @@ const Navbar = () => {
                                                     <div className='w-5 mr-1'>
                                                         <i className="fa-solid fa-gear dark:text-gray-500"></i>
                                                     </div>
-                                                    <span className="dark:text-dark">Impostazioni</span>
+                                                    <span className="dark:text-dark">{dictionary.profile.SETTING}</span>
                                                 </Link>
                                             </div>
                                             <div>
@@ -292,7 +294,7 @@ const Navbar = () => {
                                                 </Link>
                                             </div>
                                             <div>
-                                                <span onClick={handleLogout} className="dark:text-slate-300">Esci</span>
+                                                <span onClick={handleLogout} className="dark:text-slate-300">{dictionary.btn.LOGOUT}</span>
                                             </div>
                                         </div>
                                     </motion.div>

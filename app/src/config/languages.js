@@ -41,6 +41,12 @@ export default {
             PRIVACY: "Informativa sulla Privacy",
             HELP: "Aiuto",
             COOKIES: "Informativa sui Cookie"
+        },
+        navbar: {
+            GREETINGS: "Ciao",
+            NO_RESULT: "Nessun risultato",
+            NO_NOTIFICATION: "Nessuna notifica",
+            NOTIFICATION: "Notifiche",
         },        
         menu: {
             TITLE_1: "Principale",
@@ -238,6 +244,12 @@ export default {
             HELP: "Help",
             COOKIES: "Information on Cookies"
         },
+        navbar: {
+            GREETINGS: "Hello",
+            NO_RESULT: "Account not found",
+            NO_NOTIFICATION: "No Notifications",
+            NOTIFICATION: "Notifications",
+        },   
         menu: {
             TITLE_1: "Main",
             TITLE_2: "Tools",     
