@@ -38,7 +38,7 @@ app.post("/", authUser(), async (req, res, next) => {
             if (data.end) delete data.end;
         }
 
-        let parsedData = parsePostContent(atob(data.content));
+        let parsedData = parsePostContent(data.content);
 
         parsedData = { ...parsedData, post_type: data.typePost, locality: data.locality, title: data.title, end: data.end, start: data.start };
 
@@ -47,7 +47,7 @@ app.post("/", authUser(), async (req, res, next) => {
         const postDir = path.join(__dirname, `../../uploads/${from._id}/posts/`, _post._id.toString());
         
         if (!fs.existsSync(postDir)) {
-            fs.mkdirSync(postDir);
+            fs.mkdirSync(postDir, { recursive: true });
         }
 
         for (let image of data.images) {
@@ -178,7 +178,7 @@ app.get("/favorites", authUser(), async (req, res) => {
 app.get("/single/:post_id", authUser(), async (req, res) => {
     const post_id = req.params.post_id;
     try {
-        const post = await Post.findById(post_id, null, { lean: true }).populate({ path: "from", select: "first_name last_name nickname metadata createdAt avatar" });
+        const post = await Post.findById(post_id, null, { lean: true }).populate({ path: "from", select: "first_name last_name role nickname metadata createdAt avatar" });
         return res.json(post);
     } catch (error) {
         console.error(error);
@@ -194,7 +194,7 @@ app.get("/all/:user_id", authUser(), async (req, res) => {
     const user = req.params.user_id;
     try {
         const posts = await Post.find({ $or: [{ user }, { from: user }] }, null, { lean: true, sort: { createdAt: -1 } })
-            .populate({ path: "from", select: "first_name last_name nickname metadata createdAt avatar" })
+            .populate({ path: "from", select: "first_name last_name nickname role metadata createdAt avatar" })
             .populate({ path: "post_likes" })
             .populate({ path: "post_comments", populate: ["reply_to", "reactions"] });
 

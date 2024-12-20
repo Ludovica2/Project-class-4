@@ -38,7 +38,7 @@ const uploadPostImages = async (req, res, next) => {
     // If directory with post id does not exist, create it
     const postDir = path.join(__dirname, `../uploads/${user._id}/posts/${post._id}`);
     if (!fs.existsSync(postDir)) {
-        fs.mkdirSync(postDir);
+        fs.mkdirSync(postDir, { recursive: true });
     }
 
     return upload(req, res, (err) => {

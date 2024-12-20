@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import PostEditing from "../../components/PostEditing";
 import Widget from "../../components/shared/Widget";
 import { motion } from "framer-motion"
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ImageModal from "../../components/shared/ImageModal";
 import { useDispatch, useSelector } from "react-redux";
 import CustomActiveSocial from "../../components/shared/CustomActiveSocial";
@@ -34,11 +34,16 @@ const ExternalProfile = () => {
     const [posts, setPosts] = useState([]);
     const [follow, setFollow] = useState(false);
     const [blockUser, setBlockUser] = useState(false);
+    const navigate = useNavigate();
+
+    if (currentUser.nickname == nickname) {
+        navigate("/app/profile");
+    }
 
     const socialActive = getSocialActive(social);
 
     const formatRatingNumner = (number) => {
-        return number.toFixed(1).replace(".", ",");
+        return isNaN(number.toFixed(1)) ? "0,0" : number.toFixed(1).replace(".", ",");
     }
 
     const handleFollow = async () => {

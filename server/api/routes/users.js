@@ -39,10 +39,10 @@ app.post("/", async (req, res) => {
         const userDir = path.join(__dirname, "../../uploads/", user._id.toString());
 
         if (!fs.existsSync(userDir)) {
-            fs.mkdirSync(userDir);
-            fs.mkdirSync(path.join(userDir, "avatar"));
-            fs.mkdirSync(path.join(userDir, "posts"));
-            fs.mkdirSync(path.join(userDir, "events"));
+            fs.mkdirSync(userDir, { recursive: true });
+            fs.mkdirSync(path.join(userDir, "avatar"), { recursive: true });
+            fs.mkdirSync(path.join(userDir, "posts"), { recursive: true });
+            fs.mkdirSync(path.join(userDir, "events"), { recursive: true });
         }
 
         return res.status(201).json({ user });
@@ -214,7 +214,7 @@ app.put("/profile/avatar", authUser(["user", "business"]), uploadAvatar, async (
         const userDir = path.join(__dirname, "../../uploads/", _id.toString(), "avatar", data.avatar.name);
 
         if (!fs.existsSync(path.join(__dirname, "../../uploads/", _id.toString(), "avatar"))) {
-            fs.mkdirSync(path.join(__dirname, "../../uploads/", _id.toString(), "avatar"))
+            fs.mkdirSync(path.join(__dirname, "../../uploads/", _id.toString(), "avatar"), { recursive: true })
         }
 
         fs.writeFileSync(userDir, buf);

@@ -98,7 +98,7 @@ const PostEditing = ({ onNewPost }) => {
 
     const handleCreatePost = async () => {
         const payload = {
-            content: btoa(field),
+            content: field,
             images: post.images,
             typePost: post.typePost || "basic",
         };

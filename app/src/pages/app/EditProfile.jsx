@@ -34,7 +34,10 @@ const EditProfile = () => {
             nation: user.nation || "",
             city: user.city || "",
             bio: user.bio || "",
-            metadata: user.metadata || {}
+            metadata: user.metadata || {
+                company_name: "",
+                vat_number: "",
+            }
         },
         [activeTab.changePassword]: {
             current_password: "",
@@ -56,13 +59,26 @@ const EditProfile = () => {
 
     const handleInput = (event) => {
         const { name, value } = event.target;
-        setForm((form) => ({
-            ...form,
-            [tabToOpen]: {
-                ...form[tabToOpen],
-                [name]: value,
-            }
-        }))
+        if (name != "company_name" && name != "vat_number") {
+            setForm((form) => ({
+                ...form,
+                [tabToOpen]: {
+                    ...form[tabToOpen],
+                    [name]: value,
+                }
+            }))
+        } else {
+            setForm((form) => ({
+                ...form,
+                [tabToOpen]: {
+                    ...form[tabToOpen],
+                    metadata: {
+                        ...form[tabToOpen].metadata,
+                        [name]: value,
+                    }
+                }
+            }))
+        }
     }
 
     const handleDeleteImage = () => {
