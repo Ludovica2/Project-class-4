@@ -15,6 +15,7 @@ import Drawer from "../../components/shared/Drawer";
 import { setCurrentProfileReviews } from "../../store/slices/reviewSlice";
 import { setCurrentProfileId } from "../../store/slices/settingsSlice";
 import { useDictionary } from "../../provider/Language";
+import { formatRatingNumner } from "../../utilities/formData";
 
 const widget = {
     events: "events",
@@ -41,10 +42,6 @@ const ExternalProfile = () => {
     }
 
     const socialActive = getSocialActive(social);
-
-    const formatRatingNumner = (number) => {
-        return isNaN(number.toFixed(1)) ? "0,0" : number.toFixed(1).replace(".", ",");
-    }
 
     const handleFollow = async () => {
         try {

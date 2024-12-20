@@ -13,6 +13,7 @@ import SDK from "../../SDK";
 import { toast } from "react-toastify";
 import CustomBox from "../../components/shared/CustomBox";
 import { useDictionary } from "../../provider/Language";
+import { formatRatingNumner } from "../../utilities/formData";
 
 
 const widget = {
@@ -30,14 +31,9 @@ const InternalProfile = () => {
     const { currentProfileReviews } = useSelector((state) => state.review);
     const socialActive = getSocialActive(social);
 
-    const formatRatingNumner = (number) => {
-        return number.toFixed(1).replace(".", ",");
-    }
-
     const fetchPosts = async () => {
         try {
             const _posts = await SDK.post.getAllProfile(user._id, token);
-            console.log(_posts)
             setPosts(_posts);
         } catch (error) {
             console.log(error);
