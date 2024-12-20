@@ -415,7 +415,7 @@ const CustomBox = ({ children, post, imgProfile = "", dataPost = "", nickname = 
                                         </div>
                                     </div>
                                     <div className=' mt-2 ml-4 p-2 text-sm bg-slate-100 rounded-b-lg dark:bg-elements_dark'>
-                                        <p className='text-dark'>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi repellat aliquid, explicabo ipsa adipisci molestias illo temporibus id, cupiditate tempore magnam suscipit! Aut illo veritatis quo. Id dolor explicabo temporibus."</p>
+                                        <p className='text-dark'>"Wow very nice!"</p>
                                         <div className='ml-3 mt-2'>
                                             <button className='relative btn-reactions group'>
                                                 <div className="absolute -top-3 left-[15px] opacity-0 flex bg-white p-1 rounded-md invisible dark:bg-elements_dark dark:shadow dark:shadow-slate-400" id='reactions'>
