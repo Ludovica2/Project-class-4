@@ -5,11 +5,10 @@ import { changeLastUserRole } from "../store/slices/settingsSlice";
 export const RoleContext = createContext();
 
 export const RoleProvider = ({children}) => {
-    const dispatch = useDispatch();
-    const lastRole = useSelector((state) => state.settings.lastUserRole);
+    const lastRole = localStorage.getItem("lastUserRole");
 
     const setLastRole = (newValue) => {
-        dispatch(changeLastUserRole(newValue));
+        localStorage.setItem("lastUserRole", newValue);
     }
 
     return (

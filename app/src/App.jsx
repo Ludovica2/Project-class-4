@@ -30,10 +30,10 @@ import ExternalProfile from "./pages/app/ExternalProfile"
 
 const ProtectedRoute = ({ children }) => {
     const auth = useSelector((state) => state.auth);
-    const [lastRole, setLastRole] = useLastRole();
+    const lastRole = localStorage.getItem("lastUserRole");
 
     if (auth.token) {
-        if (!lastRole) setLastRole(auth.user.role);
+        if (!lastRole) localStorage.setItem("lastUserRole", auth.user.role);
         return children;
     }
 
@@ -73,12 +73,14 @@ const App = () => {
     }
 
     useEffect(() => {
-        document.body.classList[darkMode ? "add" : "remove"]("dark");
-        localStorage.setItem("darkMode", darkMode);
-        (async () => {
-            saveSettingsUpdates({ darkMode: darkMode });
-            dispatch(changeDarkMode(darkMode));
-        })();
+        if (token) {
+            document.body.classList[darkMode ? "add" : "remove"]("dark");
+            localStorage.setItem("darkMode", darkMode);
+            (async () => {
+                saveSettingsUpdates({ darkMode: darkMode });
+                dispatch(changeDarkMode(darkMode));
+            })();
+        }
     }, [darkMode]);
 
     useEffect(() => {
