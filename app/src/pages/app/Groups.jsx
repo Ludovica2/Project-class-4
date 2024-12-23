@@ -6,6 +6,7 @@ const Groups = () => {
     useEffect(() => {
         document.title = "Groups - Found!";
     }, []);
+    
     return (
         <>
             <div className="flex flex-col items-center justify-center h-[300px] w-full">
