@@ -253,7 +253,7 @@ const Chat = () => {
                         }
                     </div>
                     <form className='p-4 flex bg-white' onSubmit={handleSendMessage}>
-                        <input ref={inputRef} disabled={!activeRoom} onInput={handleWriteMessage} name="message" className='flex-1 border p-2 rounded-lg focus:border-transparent focus:outline-transparent disabled:opacity-60' type='text' placeholder='Scrivi un messaggio...' required />
+                        <input ref={inputRef} disabled={!activeRoom} onInput={handleWriteMessage} name="message" className='flex-1 border p-2 rounded-lg focus:border-transparent focus:outline-transparent disabled:opacity-60' type='text' placeholder={dictionary.chat.PH_CHAT} required />
                         <button disabled={!activeRoom} className='ml-2 bg-primaryColor px-4 rounded-lg disabled:opacity-60'>
                             <i className="fa-regular fa-paper-plane text-white"></i>
                         </button>

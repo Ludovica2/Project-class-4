@@ -38,7 +38,7 @@ const Favorites = () => {
     }, []);
 
     return (
-        <>
+        <div className="flex flex-col">
         {
             posts && posts.map(({ post, _id }) => (
                 <div key={_id} className="flex gap-6">
@@ -61,7 +61,7 @@ const Favorites = () => {
             ))
         }
             
-        </>
+        </div>
     )
 }
 

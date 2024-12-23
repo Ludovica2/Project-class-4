@@ -155,7 +155,8 @@ export default {
             REPORT: "Segnala e Blocca",
             REPORT_ACC: "Segnala e blocca l'utente",
             DELETE: "Eminina Chat",
-            DELETE_CHAT: "Elimina definitivamente la chat"
+            DELETE_CHAT: "Elimina definitivamente la chat",
+            PH_CHAT: "Scrivi un messaggio..."
         },
         postEditing: {
             ADD: "Aggiungi un post",
@@ -357,7 +358,8 @@ export default {
             REPORT: "Report e Block",
             REPORT_ACC: "Report e block this Account",
             DELETE: "Delete Chat",
-            DELETE_CHAT: "Permanently delete the chat"
+            DELETE_CHAT: "Permanently delete the chat",
+            PH_CHAT: "Write a message..."
         },
         postEditing: {
             ADD: "Create new Post",
